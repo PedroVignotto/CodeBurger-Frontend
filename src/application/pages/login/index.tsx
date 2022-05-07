@@ -3,10 +3,10 @@ import { Input, Spinner } from '@/application/components'
 
 import { Container, ContentWrap } from './styles'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 export const Login: React.FC = () => {
-  const loading = false
+  const [loading] = useState(false)
 
   return (
     <Container>
