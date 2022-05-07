@@ -1,6 +1,6 @@
 import { accountParams, httpClientParams } from '@/tests/mocks'
 import { Authentication, authenticationUseCase } from '@/domain/use-cases/account'
-import { InvalidCredentialsError } from '@/domain/errors'
+import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { HttpClient } from '@/domain/contracts/http'
 
 import { mock } from 'jest-mock-extended'
@@ -34,5 +34,13 @@ describe('AuthenticationUseCase', () => {
     const promise = sut({ email, password })
 
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
+  })
+
+  it('Should throw UnexpectedError if HttpClient returns 400', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 400 })
+
+    const promise = sut({ email, password })
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
