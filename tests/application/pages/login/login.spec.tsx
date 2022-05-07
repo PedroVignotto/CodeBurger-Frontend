@@ -4,9 +4,10 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 
 describe('Login', () => {
-  it('Should not render spinner on start', () => {
+  it('Should start with initial states', () => {
     render(<Login />)
 
     expect(screen.getByText('Login')).toBeTruthy()
+    expect(screen.getByRole('button')).toBeDisabled()
   })
 })
