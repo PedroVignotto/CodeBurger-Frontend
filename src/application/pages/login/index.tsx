@@ -16,9 +16,9 @@ export const Login: React.FC = () => {
       <ContentWrap>
           <img src={logo} alt="Code-burguer" />
           <form>
-            <Input type="text" />
-            <Input type="password" />
-            <button type="submit">{ loading ? <Spinner /> : 'Login' }</button>
+            <Input type="text" placeholder="Email" />
+            <Input type="password" placeholder="Senha" />
+            <button type="submit" disabled>{ loading ? <Spinner /> : 'Login' }</button>
           </form>
           <a href='#'>Não tem uma conta? <span>Crie uma!</span></a>
       </ContentWrap>

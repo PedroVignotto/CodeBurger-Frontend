@@ -4,11 +4,11 @@ import React from 'react'
 
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-export const Input: React.FC<Props> = (props: Props) => {
+export const Input: React.FC<Props> = ({ placeholder, ...props }: Props) => {
   return (
     <Container>
-      <input placeholder=" " {...props} />
-      <label>Email</label>
+      <input {...props} placeholder=" " />
+      <label>{placeholder}</label>
     </Container>
   )
 }
