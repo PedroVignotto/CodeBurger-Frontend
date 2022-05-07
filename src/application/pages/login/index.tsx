@@ -1,12 +1,20 @@
 import { login, logo } from '@/application/assets'
 import { Input, Spinner } from '@/application/components'
+import { Validator } from '@/application/validation'
 
 import { Container, ContentWrap } from './styles'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-export const Login: React.FC = () => {
+type Props = { validation: Validator }
+
+export const Login: React.FC<Props> = ({ validation }) => {
   const [loading] = useState(false)
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    validation.validate({ email })
+  }, [email])
 
   return (
     <Container>
@@ -16,8 +24,8 @@ export const Login: React.FC = () => {
       <ContentWrap>
           <img src={logo} alt="Code-burguer" />
           <form>
-            <Input type="text" placeholder="Email" />
-            <Input type="password" placeholder="Senha" />
+            <Input type="text" name="email" placeholder="Email" setState={setEmail} />
+            <Input type="password" name="password" placeholder="Senha" />
             <button type="submit" disabled>{ loading ? <Spinner /> : 'Login' }</button>
           </form>
           <a href='#'>Não tem uma conta? <span>Crie uma!</span></a>
