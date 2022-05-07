@@ -1,5 +1,6 @@
 import { accountParams, httpClientParams } from '@/tests/mocks'
 import { Authentication, authenticationUseCase } from '@/domain/use-cases/account'
+import { InvalidCredentialsError } from '@/domain/errors'
 import { HttpClient } from '@/domain/contracts/http'
 
 import { mock } from 'jest-mock-extended'
@@ -12,6 +13,10 @@ describe('AuthenticationUseCase', () => {
 
   const httpClient = mock<HttpClient>()
 
+  beforeAll(() => {
+    httpClient.request.mockResolvedValue({ statusCode: 200 })
+  })
+
   beforeEach(() => {
     sut = authenticationUseCase(url, httpClient)
   })
@@ -21,5 +26,13 @@ describe('AuthenticationUseCase', () => {
 
     expect(httpClient.request).toHaveBeenCalledWith({ url, method: 'post', body: { email, password } })
     expect(httpClient.request).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should throw InvalidCredentialsError if HttpClient returns 401', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 401 })
+
+    const promise = sut({ email, password })
+
+    await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
 })
