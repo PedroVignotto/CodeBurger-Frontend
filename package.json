@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --passWithNoTests --no-cache --runInBand",
-    "test:unit": "npm t -- --watch -c jest-unit-config.js",
+    "test:unit": "npm t -- --watch",
     "test:staged": "npm t -- --findRelatedTests",
     "test:coverage": "npm t -- --coverage",
     "prepare": "husky install"
