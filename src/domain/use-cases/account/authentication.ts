@@ -10,8 +10,8 @@ export const authenticationUseCase: Setup = (url, httpClient) => async (input) =
   const httpResponse = await httpClient.request({ url, method: 'post', body: input })
 
   switch (httpResponse.statusCode) {
-    case 400: throw new UnexpectedError()
+    case 200: return undefined
     case 401: throw new InvalidCredentialsError()
-    default: return undefined
+    default: throw new UnexpectedError()
   }
 }
