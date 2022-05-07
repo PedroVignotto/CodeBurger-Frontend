@@ -9,9 +9,9 @@ module.exports = {
   coverageProvider: 'babel',
   moduleNameMapper: {
     '@/tests/(.+)': '<rootDir>/tests/$1',
-    '@/(.+)': '<rootDir>/src/$1'
+    '@/(.+)': '<rootDir>/src/$1',
+    '\\.(jpg|jpeg|svg|png)$': 'jest-transform-stub'
   },
-  testMatch: ['**/*.spec.ts', '**/*.test.ts'],
   roots: ['<rootDir>/src', '<rootDir>/tests'],
   transform: { '.+\\.(ts|tsx)$': 'ts-jest' },
   testEnvironment: 'jsdom',
