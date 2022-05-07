@@ -13,6 +13,13 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
     alias: { '@': join(__dirname, 'src') }
   },
+  module: {
+    rules: [{
+      test: /\.ts(x?)$/,
+      loader: 'ts-loader',
+      exclude: /node_modules/
+    }]
+  },
   devServer: {
     devMiddleware: { writeToDisk: true },
     static: { directory: './public' },
