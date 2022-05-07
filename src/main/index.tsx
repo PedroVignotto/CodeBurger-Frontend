@@ -1,13 +1,6 @@
-import { GlobalStyle } from '@/application/styles'
-import { Login } from '@/application/pages'
+import { Router } from '@/application/router'
 
 import ReactDOM from 'react-dom'
 import React from 'react'
 
-ReactDOM.render(
-  <>
-    <GlobalStyle />
-    <Login />
-  </>,
-  document.getElementById('root')
-)
+ReactDOM.render(<Router />, document.getElementById('root'))
