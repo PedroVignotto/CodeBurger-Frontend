@@ -11,6 +11,6 @@ module.exports = {
   testMatch: ['**/*.spec.ts', '**/*.test.ts'],
   roots: ['<rootDir>/src', '<rootDir>/tests'],
   transform: { '.+\\.(ts|tsx)$': 'ts-jest' },
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   clearMocks: true
 }
