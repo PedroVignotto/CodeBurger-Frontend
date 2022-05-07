@@ -1,10 +1,16 @@
 import { HttpClient } from '@/domain/contracts/http'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 type Setup = (url: string, httpClient: HttpClient) => Authentication
 type Input = { email: string, password: string }
-type Output = void
+type Output = undefined | Error
 export type Authentication = (input: Input) => Promise<Output>
 
 export const authenticationUseCase: Setup = (url, httpClient) => async (input) => {
-  await httpClient.request({ url, method: 'post', body: input })
+  const httpResponse = await httpClient.request({ url, method: 'post', body: input })
+
+  switch (httpResponse.statusCode) {
+    case 401: throw new InvalidCredentialsError()
+    default: return undefined
+  }
 }
