@@ -4,6 +4,6 @@ export interface HttpClient<R = any> {
 
 export type HttpResponse<T = any> = { statusCode: number, data?: T }
 
-export type HttpRequest = { url: string, method: HttpMethod, body?: any }
+export type HttpRequest = { url: string, method: HttpMethod, body?: any, headers?: any }
 
 export type HttpMethod = 'post' | 'get' | 'put' | 'delete'
