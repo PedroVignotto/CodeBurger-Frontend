@@ -18,7 +18,13 @@ module.exports = {
       test: /\.ts(x?)$/,
       loader: 'ts-loader',
       exclude: /node_modules/
-    }]
+    },
+    {
+      test: /\.(png|jpe?g|svg)$/i,
+      loader: 'file-loader',
+      exclude: /node_modules/
+    }
+    ]
   },
   devServer: {
     devMiddleware: { writeToDisk: true },
