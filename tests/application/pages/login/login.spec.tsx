@@ -23,12 +23,12 @@ describe('Login', () => {
   it('Should call validation with correct email', () => {
     fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
 
-    expect(validator.validate).toHaveBeenCalledWith({ email })
+    expect(validator.validate).toHaveBeenCalledWith('email', email)
   })
 
   it('Should call validation with correct password', () => {
     fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
 
-    expect(validator.validate).toHaveBeenCalledWith({ password })
+    expect(validator.validate).toHaveBeenCalledWith('password', password)
   })
 })
