@@ -84,4 +84,14 @@ describe('Login', () => {
 
     expect(screen.getByRole('button')).toBeEnabled()
   })
+
+  it('Should show spinner on submit', async () => {
+    makeSut()
+
+    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
+    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    fireEvent.click(screen.getByRole('button', { name: /login/i }))
+
+    expect(screen.queryByRole('button', { name: /login/i })).not.toBeInTheDocument()
+  })
 })
