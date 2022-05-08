@@ -10,8 +10,9 @@ describe('Login', () => {
   const { email, password, error } = accountParams
 
   const validator = mock<Validator>()
+  const authentication: jest.Mock = jest.fn()
 
-  const makeSut = (): void => { render(<Login validation={validator} />) }
+  const makeSut = (): void => { render(<Login validation={validator} authentication={authentication} />) }
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
@@ -93,5 +94,15 @@ describe('Login', () => {
     fireEvent.click(screen.getByRole('button', { name: /login/i }))
 
     expect(screen.queryByRole('button', { name: /login/i })).not.toBeInTheDocument()
+  })
+
+  it('Should call Authentication with correct values', async () => {
+    makeSut()
+
+    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
+    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    fireEvent.click(screen.getByRole('button', { name: /login/i }))
+
+    expect(authentication).toHaveBeenCalledWith({ email, password })
   })
 })
