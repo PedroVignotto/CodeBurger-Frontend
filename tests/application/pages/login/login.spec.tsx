@@ -33,10 +33,18 @@ describe('Login', () => {
   })
 
   it('Should show email error if Validation fails', () => {
-    validator.validate.mockReturnValue(error)
+    validator.validate.mockReturnValueOnce(error)
 
     fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
 
     expect(screen.getByLabelText('Email')).toHaveProperty('title', error)
+  })
+
+  it('Should show password error if Validation fails', () => {
+    validator.validate.mockReturnValueOnce(error)
+
+    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+
+    expect(screen.getByLabelText('Senha')).toHaveProperty('title', error)
   })
 })
