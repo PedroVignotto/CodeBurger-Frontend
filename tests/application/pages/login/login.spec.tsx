@@ -11,6 +11,10 @@ describe('Login', () => {
 
   const validator = mock<Validator>()
 
+  beforeAll(() => {
+    validator.validate.mockReturnValue('')
+  })
+
   beforeEach(() => {
     render(<Login validation={validator} />)
   })
@@ -46,5 +50,11 @@ describe('Login', () => {
     fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
 
     expect(screen.getByLabelText('Senha')).toHaveProperty('title', error)
+  })
+
+  it('Should show valid email state if Validation succeeds', () => {
+    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
+
+    expect(screen.getByLabelText('Email')).toHaveProperty('title', '')
   })
 })
