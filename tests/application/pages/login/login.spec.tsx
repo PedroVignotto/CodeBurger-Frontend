@@ -116,4 +116,15 @@ describe('Login', () => {
 
     expect(authentication).toHaveBeenCalledTimes(1)
   })
+
+  it('Should not call Authentication if form is invalid', async () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce(error)
+
+    populateField('Email', email)
+    populateField('Senha', password)
+    fireEvent.submit(screen.getByTestId('form'))
+
+    expect(authentication).not.toHaveBeenCalled()
+  })
 })
