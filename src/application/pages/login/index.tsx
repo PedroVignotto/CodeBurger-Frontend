@@ -6,6 +6,7 @@ import { Authentication } from '@/domain/use-cases/account'
 import { Container, ContentWrap } from './styles'
 
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 
 type Props = { validation: Validator, authentication: Authentication }
@@ -51,7 +52,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
             <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
             <button type="submit" disabled={!!emailError || !!passwordError}>{ loading ? <Spinner /> : 'Login' }</button>
           </form>
-          <a href='#'>Não tem uma conta? <span>Crie uma!</span></a>
+          <Link to="signup">Não tem uma conta? <span>Crie uma!</span></Link>
       </ContentWrap>
     </Container>
   )
