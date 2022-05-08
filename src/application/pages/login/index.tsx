@@ -23,7 +23,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (loading) return
+    if (loading || emailError || passwordError) return
 
     setLoading(true)
 
@@ -37,7 +37,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
       </aside>
       <ContentWrap>
           <img src={logo} alt="Code-burguer" />
-          <form onSubmit={handleSubmit}>
+          <form data-testid="form" onSubmit={handleSubmit}>
             <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
             <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
             <button type="submit" disabled={!!emailError || !!passwordError}>{ loading ? <Spinner /> : 'Login' }</button>
