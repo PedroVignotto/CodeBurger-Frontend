@@ -15,13 +15,9 @@ export const Login: React.FC<Props> = ({ validation }) => {
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState('')
 
-  useEffect(() => {
-    setEmailError(validation.validate('email', email))
-  }, [email])
+  useEffect(() => setEmailError(validation.validate('email', email)), [email])
 
-  useEffect(() => {
-    setPasswordError(validation.validate('password', password))
-  }, [password])
+  useEffect(() => setPasswordError(validation.validate('password', password)), [password])
 
   return (
     <Container>
