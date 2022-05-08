@@ -1,14 +1,15 @@
 import { login, logo } from '@/application/assets'
 import { Input, Spinner } from '@/application/components'
 import { Validator } from '@/application/validation'
+import { Authentication } from '@/domain/use-cases/account'
 
 import { Container, ContentWrap } from './styles'
 
 import React, { useEffect, useState } from 'react'
 
-type Props = { validation: Validator }
+type Props = { validation: Validator, authentication: Authentication }
 
-export const Login: React.FC<Props> = ({ validation }) => {
+export const Login: React.FC<Props> = ({ validation, authentication }) => {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -19,10 +20,12 @@ export const Login: React.FC<Props> = ({ validation }) => {
 
   useEffect(() => setPasswordError(validation.validate('password', password)), [password])
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
     setLoading(true)
+
+    await authentication({ email, password })
   }
 
   return (
