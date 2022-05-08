@@ -5,6 +5,7 @@ import { Authentication } from '@/domain/use-cases/account'
 
 import { Container, ContentWrap } from './styles'
 
+import { toast } from 'react-toastify'
 import React, { useEffect, useState } from 'react'
 
 type Props = { validation: Validator, authentication: Authentication }
@@ -23,11 +24,17 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (loading || emailError || passwordError) return
+    try {
+      if (loading || emailError || passwordError) return
 
-    setLoading(true)
+      setLoading(true)
 
-    await authentication({ email, password })
+      await authentication({ email, password })
+    } catch (error: any) {
+      setLoading(false)
+
+      toast.error(error.message)
+    }
   }
 
   return (
