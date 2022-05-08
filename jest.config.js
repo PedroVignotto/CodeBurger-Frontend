@@ -10,7 +10,7 @@ module.exports = {
   moduleNameMapper: {
     '@/tests/(.+)': '<rootDir>/tests/$1',
     '@/(.+)': '<rootDir>/src/$1',
-    '\\.(jpg|jpeg|svg|png)$': 'jest-transform-stub'
+    '\\.(jpg|jpeg|svg|png|css)$': 'jest-transform-stub'
   },
   roots: ['<rootDir>/src', '<rootDir>/tests'],
   setupFilesAfterEnv: ['<rootDir>/src/main/config/jest-setup.ts'],
