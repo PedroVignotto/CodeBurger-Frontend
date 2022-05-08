@@ -11,10 +11,11 @@ type Props = { validation: Validator }
 export const Login: React.FC<Props> = ({ validation }) => {
   const [loading] = useState(false)
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [password, setPassword] = useState('')
 
   useEffect(() => {
-    validation.validate('email', email)
+    setEmailError(validation.validate('email', email))
   }, [email])
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export const Login: React.FC<Props> = ({ validation }) => {
       <ContentWrap>
           <img src={logo} alt="Code-burguer" />
           <form>
-            <Input type="text" name="email" placeholder="Email" setState={setEmail} />
+            <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
             <Input type="password" name="password" placeholder="Senha" setState={setPassword} />
             <button type="submit" disabled>{ loading ? <Spinner /> : 'Login' }</button>
           </form>
