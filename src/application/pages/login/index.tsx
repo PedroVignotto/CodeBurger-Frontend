@@ -29,7 +29,7 @@ export const Login: React.FC<Props> = ({ validation }) => {
           <form>
             <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
             <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
-            <button type="submit" disabled>{ loading ? <Spinner /> : 'Login' }</button>
+            <button type="submit" disabled={!!emailError || !!passwordError}>{ loading ? <Spinner /> : 'Login' }</button>
           </form>
           <a href='#'>Não tem uma conta? <span>Crie uma!</span></a>
       </ContentWrap>
