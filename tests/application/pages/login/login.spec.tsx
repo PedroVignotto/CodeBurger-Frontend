@@ -1,4 +1,4 @@
-import { accountParams } from '@/../tests/mocks'
+import { accountParams, populateField } from '@/tests/mocks'
 import { Login } from '@/application/pages'
 import { Validator } from '@/application/validation'
 
@@ -30,7 +30,7 @@ describe('Login', () => {
   it('Should call validation with correct email', () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
+    populateField('Email', email)
 
     expect(validator.validate).toHaveBeenCalledWith('email', email)
   })
@@ -38,7 +38,7 @@ describe('Login', () => {
   it('Should call validation with correct password', () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    populateField('Senha', password)
 
     expect(validator.validate).toHaveBeenCalledWith('password', password)
   })
@@ -47,7 +47,7 @@ describe('Login', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
-    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
+    populateField('Email', email)
 
     expect(screen.getByLabelText('Email')).toHaveProperty('title', error)
   })
@@ -56,7 +56,7 @@ describe('Login', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
-    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    populateField('Senha', password)
 
     expect(screen.getByLabelText('Senha')).toHaveProperty('title', error)
   })
@@ -64,7 +64,7 @@ describe('Login', () => {
   it('Should show valid email state if Validation succeeds', () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
+    populateField('Email', email)
 
     expect(screen.getByLabelText('Email')).toHaveProperty('title', '')
   })
@@ -72,7 +72,7 @@ describe('Login', () => {
   it('Should show valid password state if Validation succeeds', () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    populateField('Senha', password)
 
     expect(screen.getByLabelText('Senha')).toHaveProperty('title', '')
   })
@@ -80,8 +80,8 @@ describe('Login', () => {
   it('Should enable submit button if form is valid', () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
-    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    populateField('Email', email)
+    populateField('Senha', password)
 
     expect(screen.getByRole('button')).toBeEnabled()
   })
@@ -89,9 +89,9 @@ describe('Login', () => {
   it('Should show spinner on submit', async () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
-    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
-    fireEvent.click(screen.getByRole('button', { name: /login/i }))
+    populateField('Email', email)
+    populateField('Senha', password)
+    fireEvent.click(screen.getByRole('button'))
 
     expect(screen.queryByRole('button', { name: /login/i })).not.toBeInTheDocument()
   })
@@ -99,9 +99,9 @@ describe('Login', () => {
   it('Should call Authentication with correct values', async () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
-    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
-    fireEvent.click(screen.getByRole('button', { name: /login/i }))
+    populateField('Email', email)
+    populateField('Senha', password)
+    fireEvent.click(screen.getByRole('button'))
 
     expect(authentication).toHaveBeenCalledWith({ email, password })
   })
@@ -109,8 +109,8 @@ describe('Login', () => {
   it('Should call Authentication only once', async () => {
     makeSut()
 
-    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
-    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    populateField('Email', email)
+    populateField('Senha', password)
     fireEvent.click(screen.getByRole('button'))
     fireEvent.click(screen.getByRole('button'))
 
