@@ -29,7 +29,9 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
 
       setLoading(true)
 
-      await authentication({ email, password })
+      const account = await authentication({ email, password })
+
+      localStorage.setItem('account', JSON.stringify(account))
     } catch (error: any) {
       setLoading(false)
 
