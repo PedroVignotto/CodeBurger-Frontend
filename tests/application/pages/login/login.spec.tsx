@@ -57,4 +57,10 @@ describe('Login', () => {
 
     expect(screen.getByLabelText('Email')).toHaveProperty('title', '')
   })
+
+  it('Should show valid password state if Validation succeeds', () => {
+    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+
+    expect(screen.getByLabelText('Senha')).toHaveProperty('title', '')
+  })
 })
