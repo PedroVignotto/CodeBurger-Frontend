@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 type Props = { validation: Validator }
 
 export const Login: React.FC<Props> = ({ validation }) => {
-  const [loading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [password, setPassword] = useState('')
@@ -19,6 +19,12 @@ export const Login: React.FC<Props> = ({ validation }) => {
 
   useEffect(() => setPasswordError(validation.validate('password', password)), [password])
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+
+    setLoading(true)
+  }
+
   return (
     <Container>
       <aside>
@@ -26,7 +32,7 @@ export const Login: React.FC<Props> = ({ validation }) => {
       </aside>
       <ContentWrap>
           <img src={logo} alt="Code-burguer" />
-          <form>
+          <form onSubmit={handleSubmit}>
             <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
             <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
             <button type="submit" disabled={!!emailError || !!passwordError}>{ loading ? <Spinner /> : 'Login' }</button>
