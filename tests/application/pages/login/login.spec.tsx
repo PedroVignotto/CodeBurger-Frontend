@@ -1,8 +1,10 @@
 import { accountParams, populateField } from '@/tests/mocks'
 import { Login } from '@/application/pages'
 import { Validator } from '@/application/validation'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 import { fireEvent, render, screen } from '@testing-library/react'
+import { ToastContainer } from 'react-toastify'
 import { mock } from 'jest-mock-extended'
 import React from 'react'
 
@@ -12,7 +14,7 @@ describe('Login', () => {
   const validator = mock<Validator>()
   const authentication: jest.Mock = jest.fn()
 
-  const makeSut = (): void => { render(<Login validation={validator} authentication={authentication} />) }
+  const makeSut = (): void => { render(<><ToastContainer/><Login validation={validator} authentication={authentication} /></>) }
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
@@ -126,5 +128,17 @@ describe('Login', () => {
     fireEvent.submit(screen.getByTestId('form'))
 
     expect(authentication).not.toHaveBeenCalled()
+  })
+
+  it('Should show alert error if Authentication fails', async () => {
+    makeSut()
+    authentication.mockRejectedValueOnce(new InvalidCredentialsError())
+
+    populateField('Email', email)
+    populateField('Senha', password)
+    fireEvent.click(screen.getByRole('button'))
+
+    expect(await screen.findByText(new InvalidCredentialsError().message)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /login/i })).toBeInTheDocument()
   })
 })
