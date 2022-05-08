@@ -3,9 +3,10 @@ import { Login } from '@/application/pages'
 import { Validator } from '@/application/validation'
 import { InvalidCredentialsError } from '@/domain/errors'
 
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { ToastContainer } from 'react-toastify'
 import { mock } from 'jest-mock-extended'
+import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 describe('Login', () => {
@@ -14,7 +15,16 @@ describe('Login', () => {
   const validator = mock<Validator>()
   const authentication: jest.Mock = jest.fn()
 
-  const makeSut = (): void => { render(<><ToastContainer/><Login validation={validator} authentication={authentication} /></>) }
+  const makeSut = (): void => {
+    render(
+    <>
+      <BrowserRouter>
+        <ToastContainer/>
+        <Login validation={validator} authentication={authentication} />
+      </BrowserRouter>
+    </>
+    )
+  }
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
@@ -94,6 +104,7 @@ describe('Login', () => {
     populateField('Email', email)
     populateField('Senha', password)
     fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.queryByRole('button', { name: /login/i })).not.toBeInTheDocument()
   })
@@ -104,6 +115,7 @@ describe('Login', () => {
     populateField('Email', email)
     populateField('Senha', password)
     fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => screen.getByTestId('form'))
 
     expect(authentication).toHaveBeenCalledWith({ email, password })
   })
@@ -115,11 +127,12 @@ describe('Login', () => {
     populateField('Senha', password)
     fireEvent.click(screen.getByRole('button'))
     fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => screen.getByTestId('form'))
 
     expect(authentication).toHaveBeenCalledTimes(1)
   })
 
-  it('Should not call Authentication if form is invalid', async () => {
+  it('Should not call Authentication if form is invalid', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
@@ -140,5 +153,15 @@ describe('Login', () => {
 
     expect(await screen.findByText(new InvalidCredentialsError().message)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /login/i })).toBeInTheDocument()
+  })
+
+  it('Should go to signup page', async () => {
+    makeSut()
+
+    fireEvent.click(screen.getByRole('link'))
+
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(window.location.pathname).toBe('/signup')
   })
 })
