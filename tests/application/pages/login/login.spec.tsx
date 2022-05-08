@@ -105,4 +105,15 @@ describe('Login', () => {
 
     expect(authentication).toHaveBeenCalledWith({ email, password })
   })
+
+  it('Should call Authentication only once', async () => {
+    makeSut()
+
+    fireEvent.input(screen.getByLabelText('Email'), { target: { value: email } })
+    fireEvent.input(screen.getByLabelText('Senha'), { target: { value: password } })
+    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(screen.getByRole('button'))
+
+    expect(authentication).toHaveBeenCalledTimes(1)
+  })
 })
