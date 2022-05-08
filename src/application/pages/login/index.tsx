@@ -13,13 +13,14 @@ export const Login: React.FC<Props> = ({ validation }) => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
   useEffect(() => {
     setEmailError(validation.validate('email', email))
   }, [email])
 
   useEffect(() => {
-    validation.validate('password', password)
+    setPasswordError(validation.validate('password', password))
   }, [password])
 
   return (
@@ -31,7 +32,7 @@ export const Login: React.FC<Props> = ({ validation }) => {
           <img src={logo} alt="Code-burguer" />
           <form>
             <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
-            <Input type="password" name="password" placeholder="Senha" setState={setPassword} />
+            <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
             <button type="submit" disabled>{ loading ? <Spinner /> : 'Login' }</button>
           </form>
           <a href='#'>Não tem uma conta? <span>Crie uma!</span></a>

@@ -3,7 +3,7 @@ import { Container } from './styles'
 import React from 'react'
 
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-  state?: any
+  state: any
   setState: any
 }
 
