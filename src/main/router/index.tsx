@@ -11,7 +11,7 @@ type Props = {
 export const Router: React.FC<Props> = ({ MakeLogin }) => {
   return (
     <>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={3000} theme="colored" />
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
