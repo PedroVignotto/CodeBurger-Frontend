@@ -51,4 +51,10 @@ describe('AddAccountUseCase', () => {
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  it('Should return an account if HttpClient returns 201', async () => {
+    const result = await sut({ name, email, password })
+
+    expect(result).toEqual({ name, accessToken })
+  })
 })
