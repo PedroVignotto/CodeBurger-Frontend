@@ -28,20 +28,20 @@ describe('AuthenticationUseCase', () => {
     expect(httpClient.request).toHaveBeenCalledTimes(1)
   })
 
-  it('Should throw InvalidCredentialsError if HttpClient returns 401', async () => {
-    httpClient.request.mockResolvedValueOnce({ statusCode: 401 })
-
-    const promise = sut({ email, password })
-
-    await expect(promise).rejects.toThrow(new InvalidCredentialsError())
-  })
-
   it('Should throw UnexpectedError if HttpClient returns 400', async () => {
     httpClient.request.mockResolvedValueOnce({ statusCode: 400 })
 
     const promise = sut({ email, password })
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('Should throw InvalidCredentialsError if HttpClient returns 401', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 401 })
+
+    const promise = sut({ email, password })
+
+    await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
 
   it('Should throw UnexpectedError if HttpClient returns 500', async () => {
