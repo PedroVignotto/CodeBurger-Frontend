@@ -29,6 +29,16 @@ describe('Login', () => {
     )
   }
 
+  const populateFields = (): void => {
+    populateField('Email', email)
+    populateField('Senha', password)
+  }
+
+  const simulateSubmit = (): void => {
+    populateFields()
+    fireEvent.click(screen.getByRole('button'))
+  }
+
   beforeAll(() => {
     validator.validate.mockReturnValue('')
     authentication.mockReturnValue({ name, accessToken })
@@ -96,8 +106,7 @@ describe('Login', () => {
   it('Should enable submit button if form is valid', () => {
     makeSut()
 
-    populateField('Email', email)
-    populateField('Senha', password)
+    populateFields()
 
     expect(screen.getByRole('button')).toBeEnabled()
   })
@@ -105,9 +114,7 @@ describe('Login', () => {
   it('Should show spinner on submit', async () => {
     makeSut()
 
-    populateField('Email', email)
-    populateField('Senha', password)
-    fireEvent.click(screen.getByRole('button'))
+    simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.queryByRole('button', { name: /login/i })).not.toBeInTheDocument()
@@ -116,9 +123,7 @@ describe('Login', () => {
   it('Should call Authentication with correct values', async () => {
     makeSut()
 
-    populateField('Email', email)
-    populateField('Senha', password)
-    fireEvent.click(screen.getByRole('button'))
+    simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(authentication).toHaveBeenCalledWith({ email, password })
@@ -127,9 +132,7 @@ describe('Login', () => {
   it('Should call Authentication only once', async () => {
     makeSut()
 
-    populateField('Email', email)
-    populateField('Senha', password)
-    fireEvent.click(screen.getByRole('button'))
+    simulateSubmit()
     fireEvent.click(screen.getByRole('button'))
     await waitFor(() => screen.getByTestId('form'))
 
@@ -140,8 +143,7 @@ describe('Login', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
-    populateField('Email', email)
-    populateField('Senha', password)
+    populateFields()
     fireEvent.submit(screen.getByTestId('form'))
 
     expect(authentication).not.toHaveBeenCalled()
@@ -151,9 +153,7 @@ describe('Login', () => {
     makeSut()
     authentication.mockRejectedValueOnce(new InvalidCredentialsError())
 
-    populateField('Email', email)
-    populateField('Senha', password)
-    fireEvent.click(screen.getByRole('button'))
+    simulateSubmit()
 
     expect(await screen.findByText(new InvalidCredentialsError().message)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /login/i })).toBeInTheDocument()
@@ -162,9 +162,7 @@ describe('Login', () => {
   it('Should save account data on localstorage and go to home page', async () => {
     makeSut()
 
-    populateField('Email', email)
-    populateField('Senha', password)
-    fireEvent.click(screen.getByRole('button'))
+    simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(setCurrentAccountMock).toHaveBeenCalledWith({ name, accessToken })
