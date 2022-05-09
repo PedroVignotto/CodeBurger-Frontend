@@ -13,6 +13,10 @@ module.exports = {
     '@/(.+)': '<rootDir>/src/$1',
     '\\.(jpg|jpeg|svg|png|css)$': 'jest-transform-stub'
   },
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/tests/e2e/cypress'
+  ],
   roots: ['<rootDir>/src', '<rootDir>/tests'],
   setupFilesAfterEnv: ['<rootDir>/src/main/config/jest-setup.ts'],
   transform: { '.+\\.(ts|tsx)$': 'ts-jest' },

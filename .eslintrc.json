@@ -1,7 +1,13 @@
 {
   "settings": { "react": { "version": "detect" } },
-  "extends": ["standard-with-typescript", "plugin:react/recommended"],
-  "parserOptions": { "project": "./tsconfig.json" },
+  "extends": [
+    "standard-with-typescript",
+    "plugin:react/recommended",
+    "plugin:cypress/recommended"
+  ],
+  "parserOptions": { "project": "./tsconfig-eslint.json" },
+  "env": { "cypress/globals": true },
+  "plugins": ["react", "cypress"],
   "rules": {
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-namespace": "off",

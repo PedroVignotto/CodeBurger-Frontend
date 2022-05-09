@@ -10,6 +10,7 @@
     "test:unit": "npm t -- --watch",
     "test:staged": "npm t -- --findRelatedTests",
     "test:coverage": "npm t -- --coverage",
+    "test:integration": "cypress open",
     "prepare": "husky install"
   },
   "devDependencies": {
