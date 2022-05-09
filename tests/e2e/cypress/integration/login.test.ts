@@ -1,6 +1,8 @@
 import faker from 'faker'
 
 describe('Login', () => {
+  const baseUrl: string = Cypress.config().baseUrl
+
   beforeEach(() => {
     cy.visit('login')
   })
@@ -21,5 +23,15 @@ describe('Login', () => {
     cy.getInputById('password').focus().type(faker.internet.password())
 
     cy.getSubmitButton().should('be.enabled').should('have.text', 'Login')
+  })
+
+  it('Should show error if invalid credentials are provided', () => {
+    cy.getInputById('email').focus().type(faker.internet.email())
+    cy.getInputById('password').focus().type(faker.internet.password())
+
+    cy.getSubmitButton().click().should('not.have.text', 'Login')
+    cy.contains('Credenciais inválidas')
+    cy.getSubmitButton().should('have.text', 'Login')
+    cy.url().should('eq', `${baseUrl}/login`)
   })
 })
