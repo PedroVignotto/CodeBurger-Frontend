@@ -31,7 +31,7 @@ describe('ValidationComposite', () => {
   })
 
   beforeEach(() => {
-    sut = new ValidationComposite(validators)
+    sut = ValidationComposite.build(validators)
   })
 
   it('Should return undefined if all Validators return undefined', () => {
