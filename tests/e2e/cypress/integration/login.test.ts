@@ -1,4 +1,4 @@
-import { mockServerError, mockUnauthorizedError } from '../mocks'
+import { mockBadRequestError, mockServerError, mockUnauthorizedError } from '../mocks'
 
 import faker from 'faker'
 
@@ -30,6 +30,19 @@ describe('Login', () => {
     cy.getInputById('password').focus().type(password)
 
     cy.getSubmitButton().should('be.enabled').should('have.text', 'Login')
+  })
+
+  it('Should present UnexpectedError on 400', () => {
+    mockBadRequestError('POST', /login/)
+
+    cy.getInputById('email').focus().type(validEmail)
+    cy.getInputById('password').focus().type(password)
+    cy.getSubmitButton().click()
+
+    cy.getSubmitButton().should('not.have.text', 'Login')
+    cy.contains('Algo deu errado. Tente novamente!')
+    cy.getSubmitButton().should('have.text', 'Login')
+    cy.url().should('eq', `${baseUrl}/login`)
   })
 
   it('Should present InvalidCredentialsError on 401', () => {
