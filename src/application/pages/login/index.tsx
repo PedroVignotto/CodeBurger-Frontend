@@ -6,12 +6,14 @@ import { Authentication } from '@/domain/use-cases/account'
 import { Container, ContentWrap } from './styles'
 
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 
 type Props = { validation: Validator, authentication: Authentication }
 
 export const Login: React.FC<Props> = ({ validation, authentication }) => {
+  const navigate = useNavigate()
+
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -33,6 +35,8 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
       const account = await authentication({ email, password })
 
       localStorage.setItem('account', JSON.stringify(account))
+
+      navigate('/')
     } catch (error: any) {
       setLoading(false)
 
