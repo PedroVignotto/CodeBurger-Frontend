@@ -11,6 +11,8 @@
     "test:staged": "npm t -- --findRelatedTests",
     "test:coverage": "npm t -- --coverage",
     "test:integration": "cypress open",
+    "test:integration:run": "cypress run",
+    "test:integration:ci": "start-server-and-test webpack-dev-server http-get://localhost:8080 test:integration:run",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -45,6 +47,7 @@
     "jest-mock-extended": "^2.0.5",
     "jest-transform-stub": "^2.0.0",
     "lint-staged": "^12.4.1",
+    "start-server-and-test": "^1.14.0",
     "style-loader": "^3.3.1",
     "ts-jest": "^28.0.1",
     "ts-loader": "^9.3.0",
