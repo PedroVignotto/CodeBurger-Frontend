@@ -20,3 +20,10 @@ export const mockServerError = (method: string, url: RegExp): void => {
     { delay: 50, statusCode: 500, body: { error: faker.random.words() } }
   ).as('request')
 }
+
+export const mockOk = (method: string, url: RegExp, response: any): void => {
+  cy.intercept(
+    { method, url },
+    { delay: 50, statusCode: 200, response }
+  ).as('request')
+}
