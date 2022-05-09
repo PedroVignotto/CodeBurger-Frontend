@@ -4,7 +4,7 @@ import { Account } from '@/domain/models'
 
 type Setup = (url: string, httpClient: HttpClient<Account>) => Authentication
 type Input = { email: string, password: string }
-type Output = { name: string, accessToken: string } | Error
+type Output = { name: string, accessToken: string }
 export type Authentication = (input: Input) => Promise<Output>
 
 export const authenticationUseCase: Setup = (url, httpClient) => async (input) => {
