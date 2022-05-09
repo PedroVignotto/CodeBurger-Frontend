@@ -1,9 +1,9 @@
 import { accountParams, httpClientParams } from '@/tests/mocks'
 import { AddAccount, addAccountUseCase } from '@/domain/use-cases/account'
+import { FieldInUseError, UnexpectedError } from '@/domain/errors'
 import { HttpClient } from '@/domain/contracts/http'
 
 import { mock } from 'jest-mock-extended'
-import { FieldInUseError } from '@/domain/errors'
 
 describe('AddAccountUseCase', () => {
   let sut: AddAccount
@@ -14,7 +14,7 @@ describe('AddAccountUseCase', () => {
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200, data: { name, accessToken } })
+    httpClient.request.mockResolvedValue({ statusCode: 201, data: { name, accessToken } })
   })
 
   beforeEach(() => {
@@ -26,6 +26,14 @@ describe('AddAccountUseCase', () => {
 
     expect(httpClient.request).toHaveBeenCalledWith({ url, method: 'post', body: { name, email, password } })
     expect(httpClient.request).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should throw UnexpectedError if HttpClient returns 400', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 400 })
+
+    const promise = sut({ name, email, password })
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
   it('Should throw EmailInUseError if HttpClient returns 403', async () => {
