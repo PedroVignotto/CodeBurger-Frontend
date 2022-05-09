@@ -7,10 +7,11 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { ToastContainer } from 'react-toastify'
 import { mock } from 'jest-mock-extended'
 import { BrowserRouter } from 'react-router-dom'
+import 'jest-localstorage-mock'
 import React from 'react'
 
 describe('Login', () => {
-  const { email, password, error } = accountParams
+  const { email, password, name, accessToken, error } = accountParams
 
   const validator = mock<Validator>()
   const authentication: jest.Mock = jest.fn()
@@ -28,6 +29,7 @@ describe('Login', () => {
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
+    authentication.mockReturnValue({ name, accessToken })
   })
 
   it('Should start with initial states', () => {
@@ -155,7 +157,7 @@ describe('Login', () => {
     expect(screen.queryByRole('button', { name: /login/i })).toBeInTheDocument()
   })
 
-  it('Should go to home page', async () => {
+  it('Should save account data on localstorage and go to home page', async () => {
     makeSut()
 
     populateField('Email', email)
@@ -163,6 +165,7 @@ describe('Login', () => {
     fireEvent.click(screen.getByRole('button'))
     await waitFor(() => screen.getByTestId('form'))
 
+    expect(localStorage.setItem).toHaveBeenCalledWith('account', JSON.stringify({ name, accessToken }))
     expect(window.location.pathname).toBe('/')
   })
 
