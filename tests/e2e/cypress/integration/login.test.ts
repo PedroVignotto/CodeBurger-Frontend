@@ -1,4 +1,4 @@
-import { mockUnauthorizedError } from '../mocks'
+import { mockServerError, mockUnauthorizedError } from '../mocks'
 
 import faker from 'faker'
 
@@ -41,6 +41,19 @@ describe('Login', () => {
 
     cy.getSubmitButton().should('not.have.text', 'Login')
     cy.contains('Credenciais inválidas')
+    cy.getSubmitButton().should('have.text', 'Login')
+    cy.url().should('eq', `${baseUrl}/login`)
+  })
+
+  it('Should present UnexpectedError on 500', () => {
+    mockServerError('POST', /login/)
+
+    cy.getInputById('email').focus().type(validEmail)
+    cy.getInputById('password').focus().type(password)
+    cy.getSubmitButton().click()
+
+    cy.getSubmitButton().should('not.have.text', 'Login')
+    cy.contains('Algo deu errado. Tente novamente!')
     cy.getSubmitButton().should('have.text', 'Login')
     cy.url().should('eq', `${baseUrl}/login`)
   })
