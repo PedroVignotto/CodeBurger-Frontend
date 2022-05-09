@@ -7,12 +7,14 @@ import { Container, ContentWrap } from './styles'
 
 import { toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { AccountContext } from '@/application/contexts'
 
 type Props = { validation: Validator, authentication: Authentication }
 
 export const Login: React.FC<Props> = ({ validation, authentication }) => {
   const navigate = useNavigate()
+  const { setCurrentAccount } = useContext(AccountContext)
 
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
@@ -34,7 +36,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
 
       const account = await authentication({ email, password })
 
-      localStorage.setItem('account', JSON.stringify(account))
+      setCurrentAccount(account)
 
       navigate('/')
     } catch (error: any) {

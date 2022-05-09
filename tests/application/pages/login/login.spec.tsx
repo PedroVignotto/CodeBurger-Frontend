@@ -1,6 +1,7 @@
 import { accountParams, populateField } from '@/tests/mocks'
 import { Login } from '@/application/pages'
 import { Validator } from '@/application/validation'
+import { AccountContext } from '@/application/contexts'
 import { InvalidCredentialsError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -15,15 +16,16 @@ describe('Login', () => {
 
   const validator = mock<Validator>()
   const authentication: jest.Mock = jest.fn()
+  const setCurrentAccountMock: jest.Mock = jest.fn()
 
   const makeSut = (): void => {
     render(
-    <>
+    <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
       <BrowserRouter>
         <ToastContainer/>
         <Login validation={validator} authentication={authentication} />
       </BrowserRouter>
-    </>
+    </AccountContext.Provider>
     )
   }
 
@@ -165,7 +167,7 @@ describe('Login', () => {
     fireEvent.click(screen.getByRole('button'))
     await waitFor(() => screen.getByTestId('form'))
 
-    expect(localStorage.setItem).toHaveBeenCalledWith('account', JSON.stringify({ name, accessToken }))
+    expect(setCurrentAccountMock).toHaveBeenCalledWith({ name, accessToken })
     expect(window.location.pathname).toBe('/')
   })
 

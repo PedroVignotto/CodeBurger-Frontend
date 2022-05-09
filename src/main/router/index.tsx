@@ -1,4 +1,6 @@
+import { setCurrentAccountAdapter } from '@/main/adapters'
 import { GlobalStyle } from '@/application/styles'
+import { AccountContext } from '@/application/contexts'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -10,7 +12,7 @@ type Props = {
 
 export const Router: React.FC<Props> = ({ MakeLogin }) => {
   return (
-    <>
+    <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountAdapter }}>
       <ToastContainer autoClose={3000} theme="colored" />
       <GlobalStyle />
       <BrowserRouter>
@@ -18,6 +20,6 @@ export const Router: React.FC<Props> = ({ MakeLogin }) => {
           <Route path="/login" element={<MakeLogin />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </AccountContext.Provider>
   )
 }
