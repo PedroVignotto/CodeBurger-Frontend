@@ -34,7 +34,7 @@ describe('Login', () => {
     authentication.mockReturnValue({ name, accessToken })
   })
 
-  it('Should start with initial states', () => {
+  it('Should load with correct initial state', () => {
     validator.validate.mockReturnValueOnce(error)
 
     makeSut()
