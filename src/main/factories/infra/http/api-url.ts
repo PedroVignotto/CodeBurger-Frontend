@@ -1,1 +1,1 @@
-export const makeApiUrl = (path: string): string => `http://localhost:3333/api${path}`
+export const makeApiUrl = (path: string): string => `${process.env.API_URL!}${path}`
