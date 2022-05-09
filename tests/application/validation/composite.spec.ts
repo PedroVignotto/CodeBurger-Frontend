@@ -8,7 +8,8 @@ describe('ValidationComposite', () => {
 
   let fieldName: string
   let fieldValue: string
-
+  let error1: Error
+  let error2: Error
   let validators: FieldValidation[]
 
   let validator1: MockProxy<FieldValidation>
@@ -17,6 +18,8 @@ describe('ValidationComposite', () => {
   beforeAll(() => {
     fieldName = faker.database.column()
     fieldValue = faker.random.words()
+    error1 = new Error(faker.random.word())
+    error2 = new Error(faker.random.word())
 
     validator1 = mock<FieldValidation>({ field: fieldName })
     validator2 = mock<FieldValidation>({ field: fieldName })
@@ -35,5 +38,14 @@ describe('ValidationComposite', () => {
     const error = sut.validate(fieldName, fieldValue)
 
     expect(error).toBeUndefined()
+  })
+
+  it('Should return the first error if any Validator fails', () => {
+    validator1.validate.mockReturnValueOnce(error1)
+    validator2.validate.mockReturnValueOnce(error2)
+
+    const error = sut.validate(fieldName, fieldValue)
+
+    expect(error).toEqual(error1.message)
   })
 })
