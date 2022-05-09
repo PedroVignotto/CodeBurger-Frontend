@@ -29,4 +29,12 @@ describe('EmailValidation', () => {
 
     expect(error).toBeFalsy()
   })
+
+  it('Should return falsy if email is empty', () => {
+    const sut = new EmailValidation(fieldName)
+
+    const error = sut.validate(undefined as any)
+
+    expect(error).toBeFalsy()
+  })
 })
