@@ -155,11 +155,21 @@ describe('Login', () => {
     expect(screen.queryByRole('button', { name: /login/i })).toBeInTheDocument()
   })
 
+  it('Should go to home page', async () => {
+    makeSut()
+
+    populateField('Email', email)
+    populateField('Senha', password)
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(window.location.pathname).toBe('/')
+  })
+
   it('Should go to signup page', async () => {
     makeSut()
 
     fireEvent.click(screen.getByRole('link'))
-
     await waitFor(() => screen.getByTestId('form'))
 
     expect(window.location.pathname).toBe('/signup')
