@@ -20,4 +20,10 @@ describe('ValidationBuilder', () => {
 
     expect(validators).toStrictEqual([new EmailValidation(fieldName)])
   })
+
+  it('Should return a list of validations', () => {
+    const validations = Builder.of(fieldName).required().email().build()
+
+    expect(validations).toStrictEqual([new RequiredValidation(fieldName), new EmailValidation(fieldName)])
+  })
 })
