@@ -20,9 +20,15 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState('')
 
-  useEffect(() => setEmailError(validation.validate('email', email)), [email])
+  useEffect(() => {
+    const error = validation.validate('email', email)
+    if (error) setEmailError(error)
+  }, [email])
 
-  useEffect(() => setPasswordError(validation.validate('password', password)), [password])
+  useEffect(() => {
+    const error = validation.validate('password', password)
+    if (error) setPasswordError(error)
+  }, [password])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
