@@ -5,11 +5,13 @@ import faker from 'faker'
 
 describe('CompareValidation', () => {
   let field: string
+  let valueToCompareValid: string
   let valueToCompareInvalid: string
   let value: string
 
   beforeAll(() => {
     value = faker.random.words(1)
+    valueToCompareValid = value
     valueToCompareInvalid = faker.random.words(2)
     field = faker.database.column()
   })
@@ -20,5 +22,13 @@ describe('CompareValidation', () => {
     const error = sut.validate(value)
 
     expect(error).toEqual(new InvalidFieldError())
+  })
+
+  it('Should return undefined if fields are equal', () => {
+    const sut = new CompareValidation(field, valueToCompareValid)
+
+    const error = sut.validate(value)
+
+    expect(error).toBeUndefined()
   })
 })
