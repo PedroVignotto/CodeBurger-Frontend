@@ -56,7 +56,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
             <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
             <button type="submit" disabled={!!emailError || !!passwordError}>{ loading ? <Spinner /> : 'Login' }</button>
           </form>
-          <Link to="signup">Não tem uma conta? <span>Crie uma!</span></Link>
+          <Link to="/signup">Não tem uma conta? <span>Crie uma!</span></Link>
       </ContentWrap>
     </Container>
   )
