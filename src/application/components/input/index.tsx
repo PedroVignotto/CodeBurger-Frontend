@@ -9,7 +9,7 @@ type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>
 
 export const Input: React.FC<Props> = ({ state, setState, name, placeholder, ...props }: Props) => {
   return (
-    <Container status={state ? 'valid' : 'invalid'}>
+    <Container>
       <input
         {...props}
         title={state}

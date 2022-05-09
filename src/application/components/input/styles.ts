@@ -2,26 +2,10 @@ import { colors } from '@/application/styles'
 
 import styled from 'styled-components'
 
-export const Container = styled.div<{ status: string }>`
+export const Container = styled.div`
   margin-top: 2rem;
   position: relative;
   border-bottom: 1px solid ${colors.black};
-
-  &[data-status="valid"] {
-    border-bottom-color: ${colors.green};
-
-    &::after {
-      background-color: ${colors.green};
-    }
-  }
-
-  &[data-status="invalid"] {
-    border-bottom-color: ${colors.red};
-
-    &::after {
-      background-color: ${colors.red};
-    }
-  }
 
   &::after {
     content: "";
