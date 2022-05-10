@@ -1,16 +1,21 @@
 import { signup, logo } from '@/application/assets'
 import { Input, Spinner } from '@/application/components'
 import { Validator } from '@/application/validation'
+import { AccountContext } from '@/application/contexts'
 import { AddAccount } from '@/domain/use-cases/account'
 
 import { Container, ContentWrap } from './styles'
 
 import { toast } from 'react-toastify'
-import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
 
 type Props = { validation: Validator, addAccount: AddAccount }
 
 export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
+  const navigate = useNavigate()
+  const { setCurrentAccount } = useContext(AccountContext)
+
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState<string | undefined>('')
@@ -34,7 +39,11 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
 
       setLoading(true)
 
-      await addAccount({ name, email, password })
+      const account = await addAccount({ name, email, password })
+
+      setCurrentAccount(account)
+
+      navigate('/')
     } catch (error: any) {
       setLoading(false)
 
