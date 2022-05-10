@@ -70,4 +70,14 @@ describe('Signup', () => {
     cy.getUrl('/')
     cy.getLocalStorageItem('account')
   })
+
+  it('Should prevent multiple submits', () => {
+    mockCreated('POST', /signup/, { name, accessToken })
+
+    populateFields()
+    cy.getSubmitButton().dblclick()
+    cy.wait('@request')
+
+    cy.get('@request.all').should('have.length', 1)
+  })
 })
