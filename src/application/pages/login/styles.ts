@@ -5,12 +5,15 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
+  height: 100%;
+  overflow: hidden;
 
   aside {
     background: ${colors.black};
     width: 60%;
 
     img {
+      height: 100%;
       object-fit: cover;
     }
 

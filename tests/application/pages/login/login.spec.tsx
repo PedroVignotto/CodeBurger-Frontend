@@ -53,53 +53,31 @@ describe('Login', () => {
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
-  it('Should call validation with correct email', () => {
+  it('Should call validation with correct values', () => {
     makeSut()
 
-    populateField('Email', email)
+    populateFields()
 
     expect(validator.validate).toHaveBeenCalledWith('email', email)
-  })
-
-  it('Should call validation with correct password', () => {
-    makeSut()
-
-    populateField('Senha', password)
-
     expect(validator.validate).toHaveBeenCalledWith('password', password)
   })
 
-  it('Should show email error if Validation fails', () => {
+  it('Should show error if Validation fails', () => {
     makeSut()
-    validator.validate.mockReturnValueOnce(error)
+    validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error)
 
-    populateField('Email', email)
+    populateFields()
 
     expect(screen.getByLabelText('Email')).toHaveProperty('title', error)
-  })
-
-  it('Should show password error if Validation fails', () => {
-    makeSut()
-    validator.validate.mockReturnValueOnce(error)
-
-    populateField('Senha', password)
-
     expect(screen.getByLabelText('Senha')).toHaveProperty('title', error)
   })
 
-  it('Should show valid email state if Validation succeeds', () => {
+  it('Should show valid input states if Validation succeeds', () => {
     makeSut()
 
     populateField('Email', email)
 
     expect(screen.getByLabelText('Email')).toHaveProperty('title', '')
-  })
-
-  it('Should show valid password state if Validation succeeds', () => {
-    makeSut()
-
-    populateField('Senha', password)
-
     expect(screen.getByLabelText('Senha')).toHaveProperty('title', '')
   })
 
