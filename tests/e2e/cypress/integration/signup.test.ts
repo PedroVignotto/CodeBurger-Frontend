@@ -52,4 +52,13 @@ describe('Signup', () => {
     cy.wait('@request')
     cy.getSubmitButton().should('have.text', 'Cadastre-se')
   })
+
+  it('Should present FieldInUseError on 400', () => {
+    mockBadRequestError('POST', /signup/)
+
+    simulateSubmit()
+
+    cy.contains('O email já está em uso!')
+    cy.getUrl('/signup')
+  })
 })
