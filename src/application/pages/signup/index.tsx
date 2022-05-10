@@ -28,6 +28,8 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
+    if (loading) return
+
     setLoading(true)
 
     await addAccount({ name, email, password })
