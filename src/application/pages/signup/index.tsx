@@ -5,6 +5,7 @@ import { AddAccount } from '@/domain/use-cases/account'
 
 import { Container, ContentWrap } from './styles'
 
+import { toast } from 'react-toastify'
 import React, { useEffect, useState } from 'react'
 
 type Props = { validation: Validator, addAccount: AddAccount }
@@ -28,11 +29,17 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (loading || nameError || emailError || passwordError || passwordConfirmationError) return
+    try {
+      if (loading || nameError || emailError || passwordError || passwordConfirmationError) return
 
-    setLoading(true)
+      setLoading(true)
 
-    await addAccount({ name, email, password })
+      await addAccount({ name, email, password })
+    } catch (error: any) {
+      setLoading(false)
+
+      toast.error(error.message)
+    }
   }
 
   return (
