@@ -7,7 +7,7 @@ import { mock } from 'jest-mock-extended'
 import React from 'react'
 
 describe('SignUp', () => {
-  const { name, email, password, passwordConfirmation } = accountParams
+  const { name, email, password, passwordConfirmation, error } = accountParams
 
   const validator = mock<Validator>()
 
@@ -38,5 +38,17 @@ describe('SignUp', () => {
     expect(validator.validate).toHaveBeenCalledWith('email', email)
     expect(validator.validate).toHaveBeenCalledWith('password', password)
     expect(validator.validate).toHaveBeenCalledWith('passwordConfirmation', passwordConfirmation)
+  })
+
+  it('Should show error if Validation fails', () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error)
+
+    populateFields()
+
+    expect(screen.getByLabelText('Nome')).toHaveProperty('title', error)
+    expect(screen.getByLabelText('Email')).toHaveProperty('title', error)
+    expect(screen.getByLabelText('Senha')).toHaveProperty('title', error)
+    expect(screen.getByLabelText('Confirmar senha')).toHaveProperty('title', error)
   })
 })
