@@ -23,6 +23,8 @@ describe('SignUp', () => {
   }
 
   it('Should load with correct initial state', () => {
+    validator.validate.mockReturnValueOnce(error)
+
     makeSut()
 
     expect(screen.getByText('Cadastre-se')).toBeTruthy()
@@ -61,5 +63,13 @@ describe('SignUp', () => {
     expect(screen.getByLabelText('Email')).toHaveProperty('title', '')
     expect(screen.getByLabelText('Senha')).toHaveProperty('title', '')
     expect(screen.getByLabelText('Confirmar senha')).toHaveProperty('title', '')
+  })
+
+  it('Should enable submit button if form is valid', () => {
+    makeSut()
+
+    populateFields()
+
+    expect(screen.getByRole('button')).toBeEnabled()
   })
 })
