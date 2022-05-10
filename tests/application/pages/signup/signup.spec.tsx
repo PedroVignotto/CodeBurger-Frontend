@@ -106,4 +106,14 @@ describe('SignUp', () => {
 
     expect(addAccount).toHaveBeenCalledTimes(1)
   })
+
+  it('Should not call AddAccount if form is invalid', () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce(error)
+
+    populateFields()
+    fireEvent.submit(screen.getByTestId('form'))
+
+    expect(addAccount).not.toHaveBeenCalled()
+  })
 })
