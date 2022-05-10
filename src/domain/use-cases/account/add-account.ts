@@ -12,7 +12,7 @@ export const addAccountUseCase: Setup = (url, httpClient) => async (input) => {
 
   switch (statusCode) {
     case 201: return data!
-    case 403: throw new FieldInUseError('email')
+    case 400: throw new FieldInUseError('email')
     default: throw new UnexpectedError()
   }
 }
