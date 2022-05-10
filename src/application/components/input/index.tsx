@@ -15,6 +15,7 @@ export const Input: React.FC<Props> = ({ state, setState, name, placeholder, ...
         title={state}
         placeholder=" "
         id={name}
+        autoComplete="off"
         onChange={e => { setState(e.target.value) }}
       />
       <label htmlFor={name} title={state}>{placeholder}</label>
