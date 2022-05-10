@@ -10,9 +10,10 @@ describe('SignUp', () => {
   const { name, email, password, passwordConfirmation, error } = accountParams
 
   const validator = mock<Validator>()
+  const addAccount: jest.Mock = jest.fn()
 
   const makeSut = (): void => {
-    render(<SignUp validation={validator} />)
+    render(<SignUp validation={validator} addAccount={addAccount} />)
   }
 
   const populateFields = (): void => {
@@ -85,5 +86,14 @@ describe('SignUp', () => {
     await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.queryByRole('button', { name: /Cadastre-se/i })).not.toBeInTheDocument()
+  })
+
+  it('Should call AddAccount with correct values', async () => {
+    makeSut()
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(addAccount).toHaveBeenCalledWith({ name, email, password })
   })
 })
