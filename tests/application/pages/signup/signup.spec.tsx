@@ -153,4 +153,13 @@ describe('SignUp', () => {
     expect(setCurrentAccountMock).toHaveBeenCalledWith({ name, accessToken })
     expect(window.location.pathname).toBe('/')
   })
+
+  it('Should go to login page', async () => {
+    makeSut()
+
+    fireEvent.click(screen.getByRole('link'))
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(window.location.pathname).toBe('/login')
+  })
 })
