@@ -80,4 +80,12 @@ describe('Signup', () => {
 
     cy.get('@request.all').should('have.length', 1)
   })
+
+  it('Should not call submit if form is invalid', () => {
+    mockCreated('POST', /signup/, { name, accessToken })
+
+    cy.getInputById('email').focus().type(validEmail).type('{enter}')
+
+    cy.get('@request.all').should('have.length', 0)
+  })
 })
