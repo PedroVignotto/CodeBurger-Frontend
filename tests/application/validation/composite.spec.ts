@@ -35,7 +35,7 @@ describe('ValidationComposite', () => {
   })
 
   it('Should return undefined if all Validators return undefined', () => {
-    const error = sut.validate(fieldName, fieldValue)
+    const error = sut.validate(fieldName, { [fieldName]: fieldValue })
 
     expect(error).toBeUndefined()
   })
@@ -44,7 +44,7 @@ describe('ValidationComposite', () => {
     validator1.validate.mockReturnValueOnce(error1)
     validator2.validate.mockReturnValueOnce(error2)
 
-    const error = sut.validate(fieldName, fieldValue)
+    const error = sut.validate(fieldName, { [fieldName]: fieldValue })
 
     expect(error).toEqual(error1.message)
   })

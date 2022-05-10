@@ -58,8 +58,8 @@ describe('Login', () => {
 
     populateFields()
 
-    expect(validator.validate).toHaveBeenCalledWith('email', email)
-    expect(validator.validate).toHaveBeenCalledWith('password', password)
+    expect(validator.validate).toHaveBeenCalledWith('email', { email })
+    expect(validator.validate).toHaveBeenCalledWith('password', { password })
   })
 
   it('Should show error if Validation fails', () => {

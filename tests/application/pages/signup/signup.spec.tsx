@@ -59,10 +59,10 @@ describe('SignUp', () => {
 
     populateFields()
 
-    expect(validator.validate).toHaveBeenCalledWith('name', name)
-    expect(validator.validate).toHaveBeenCalledWith('email', email)
-    expect(validator.validate).toHaveBeenCalledWith('password', password)
-    expect(validator.validate).toHaveBeenCalledWith('passwordConfirmation', passwordConfirmation)
+    expect(validator.validate).toHaveBeenCalledWith('name', { name })
+    expect(validator.validate).toHaveBeenCalledWith('email', { email })
+    expect(validator.validate).toHaveBeenCalledWith('password', { password })
+    expect(validator.validate).toHaveBeenCalledWith('passwordConfirmation', { password, passwordConfirmation })
   })
 
   it('Should show error if Validation fails', () => {

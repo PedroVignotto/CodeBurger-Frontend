@@ -1,4 +1,4 @@
-import { EmailValidation, FieldValidation, RequiredValidation } from '@/application/validation'
+import { CompareValidation, EmailValidation, FieldValidation, RequiredValidation } from '@/application/validation'
 
 export class ValidationBuilder {
   private constructor (
@@ -18,6 +18,12 @@ export class ValidationBuilder {
 
   email (): ValidationBuilder {
     this.validations.push(new EmailValidation(this.fieldName))
+
+    return this
+  }
+
+  sameAs (fieldToCompare: string): ValidationBuilder {
+    this.validations.push(new CompareValidation(this.fieldName, fieldToCompare))
 
     return this
   }

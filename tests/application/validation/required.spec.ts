@@ -15,7 +15,7 @@ describe('RequiredValidation', () => {
   it('Should return error if field is empty', () => {
     const sut = new RequiredValidation(fieldName)
 
-    const error = sut.validate('')
+    const error = sut.validate({ [fieldName]: '' })
 
     expect(error).toEqual(new RequiredFieldError())
   })
@@ -23,7 +23,7 @@ describe('RequiredValidation', () => {
   it('Should return falsy if field is not empty', () => {
     const sut = new RequiredValidation(fieldName)
 
-    const error = sut.validate(value)
+    const error = sut.validate({ [fieldName]: value })
 
     expect(error).toBeFalsy()
   })

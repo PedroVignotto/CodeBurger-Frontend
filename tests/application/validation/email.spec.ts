@@ -17,7 +17,7 @@ describe('EmailValidation', () => {
   it('Should return error if email is invalid', () => {
     const sut = new EmailValidation(fieldName)
 
-    const error = sut.validate(invalidEmail)
+    const error = sut.validate({ [fieldName]: invalidEmail })
 
     expect(error).toEqual(new InvalidFieldError())
   })
@@ -25,7 +25,7 @@ describe('EmailValidation', () => {
   it('Should return falsy if email is valid', () => {
     const sut = new EmailValidation(fieldName)
 
-    const error = sut.validate(validEmail)
+    const error = sut.validate({ [fieldName]: validEmail })
 
     expect(error).toBeFalsy()
   })
@@ -33,7 +33,7 @@ describe('EmailValidation', () => {
   it('Should return falsy if email is empty', () => {
     const sut = new EmailValidation(fieldName)
 
-    const error = sut.validate(undefined as any)
+    const error = sut.validate({ [fieldName]: undefined })
 
     expect(error).toBeFalsy()
   })

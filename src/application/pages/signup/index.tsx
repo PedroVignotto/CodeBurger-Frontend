@@ -26,10 +26,10 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [passwordConfirmationError, setPasswordConfirmationError] = useState<string | undefined>('')
 
-  useEffect(() => setNameError(validation.validate('name', name)), [name])
-  useEffect(() => setEmailError(validation.validate('email', email)), [email])
-  useEffect(() => setPasswordError(validation.validate('password', password)), [password])
-  useEffect(() => setPasswordConfirmationError(validation.validate('passwordConfirmation', passwordConfirmation)), [passwordConfirmation])
+  useEffect(() => setNameError(validation.validate('name', { name })), [name])
+  useEffect(() => setEmailError(validation.validate('email', { email })), [email])
+  useEffect(() => setPasswordError(validation.validate('password', { password })), [password])
+  useEffect(() => setPasswordConfirmationError(validation.validate('passwordConfirmation', { password, passwordConfirmation })), [passwordConfirmation])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
