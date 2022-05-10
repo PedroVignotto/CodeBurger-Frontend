@@ -2,7 +2,7 @@ import { accountParams, populateField } from '@/tests/mocks'
 import { SignUp } from '@/application/pages'
 import { Validator } from '@/application/validation'
 
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { mock } from 'jest-mock-extended'
 import React from 'react'
 
@@ -20,6 +20,11 @@ describe('SignUp', () => {
     populateField('Email', email)
     populateField('Senha', password)
     populateField('Confirmar senha', passwordConfirmation)
+  }
+
+  const simulateSubmit = (): void => {
+    populateFields()
+    fireEvent.click(screen.getByRole('button'))
   }
 
   it('Should load with correct initial state', () => {
@@ -71,5 +76,14 @@ describe('SignUp', () => {
     populateFields()
 
     expect(screen.getByRole('button')).toBeEnabled()
+  })
+
+  it('Should show spinner on submit', async () => {
+    makeSut()
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(screen.queryByRole('button', { name: /Cadastre-se/i })).not.toBeInTheDocument()
   })
 })
