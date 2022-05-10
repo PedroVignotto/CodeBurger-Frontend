@@ -9,8 +9,7 @@ import React, { useEffect, useState } from 'react'
 type Props = { validation: Validator }
 
 export const SignUp: React.FC<Props> = ({ validation }) => {
-  const loading = false
-
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState<string | undefined>('')
   const [email, setEmail] = useState('')
@@ -21,12 +20,15 @@ export const SignUp: React.FC<Props> = ({ validation }) => {
   const [passwordConfirmationError, setPasswordConfirmationError] = useState<string | undefined>('')
 
   useEffect(() => setNameError(validation.validate('name', name)), [name])
-
   useEffect(() => setEmailError(validation.validate('email', email)), [email])
-
   useEffect(() => setPasswordError(validation.validate('password', password)), [password])
-
   useEffect(() => setPasswordConfirmationError(validation.validate('passwordConfirmation', passwordConfirmation)), [passwordConfirmation])
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+
+    setLoading(true)
+  }
 
   return (
     <Container>
@@ -35,7 +37,7 @@ export const SignUp: React.FC<Props> = ({ validation }) => {
       </aside>
       <ContentWrap>
           <img src={logo} alt="Code-burguer" />
-          <form>
+          <form data-testid="form" onSubmit={handleSubmit}>
             <Input type="text" name="name" placeholder="Nome" state={nameError} setState={setName} />
             <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
             <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
