@@ -1,4 +1,4 @@
-import { mockBadRequestError, mockServerError } from '../mocks'
+import { mockBadRequestError, mockCreated, mockServerError } from '../mocks'
 
 import faker from 'faker'
 
@@ -8,6 +8,7 @@ describe('Signup', () => {
   const password: string = faker.internet.password(8)
   const invalidPasswordConfirmation: string = faker.internet.password(16)
   const name: string = faker.name.findName()
+  const accessToken: string = faker.datatype.uuid()
 
   beforeEach(() => {
     cy.visit('signup')
@@ -69,5 +70,14 @@ describe('Signup', () => {
 
     cy.contains('Algo deu errado. Tente novamente!')
     cy.getUrl('/signup')
+  })
+
+  it('Should store account on localStorage if valid credentials are provided', () => {
+    mockCreated('POST', /signup/, { name, accessToken })
+
+    simulateSubmit()
+
+    cy.getUrl('/')
+    cy.getLocalStorageItem('account')
   })
 })

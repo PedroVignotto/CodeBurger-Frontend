@@ -1,5 +1,19 @@
 import faker from 'faker'
 
+export const mockOk = (method: string, url: RegExp, response: any): void => {
+  cy.intercept(
+    { method, url },
+    { delay: 50, statusCode: 200, response }
+  ).as('request')
+}
+
+export const mockCreated = (method: string, url: RegExp, response: any): void => {
+  cy.intercept(
+    { method, url },
+    { delay: 50, statusCode: 201, response }
+  ).as('request')
+}
+
 export const mockBadRequestError = (method: string, url: RegExp): void => {
   cy.intercept(
     { method, url },
@@ -18,12 +32,5 @@ export const mockServerError = (method: string, url: RegExp): void => {
   cy.intercept(
     { method, url },
     { delay: 50, statusCode: 500, body: { error: faker.random.words() } }
-  ).as('request')
-}
-
-export const mockOk = (method: string, url: RegExp, response: any): void => {
-  cy.intercept(
-    { method, url },
-    { delay: 50, statusCode: 200, response }
   ).as('request')
 }
