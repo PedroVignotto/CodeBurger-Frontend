@@ -1,3 +1,5 @@
+import { mockBadRequestError } from '../mocks'
+
 import faker from 'faker'
 
 describe('Signup', () => {
@@ -18,6 +20,11 @@ describe('Signup', () => {
     cy.getInputById('passwordConfirmation').focus().type(passwordConfirmation)
   }
 
+  const simulateSubmit = (): void => {
+    populateFields()
+    cy.getSubmitButton().click()
+  }
+
   it('Should load with correct initial state', () => {
     cy.getSubmitButton().should('be.disabled').should('have.text', 'Cadastre-se')
   })
@@ -34,5 +41,15 @@ describe('Signup', () => {
     populateFields()
 
     cy.getSubmitButton().should('be.enabled')
+  })
+
+  it('Should show spinner on submit button click', () => {
+    mockBadRequestError('POST', /signup/)
+
+    simulateSubmit()
+
+    cy.getSubmitButton().should('not.have.text', 'Cadastre-se')
+    cy.wait('@request')
+    cy.getSubmitButton().should('have.text', 'Cadastre-se')
   })
 })
