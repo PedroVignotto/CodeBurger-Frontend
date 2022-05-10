@@ -20,7 +20,7 @@ export const SignUp: React.FC = () => {
             <Input type="text" name="email" placeholder="Email" state={''} setState={''} />
             <Input type="password" name="password" placeholder="Senha" state={''} setState={''} />
             <Input type="password" name="passwordConfirmation" placeholder="Confirmar senha" state={''} setState={''} />
-            <button type="submit">{ loading ? <Spinner /> : 'Cadastre-se' }</button>
+            <button type="submit" disabled={true}>{ loading ? <Spinner /> : 'Cadastre-se' }</button>
           </form>
           <a href="#">Já tem uma conta? <span>Entre!</span></a>
       </ContentWrap>
