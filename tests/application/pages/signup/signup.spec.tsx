@@ -1,8 +1,10 @@
 import { accountParams, populateField } from '@/tests/mocks'
 import { SignUp } from '@/application/pages'
 import { Validator } from '@/application/validation'
+import { FieldInUseError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { ToastContainer } from 'react-toastify'
 import { mock } from 'jest-mock-extended'
 import React from 'react'
 
@@ -13,7 +15,7 @@ describe('SignUp', () => {
   const addAccount: jest.Mock = jest.fn()
 
   const makeSut = (): void => {
-    render(<SignUp validation={validator} addAccount={addAccount} />)
+    render(<><ToastContainer/><SignUp validation={validator} addAccount={addAccount} /></>)
   }
 
   const populateFields = (): void => {
@@ -115,5 +117,15 @@ describe('SignUp', () => {
     fireEvent.submit(screen.getByTestId('form'))
 
     expect(addAccount).not.toHaveBeenCalled()
+  })
+
+  it('Should show alert error if AddAccount fails', async () => {
+    makeSut()
+    addAccount.mockRejectedValueOnce(new FieldInUseError('email'))
+
+    simulateSubmit()
+
+    expect(await screen.findByText(new FieldInUseError('email').message)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Cadastre-se/i })).toBeInTheDocument()
   })
 })
