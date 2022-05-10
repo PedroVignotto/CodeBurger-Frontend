@@ -1,14 +1,15 @@
 import { signup, logo } from '@/application/assets'
 import { Input, Spinner } from '@/application/components'
 import { Validator } from '@/application/validation'
+import { AddAccount } from '@/domain/use-cases/account'
 
 import { Container, ContentWrap } from './styles'
 
 import React, { useEffect, useState } from 'react'
 
-type Props = { validation: Validator }
+type Props = { validation: Validator, addAccount: AddAccount }
 
-export const SignUp: React.FC<Props> = ({ validation }) => {
+export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState<string | undefined>('')
@@ -28,6 +29,8 @@ export const SignUp: React.FC<Props> = ({ validation }) => {
     event.preventDefault()
 
     setLoading(true)
+
+    await addAccount({ name, email, password })
   }
 
   return (
