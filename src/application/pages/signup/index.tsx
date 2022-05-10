@@ -7,7 +7,7 @@ import { AddAccount } from '@/domain/use-cases/account'
 import { Container, ContentWrap } from './styles'
 
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import React, { useContext, useEffect, useState } from 'react'
 
 type Props = { validation: Validator, addAccount: AddAccount }
@@ -67,7 +67,7 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
               { loading ? <Spinner /> : 'Cadastre-se' }
             </button>
           </form>
-          <a href="#">Já tem uma conta? <span>Entre!</span></a>
+          <Link to="/login">Já tem uma conta? <span>Entre!</span></Link>
       </ContentWrap>
     </Container>
   )
