@@ -39,7 +39,7 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
 
       setLoading(true)
 
-      const account = await addAccount({ name, email, password })
+      const account = await addAccount({ name, email, password, passwordConfirmation })
 
       setCurrentAccount(account)
 

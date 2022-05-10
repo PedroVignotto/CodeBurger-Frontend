@@ -3,7 +3,7 @@ import { FieldInUseError, UnexpectedError } from '@/domain/errors'
 import { Account } from '@/domain/models'
 
 type Setup = (url: string, httpClient: HttpClient<Account>) => AddAccount
-type Input = { name: string, email: string, password: string }
+type Input = { name: string, email: string, password: string, passwordConfirmation: string }
 type Output = Account
 export type AddAccount = (input: Input) => Promise<Output>
 
