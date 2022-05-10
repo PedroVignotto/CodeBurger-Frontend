@@ -29,4 +29,10 @@ describe('Signup', () => {
     cy.getInputById('passwordConfirmation').should('have.attr', 'title', 'Valor inválido')
     cy.getSubmitButton().should('be.disabled')
   })
+
+  it('Should enable the button if form is valid', () => {
+    populateFields()
+
+    cy.getSubmitButton().should('be.enabled')
+  })
 })
