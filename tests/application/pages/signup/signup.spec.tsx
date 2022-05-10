@@ -1,21 +1,31 @@
 import { accountParams, populateField } from '@/tests/mocks'
 import { SignUp } from '@/application/pages'
 import { Validator } from '@/application/validation'
+import { AccountContext } from '@/application/contexts'
 import { FieldInUseError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { mock } from 'jest-mock-extended'
 import React from 'react'
 
 describe('SignUp', () => {
-  const { name, email, password, passwordConfirmation, error } = accountParams
+  const { name, email, password, passwordConfirmation, accessToken, error } = accountParams
 
   const validator = mock<Validator>()
   const addAccount: jest.Mock = jest.fn()
+  const setCurrentAccountMock: jest.Mock = jest.fn()
 
   const makeSut = (): void => {
-    render(<><ToastContainer/><SignUp validation={validator} addAccount={addAccount} /></>)
+    render(
+      <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+        <BrowserRouter>
+          <ToastContainer/>
+          <SignUp validation={validator} addAccount={addAccount} />
+        </BrowserRouter>
+      </AccountContext.Provider>
+    )
   }
 
   const populateFields = (): void => {
@@ -29,6 +39,11 @@ describe('SignUp', () => {
     populateFields()
     fireEvent.click(screen.getByRole('button'))
   }
+
+  beforeAll(() => {
+    validator.validate.mockReturnValue('')
+    addAccount.mockReturnValue({ name, accessToken })
+  })
 
   it('Should load with correct initial state', () => {
     validator.validate.mockReturnValueOnce(error)
@@ -127,5 +142,15 @@ describe('SignUp', () => {
 
     expect(await screen.findByText(new FieldInUseError('email').message)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Cadastre-se/i })).toBeInTheDocument()
+  })
+
+  it('Should save account data on localstorage and go to home page', async () => {
+    makeSut()
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith({ name, accessToken })
+    expect(window.location.pathname).toBe('/')
   })
 })
