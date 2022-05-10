@@ -40,20 +40,11 @@ describe('Login', () => {
     cy.getSubmitButton().should('be.enabled')
   })
 
-  it('Should show spinner on submit button click', () => {
-    mockBadRequestError('POST', /login/)
-
-    simulateSubmit()
-
-    cy.getSubmitButton().should('not.have.text', 'Entrar')
-    cy.wait('@request')
-    cy.getSubmitButton().should('have.text', 'Entrar')
-  })
-
   it('Should present UnexpectedError on 400', () => {
     mockBadRequestError('POST', /login/)
 
     simulateSubmit()
+    cy.wait('@request')
 
     cy.contains('Algo deu errado. Tente novamente!')
     cy.getUrl('/login')
@@ -63,6 +54,7 @@ describe('Login', () => {
     mockUnauthorizedError('POST', /login/)
 
     simulateSubmit()
+    cy.wait('@request')
 
     cy.contains('Credenciais inválidas')
     cy.getUrl('/login')
@@ -72,6 +64,7 @@ describe('Login', () => {
     mockServerError('POST', /login/)
 
     simulateSubmit()
+    cy.wait('@request')
 
     cy.contains('Algo deu errado. Tente novamente!')
     cy.getUrl('/login')
@@ -81,6 +74,7 @@ describe('Login', () => {
     mockOk('POST', /login/, { name, accessToken })
 
     simulateSubmit()
+    cy.wait('@request')
 
     cy.getUrl('/')
     cy.getLocalStorageItem('account')
@@ -90,7 +84,7 @@ describe('Login', () => {
     mockOk('POST', /login/, { name, accessToken })
 
     populateFields()
-    cy.getSubmitButton().click()
+    cy.getSubmitButton().dblclick()
     cy.wait('@request')
 
     cy.get('@request.all').should('have.length', 1)

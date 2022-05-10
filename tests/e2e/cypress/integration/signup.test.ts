@@ -44,16 +44,6 @@ describe('Signup', () => {
     cy.getSubmitButton().should('be.enabled')
   })
 
-  it('Should show spinner on submit button click', () => {
-    mockBadRequestError('POST', /signup/)
-
-    simulateSubmit()
-
-    cy.getSubmitButton().should('not.have.text', 'Cadastre-se')
-    cy.wait('@request')
-    cy.getSubmitButton().should('have.text', 'Cadastre-se')
-  })
-
   it('Should present FieldInUseError on 400', () => {
     mockBadRequestError('POST', /signup/)
 
