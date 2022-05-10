@@ -8,7 +8,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { ToastContainer } from 'react-toastify'
 import { mock } from 'jest-mock-extended'
 import { BrowserRouter } from 'react-router-dom'
-import 'jest-localstorage-mock'
 import React from 'react'
 
 describe('Login', () => {
@@ -49,7 +48,7 @@ describe('Login', () => {
 
     makeSut()
 
-    expect(screen.getByText('Login')).toBeTruthy()
+    expect(screen.getByText('Entrar')).toBeTruthy()
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
@@ -95,7 +94,7 @@ describe('Login', () => {
     simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
-    expect(screen.queryByRole('button', { name: /login/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Entrar/i })).not.toBeInTheDocument()
   })
 
   it('Should call Authentication with correct values', async () => {
@@ -134,7 +133,7 @@ describe('Login', () => {
     simulateSubmit()
 
     expect(await screen.findByText(new InvalidCredentialsError().message)).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /login/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Entrar/i })).toBeInTheDocument()
   })
 
   it('Should save account data on localstorage and go to home page', async () => {

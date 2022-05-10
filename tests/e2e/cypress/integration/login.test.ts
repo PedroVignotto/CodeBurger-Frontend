@@ -24,27 +24,29 @@ describe('Login', () => {
   }
 
   it('Should load with correct initial state', () => {
-    cy.getSubmitButton().should('be.disabled').should('have.text', 'Login')
+    cy.getSubmitButton().should('be.disabled').should('have.text', 'Entrar')
   })
 
   it('Should keep the button disabled if form is invalid', () => {
     populateFields(invalidEmail)
 
     cy.getInputById('email').should('have.attr', 'title', 'Valor inválido')
-    cy.getSubmitButton().should('be.disabled').should('have.text', 'Login')
+    cy.getSubmitButton().should('be.disabled')
   })
 
   it('Should enable the button if form is valid', () => {
     populateFields()
 
-    cy.getSubmitButton().should('be.enabled').should('have.text', 'Login')
+    cy.getSubmitButton().should('be.enabled')
   })
 
   it('Should show spinner on submit button click', () => {
+    mockBadRequestError('POST', /login/)
+
     simulateSubmit()
 
-    cy.getSubmitButton().should('not.have.text', 'Login')
-    cy.getSubmitButton().should('have.text', 'Login')
+    cy.getSubmitButton().should('not.have.text', 'Entrar')
+    cy.getSubmitButton().should('have.text', 'Entrar')
   })
 
   it('Should present UnexpectedError on 400', () => {
