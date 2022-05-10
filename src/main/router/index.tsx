@@ -1,4 +1,5 @@
 import { setCurrentAccountAdapter } from '@/main/adapters'
+import { SignUp } from '@/application/pages/signup'
 import { GlobalStyle } from '@/application/styles'
 import { AccountContext } from '@/application/contexts'
 
@@ -18,6 +19,7 @@ export const Router: React.FC<Props> = ({ MakeLogin }) => {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<MakeLogin />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </AccountContext.Provider>
