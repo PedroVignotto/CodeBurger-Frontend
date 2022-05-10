@@ -51,4 +51,15 @@ describe('SignUp', () => {
     expect(screen.getByLabelText('Senha')).toHaveProperty('title', error)
     expect(screen.getByLabelText('Confirmar senha')).toHaveProperty('title', error)
   })
+
+  it('Should show valid input states if Validation succeeds', () => {
+    makeSut()
+
+    populateField('Email', email)
+
+    expect(screen.getByLabelText('Nome')).toHaveProperty('title', '')
+    expect(screen.getByLabelText('Email')).toHaveProperty('title', '')
+    expect(screen.getByLabelText('Senha')).toHaveProperty('title', '')
+    expect(screen.getByLabelText('Confirmar senha')).toHaveProperty('title', '')
+  })
 })
