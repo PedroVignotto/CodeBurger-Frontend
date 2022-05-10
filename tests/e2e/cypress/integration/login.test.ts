@@ -46,6 +46,7 @@ describe('Login', () => {
     simulateSubmit()
 
     cy.getSubmitButton().should('not.have.text', 'Entrar')
+    cy.wait('@request')
     cy.getSubmitButton().should('have.text', 'Entrar')
   })
 
