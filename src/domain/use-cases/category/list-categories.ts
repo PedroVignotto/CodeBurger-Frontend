@@ -3,14 +3,14 @@ import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { Category } from '@/domain/models'
 
 type Setup = (url: string, httpClient: HttpClient<Category>) => ListCategories
-type Output = void
+type Output = Category
 export type ListCategories = () => Promise<Output>
 
 export const listCategoriesUseCase: Setup = (url, httpClient) => async () => {
-  const { statusCode } = await httpClient.request({ url, method: 'get' })
+  const { statusCode, data } = await httpClient.request({ url, method: 'get' })
 
   switch (statusCode) {
-    case 200: break
+    case 200: return data!
     case 401: throw new AccessDeniedError()
     default: throw new UnexpectedError()
   }
