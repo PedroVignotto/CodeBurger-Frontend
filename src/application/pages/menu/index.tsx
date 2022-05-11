@@ -1,9 +1,8 @@
 import { chicken, sorvete } from '@/application/assets'
-import { Header, IconButton } from '@/application/components'
+import { Footer, Header } from '@/application/components'
 
 import { Container, Content, Category, Product } from './styles'
 
-import { FiInstagram, FiTwitter, FiYoutube } from 'react-icons/fi'
 import faker from 'faker'
 import React from 'react'
 
@@ -56,14 +55,7 @@ export const Menu: React.FC = () => {
         </Category>
       </Content>
 
-      <footer>
-        <span>© 2022 Code Burger</span>
-        <div>
-          <IconButton><FiInstagram /></IconButton>
-          <IconButton><FiTwitter /></IconButton>
-          <IconButton><FiYoutube /></IconButton>
-        </div>
-      </footer>
+      <Footer />
     </Container>
   )
 }
