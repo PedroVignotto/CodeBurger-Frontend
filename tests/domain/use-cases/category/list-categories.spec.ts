@@ -1,7 +1,7 @@
 import { httpClientParams } from '@/tests/mocks'
 import { ListCategories, listCategoriesUseCase } from '@/domain/use-cases/category'
 import { HttpClient } from '@/domain/contracts/http'
-import { AccessDeniedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 
 import { mock } from 'jest-mock-extended'
 
@@ -33,5 +33,13 @@ describe('ListCategoriesUseCase', () => {
     const promise = sut()
 
     await expect(promise).rejects.toThrow(new AccessDeniedError())
+  })
+
+  it('Should throw UnexpectedError if HttpClient returns 500', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
+
+    const promise = sut()
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
