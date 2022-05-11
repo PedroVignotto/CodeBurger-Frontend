@@ -1,6 +1,13 @@
 import { colors } from '@/application/styles'
 
-import styled from 'styled-components'
+import { lighten } from 'polished'
+import styled, { keyframes } from 'styled-components'
+
+const shimmer = keyframes`
+  100% {
+    transform: translateX(100%);
+  }
+`
 
 export const Container = styled.div`
   display: flex;
@@ -19,11 +26,6 @@ export const Content = styled.div`
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
-
-  img {
-    object-fit: cover;
-    border-radius: 2px;
-  }
 
   h2 {
     font-weight: 700;
@@ -48,7 +50,11 @@ export const Content = styled.div`
   }
 `
 
-export const Category = styled.section`
+export const Category = styled.div`
+  + div {
+    margin-top: 1rem;
+  }
+
   h3 {
     font-weight: 500;
     font-size: 1.75rem;
@@ -62,10 +68,6 @@ export const Category = styled.section`
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-
-  + section {
-    margin-top: 1rem;
-  }
 `
 
 export const Product = styled.li`
@@ -75,6 +77,11 @@ export const Product = styled.li`
   height: 150px;
   border-radius: 2px;
   cursor: pointer;
+
+  img {
+    object-fit: cover;
+    border-radius: 2px;
+  }
 
   aside {
     display: flex;
@@ -113,5 +120,45 @@ export const Product = styled.li`
     -webkit-transform: scale(1.01);
     transform: scale(1.01);
     transition: 0.2s;
+  }
+
+  &:empty {
+    position: relative;
+    overflow: hidden;
+    background: no-repeat;
+    background-image:
+      linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
+      linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
+      linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
+      linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
+      linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
+      linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight});
+    background-position:
+      left 1rem top 1rem,
+      right 1rem bottom 1rem,
+      left 146px top 1rem,
+      left 146px top 2.5rem,
+      left 146px top 3.5rem,
+      left 146px top 4.5rem;
+    background-size:
+      112px 116px,
+      80px 1.25rem,
+      40% 1.25rem,
+      65% 0.875rem,
+      70% 0.875rem,
+      30% 0.875rem;
+
+    :after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      background-image:
+        linear-gradient(to right, transparent, ${lighten(0.05, colors.white)}, transparent);
+      animation: ${shimmer} 1s infinite;
+    }
   }
 `

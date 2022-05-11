@@ -51,6 +51,7 @@ export const Menu: React.FC = () => {
                 <span>R$ {faker.datatype.float({ max: 100 })}</span>
               </aside>
             </Product>
+            <Product />
           </ul>
         </Category>
       </Content>
