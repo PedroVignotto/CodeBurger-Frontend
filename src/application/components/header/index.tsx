@@ -1,6 +1,7 @@
 import { logoHeader } from '@/application/assets'
+import { IconButton } from '@/application/components'
 
-import { Button, CartCount, Container, Link } from './styles'
+import { CartCount, Container, Link } from './styles'
 
 import { FiShoppingCart, FiUser } from 'react-icons/fi'
 import React from 'react'
@@ -15,13 +16,15 @@ export const Header: React.FC = () => {
         <Link to="/signup">Pedidos</Link>
       </nav>
       <div>
-        <Button>
-          <FiShoppingCart />
-          <CartCount>{1}</CartCount>
-        </Button>
-        <Button>
+        <IconButton>
+          <>
+            <FiShoppingCart />
+            <CartCount>{1}</CartCount>
+          </>
+        </IconButton>
+        <IconButton>
           <FiUser />
-        </Button>
+        </IconButton>
       </div>
     </Container>
   )

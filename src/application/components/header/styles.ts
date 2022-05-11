@@ -1,6 +1,5 @@
 import { colors } from '@/application/styles'
 
-import { lighten } from 'polished'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -39,6 +38,14 @@ export const Container = styled.header`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    > button {
+      position: relative;
+
+        + button {
+        margin-left: 0.75rem;
+      }
+    }
   }
 `
 
@@ -56,32 +63,6 @@ export const Link = styled(NavLink)`
     :hover::after {
       width: 1.5rem;
     }
-  }
-`
-
-export const Button = styled.button`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border-radius: 100%;
-  width: 2rem;
-  height: 2rem;
-  transition: 0.4s;
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: ${colors.white}
-  }
-
-  + button {
-    margin-left: 0.75rem;
-  }
-
-  :hover {
-    background: ${lighten(0.1, colors.black)};
   }
 `
 

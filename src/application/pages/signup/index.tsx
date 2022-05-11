@@ -1,5 +1,5 @@
 import { signup, logo } from '@/application/assets'
-import { Input, Spinner } from '@/application/components'
+import { Input, Spinner, SubmitButton } from '@/application/components'
 import { Validator } from '@/application/validation'
 import { AccountContext } from '@/application/contexts'
 import { AddAccount } from '@/domain/use-cases/account'
@@ -57,17 +57,17 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
         <img src={signup} alt="Signup" />
       </aside>
       <ContentWrap>
-          <img src={logo} alt="Code-burguer" />
-          <form data-testid="form" onSubmit={handleSubmit}>
-            <Input type="text" name="name" placeholder="Nome" state={nameError} setState={setName} />
-            <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
-            <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
-            <Input type="password" name="passwordConfirmation" placeholder="Confirmar senha" state={passwordConfirmationError} setState={setPasswordConfirmation} />
-            <button type="submit" disabled={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError}>
-              { loading ? <Spinner /> : 'Cadastre-se' }
-            </button>
-          </form>
-          <Link to="/login">Já tem uma conta? <span>Entre!</span></Link>
+        <img src={logo} alt="Code-burguer" />
+        <form data-testid="form" onSubmit={handleSubmit}>
+          <Input type="text" name="name" placeholder="Nome" state={nameError} setState={setName} />
+          <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
+          <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
+          <Input type="password" name="passwordConfirmation" placeholder="Confirmar senha" state={passwordConfirmationError} setState={setPasswordConfirmation} />
+          <SubmitButton disabled={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError}>
+            { loading ? <Spinner /> : 'Cadastre-se' }
+          </SubmitButton>
+        </form>
+        <Link to="/login">Já tem uma conta? <span>Entre!</span></Link>
       </ContentWrap>
     </Container>
   )
