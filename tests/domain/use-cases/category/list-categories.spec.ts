@@ -1,4 +1,4 @@
-import { httpClientParams } from '@/tests/mocks'
+import { categoryParams, httpClientParams, productParams } from '@/tests/mocks'
 import { ListCategories, listCategoriesUseCase } from '@/domain/use-cases/category'
 import { HttpClient } from '@/domain/contracts/http'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
@@ -8,12 +8,13 @@ import { mock } from 'jest-mock-extended'
 describe('ListCategoriesUseCase', () => {
   let sut: ListCategories
 
+  const { id, name } = categoryParams
   const { url } = httpClientParams
 
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200, data: [] })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: [{ id, name, products: productParams }] })
   })
 
   beforeEach(() => {
@@ -41,5 +42,11 @@ describe('ListCategoriesUseCase', () => {
     const promise = sut()
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('Should return category data if HttpClient returns 200', async () => {
+    const result = await sut()
+
+    expect(result).toEqual([{ id, name, products: productParams }])
   })
 })

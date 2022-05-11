@@ -1,3 +1,5 @@
 export * from './account-params'
 export * from './http-client-params'
 export * from './populate-field'
+export * from './category-params'
+export * from './product-params'
