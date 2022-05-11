@@ -1,5 +1,5 @@
 import { HttpClient } from '@/domain/contracts/http'
-import { AccessDeniedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { Category } from '@/domain/models'
 
 type Setup = (url: string, httpClient: HttpClient<Category>) => ListCategories
@@ -11,6 +11,7 @@ export const listCategoriesUseCase: Setup = (url, httpClient) => async () => {
 
   switch (statusCode) {
     case 200: break
-    default: throw new AccessDeniedError()
+    case 401: throw new AccessDeniedError()
+    default: throw new UnexpectedError()
   }
 }
