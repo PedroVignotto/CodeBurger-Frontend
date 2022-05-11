@@ -1,29 +1,16 @@
-import { logoHeader, chicken, sorvete } from '@/application/assets'
+import { chicken, sorvete } from '@/application/assets'
+import { Header } from '@/application/components'
 
-import { Button, Container, CartCount, Link, Content, Category, Product } from './styles'
+import { Button, Container, Content, Category, Product } from './styles'
 
-import { FiInstagram, FiShoppingCart, FiTwitter, FiUser, FiYoutube } from 'react-icons/fi'
+import { FiInstagram, FiTwitter, FiYoutube } from 'react-icons/fi'
 import faker from 'faker'
 import React from 'react'
 
 export const Menu: React.FC = () => {
   return (
     <Container>
-      <header>
-        <img src={logoHeader} alt="Code-burguer" />
-        <nav>
-          <Link to="/login">Home</Link>
-          <Link to="/">Cardápio</Link>
-          <Link to="/signup">Pedidos</Link>
-        </nav>
-        <div>
-          <Button>
-            <FiShoppingCart />
-            <CartCount>{1}</CartCount>
-          </Button>
-          <Button><FiUser /></Button>
-        </div>
-      </header>
+      <Header />
 
       <Content>
         <h2>Cardápio</h2>
