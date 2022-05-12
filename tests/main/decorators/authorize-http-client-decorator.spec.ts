@@ -9,13 +9,14 @@ describe('AuthorizeHttpClientDecorator', () => {
   let sut: AuthorizeHttpClientDecorator
 
   const { name, accessToken } = accountParams
-  const { url, method, body, headers } = httpClientParams
+  const { url, method, body, headers, statusCode, data } = httpClientParams
 
   const getStorage = mock<GetStorage>()
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
     getStorage.get.mockReturnValue({ name, accessToken })
+    httpClient.request.mockResolvedValue({ statusCode, data })
   })
 
   beforeEach(() => {
@@ -46,5 +47,11 @@ describe('AuthorizeHttpClientDecorator', () => {
     await sut.request({ url, method, headers: { field: 'any_field' } })
 
     expect(httpClient.request).toHaveBeenCalledWith({ url, method, headers: { field: 'any_field', authorization: `Bearer: ${accessToken}` } })
+  })
+
+  it('Should return the same result as HttpClient', async () => {
+    const result = await sut.request({ url, method, body, headers })
+
+    expect(result).toEqual({ statusCode, data })
   })
 })
