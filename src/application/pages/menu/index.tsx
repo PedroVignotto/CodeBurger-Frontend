@@ -1,4 +1,4 @@
-import { Footer, Header } from '@/application/components'
+import { Error, Footer, Header } from '@/application/components'
 import { Categories } from '@/application/pages/menu/categories'
 import { ListCategories } from '@/domain/use-cases/category'
 import { Category } from '@/domain/models'
@@ -25,13 +25,7 @@ export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
 
       <Content>
         <h2>Cardápio</h2>
-        <button>Olá</button>
-          {error
-            ? <div>
-                <span>{error}</span>
-                <button>Tentar novamente!</button>
-              </div>
-            : <Categories categories={categories} />}
+        {error ? <Error error={error} /> : <Categories categories={categories} />}
       </Content>
 
       <Footer />
