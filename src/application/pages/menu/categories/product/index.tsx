@@ -1,4 +1,3 @@
-import { chicken } from '@/application/assets'
 import { Product } from '@/domain/models'
 
 import { Container } from './styles'
@@ -12,7 +11,7 @@ export const Products: React.FC<Props> = ({ products }: Props) => {
     <>
       {products.map(product =>
         <Container key={product.id}>
-          {product.picture && <img src={chicken} alt={product.name} />}
+          {product.picture && <img src={product.picture} alt={product.name} />}
           <aside>
             <div>
               <h4>{product.name}</h4>
