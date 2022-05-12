@@ -16,10 +16,11 @@ describe('Login', () => {
   const validator = mock<Validator>()
   const authentication: jest.Mock = jest.fn()
   const setCurrentAccountMock: jest.Mock = jest.fn()
+  const getCurrentAccountMock: jest.Mock = jest.fn()
 
   const makeSut = (): void => {
     render(
-    <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+    <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
       <BrowserRouter>
         <ToastContainer/>
         <Login validation={validator} authentication={authentication} />
