@@ -18,7 +18,7 @@ export const Products: React.FC<Props> = ({ products }: Props) => {
               <h4>{product.name}</h4>
               <p>{product.description}</p>
             </div>
-            <span>R$ {product.price}</span>
+            <span>{Number(product.price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
           </aside>
         </Container>
       )}
