@@ -8,6 +8,6 @@ export class LocalStorageAdapter implements SetStorage, GetStorage {
   get ({ key }: GetStorage.Input): GetStorage.Output {
     const value = localStorage.getItem(key)
 
-    return value ? JSON.parse(value) : value
+    return JSON.parse(value!)
   }
 }
