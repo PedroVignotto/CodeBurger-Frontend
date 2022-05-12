@@ -3,6 +3,8 @@ module.exports = {
     '<rootDir>/src/**/*.{ts,tsx}',
     '!<rootDir>/src/main/**',
     '<rootDir>/src/main/adapters/**',
+    '!<rootDir>/src/application/components/header/**',
+    '!<rootDir>/src/application/components/footer/**',
     '!<rootDir>/src/**/index.ts',
     '!<rootDir>/src/**/styles.ts'
   ],
