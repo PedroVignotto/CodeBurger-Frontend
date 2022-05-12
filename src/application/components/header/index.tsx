@@ -3,12 +3,21 @@ import { IconButton } from '@/application/components'
 
 import { CartCount, Container, Link } from './styles'
 
-import { FiShoppingCart, FiUser } from 'react-icons/fi'
-import React from 'react'
+import { FiMenu, FiShoppingCart, FiUser, FiX } from 'react-icons/fi'
+import React, { useState } from 'react'
 
 export const Header: React.FC = () => {
+  const [visible, setVisible] = useState(false)
+
+  const handleTogleVisible = (): void => {
+    setVisible(!visible)
+  }
+
   return (
-    <Container>
+    <Container visible={visible}>
+      <IconButton onClick={handleTogleVisible}>
+        {visible ? <FiX /> : <FiMenu /> }
+      </IconButton>
       <img src={logoHeader} alt="Code-burguer" />
       <nav>
         <Link to="/login">Home</Link>

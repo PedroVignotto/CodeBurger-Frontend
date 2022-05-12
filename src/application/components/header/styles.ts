@@ -3,7 +3,9 @@ import { colors } from '@/application/styles'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-export const Container = styled.header`
+type Props = { visible: boolean }
+
+export const Container = styled.header<Props>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -12,6 +14,10 @@ export const Container = styled.header`
   height: 4rem;
   padding: 1rem;
   border-radius: 0 0 1rem 1rem;
+
+  > button {
+    display: none;
+  }
 
   img {
     width: 250px;
@@ -44,6 +50,41 @@ export const Container = styled.header`
 
         + button {
         margin-left: 0.75rem;
+      }
+    }
+  }
+
+  @media (max-width: 720px) {
+    > button {
+      display: block;
+      z-index: 2;
+    }
+
+    img {
+      display: none;
+    }
+
+    nav {
+      display: ${props => (props.visible ? 'flex' : 'none')};
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      background-color: ${colors.black};
+
+      a {
+        letter-spacing: 2px;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+
+        + a {
+          margin-left: 0;
+        }
       }
     }
   }
