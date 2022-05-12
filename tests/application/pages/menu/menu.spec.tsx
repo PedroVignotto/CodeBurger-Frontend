@@ -30,7 +30,7 @@ describe('Menu', () => {
 
     expect(screen.getAllByRole('list')).toHaveLength(2)
     expect(screen.getAllByRole('listitem')).toHaveLength(7)
-    expect(screen.queryByRole('button', { name: /Tentar novamente!/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Tentar novamente/i })).not.toBeInTheDocument()
     await waitFor(() => screen.getByRole('heading', { name: /cardápio/i }))
   })
 
@@ -48,14 +48,14 @@ describe('Menu', () => {
     await waitFor(() => screen.getByRole('list'))
 
     expect(screen.getAllByRole('listitem')).toHaveLength(1)
-    expect(screen.queryByRole('button', { name: /Tentar novamente!/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Tentar novamente/i })).not.toBeInTheDocument()
   })
 
   it('Should render error on UnexpectedError', async () => {
     listCategories.mockRejectedValueOnce(new UnexpectedError())
 
     makeSut()
-    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente!/i }))
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
 
     expect(screen.queryByRole('list')).not.toBeInTheDocument()
     expect(screen.getByText(/Algo deu errado. Tente novamente!/i)).toHaveTextContent(new UnexpectedError().message)
@@ -65,8 +65,8 @@ describe('Menu', () => {
     listCategories.mockRejectedValueOnce(new UnexpectedError())
 
     makeSut()
-    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente!/i }))
-    fireEvent.click(screen.getByRole('button', { name: /Tentar novamente!/i }))
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
+    fireEvent.click(screen.getByRole('button', { name: /Tentar novamente/i }))
 
     expect(listCategories).toHaveBeenCalledTimes(2)
     await waitFor(() => screen.getByRole('list'))
