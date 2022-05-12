@@ -34,4 +34,11 @@ export const Container = styled.footer`
       }
     }
   }
+
+  @media (max-width: 300px) {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: space-between;
+    height: 6rem;
+  }
 `
