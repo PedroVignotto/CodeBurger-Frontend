@@ -2,8 +2,8 @@ import { HttpClient } from '@/domain/contracts/http'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { Category } from '@/domain/models'
 
-type Setup = (url: string, httpClient: HttpClient<Category>) => ListCategories
-type Output = Category
+type Setup = (url: string, httpClient: HttpClient<Category[]>) => ListCategories
+type Output = Category[]
 export type ListCategories = () => Promise<Output>
 
 export const listCategoriesUseCase: Setup = (url, httpClient) => async () => {

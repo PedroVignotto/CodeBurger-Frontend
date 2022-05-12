@@ -14,7 +14,7 @@ describe('ListCategoriesUseCase', () => {
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200, data: [{ id, name, products: productParams }] })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: [{ id, name, products: [productParams] }] })
   })
 
   beforeEach(() => {
@@ -47,7 +47,7 @@ describe('ListCategoriesUseCase', () => {
   it('Should return category data if HttpClient returns 200', async () => {
     const result = await sut()
 
-    expect(result).toEqual([{ id, name, products: productParams }])
+    expect(result).toEqual([{ id, name, products: [productParams] }])
   })
 
   it('Should return [] if HttpClient returns 200', async () => {
