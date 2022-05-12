@@ -1,6 +1,5 @@
 import { Footer, Header } from '@/application/components'
 import { Skeleton } from '@/application/pages/menu/skeleton'
-import { Category } from '@/application/pages/menu/category'
 
 import { Container, Content } from './styles'
 
@@ -13,7 +12,6 @@ export const Menu: React.FC = () => {
 
       <Content>
         <h2>Cardápio</h2>
-        <Category />
         <Skeleton />
       </Content>
 
