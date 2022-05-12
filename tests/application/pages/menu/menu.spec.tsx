@@ -2,7 +2,7 @@ import { categoryParams, productParams } from '@/tests/mocks'
 import { Menu } from '@/application/pages'
 import { UnexpectedError } from '@/domain/errors'
 
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
@@ -59,5 +59,16 @@ describe('Menu', () => {
 
     expect(screen.queryByRole('list')).not.toBeInTheDocument()
     expect(screen.getByText(/Algo deu errado. Tente novamente!/i)).toHaveTextContent(new UnexpectedError().message)
+  })
+
+  it('Should call listCategories on reload', async () => {
+    listCategories.mockRejectedValueOnce(new UnexpectedError())
+
+    makeSut()
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente!/i }))
+    fireEvent.click(screen.getByRole('button', { name: /Tentar novamente!/i }))
+
+    expect(listCategories).toHaveBeenCalledTimes(2)
+    await waitFor(() => screen.getByRole('list'))
   })
 })
