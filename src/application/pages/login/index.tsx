@@ -1,5 +1,5 @@
 import { login, logo } from '@/application/assets'
-import { SubmitButton, Input, Spinner } from '@/application/components'
+import { DefaultButton, Input, Spinner } from '@/application/components'
 import { Validator } from '@/application/validation'
 import { AccountContext } from '@/application/contexts'
 import { Authentication } from '@/domain/use-cases/account'
@@ -55,7 +55,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }) => {
         <form data-testid="form" onSubmit={handleSubmit}>
           <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
           <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
-          <SubmitButton disabled={!!emailError || !!passwordError}>{loading ? <Spinner /> : 'Entrar'}</SubmitButton>
+          <DefaultButton type="submit" disabled={!!emailError || !!passwordError}>{loading ? <Spinner /> : 'Entrar'}</DefaultButton>
         </form>
         <Link to="/signup">Não tem uma conta? <span>Crie uma!</span></Link>
       </ContentWrap>

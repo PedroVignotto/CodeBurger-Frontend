@@ -1,5 +1,5 @@
 import { signup, logo } from '@/application/assets'
-import { Input, Spinner, SubmitButton } from '@/application/components'
+import { DefaultButton, Input, Spinner } from '@/application/components'
 import { Validator } from '@/application/validation'
 import { AccountContext } from '@/application/contexts'
 import { AddAccount } from '@/domain/use-cases/account'
@@ -63,9 +63,9 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
           <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
           <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
           <Input type="password" name="passwordConfirmation" placeholder="Confirmar senha" state={passwordConfirmationError} setState={setPasswordConfirmation} />
-          <SubmitButton disabled={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError}>
+          <DefaultButton type="submit" disabled={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError}>
             { loading ? <Spinner /> : 'Cadastre-se' }
-          </SubmitButton>
+          </DefaultButton>
         </form>
         <Link to="/login">Já tem uma conta? <span>Entre!</span></Link>
       </ContentWrap>

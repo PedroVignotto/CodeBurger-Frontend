@@ -1,2 +1,2 @@
-export { SubmitButton } from './submit-button'
+export { DefaultButton } from './default-button'
 export { IconButton } from './icon-button'

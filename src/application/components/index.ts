@@ -1,6 +1,6 @@
 export { Spinner } from './spinner'
 export { Input } from './input'
 export { Header } from './header'
-export { SubmitButton, IconButton } from './buttons'
+export { DefaultButton, IconButton } from './buttons'
 export { Footer } from './footer'
 export { Error } from './error'
