@@ -20,9 +20,9 @@ export const Header: React.FC = () => {
       </IconButton>
       <img src={logoHeader} alt="Code-burguer" />
       <nav>
-        <Link to="/login">Home</Link>
-        <Link to="/">Cardápio</Link>
-        <Link to="/signup">Pedidos</Link>
+        <Link to="/">Home</Link>
+        <Link to="/menu">Cardápio</Link>
+        <Link to="/orders">Pedidos</Link>
       </nav>
       <div>
         <IconButton>
