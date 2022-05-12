@@ -14,7 +14,7 @@ export const Categories: React.FC<Props> = ({ categories }: Props) => {
     {categories.length
       ? categories.map(category =>
         <Container key={category.id}>
-          <h3>{category.name}</h3>
+          <h3>{category.products.length >= 1 && category.name}</h3>
           <ul>
             <Products products={category.products} />
           </ul>
