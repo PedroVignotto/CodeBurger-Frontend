@@ -11,9 +11,12 @@ type Props = { listCategories: ListCategories }
 
 export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
   const [categories, setCategories] = useState<Category[]>([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    listCategories().then(c => setCategories(c))
+    listCategories()
+      .then(c => setCategories(c))
+      .catch(e => setError(e.message))
   }, [])
 
   return (
@@ -22,7 +25,13 @@ export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
 
       <Content>
         <h2>Cardápio</h2>
-        <Categories categories={categories} />
+        <button>Olá</button>
+          {error
+            ? <div>
+                <span>{error}</span>
+                <button>Tentar novamente!</button>
+              </div>
+            : <Categories categories={categories} />}
       </Content>
 
       <Footer />
