@@ -67,6 +67,10 @@ export const Category = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+
+    @media (max-width: 870px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 `
 
@@ -99,12 +103,21 @@ export const Product = styled.li`
         font-weight: 500;
         font-size: 1.25rem;
         color: ${colors.black};
+        max-width: 80%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
 
       p {
         font-weight: 400;
         font-size: 0.875rem;
         color: ${colors.grayDark};
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
       }
     }
 
@@ -144,8 +157,8 @@ export const Product = styled.li`
       112px 116px,
       80px 1.25rem,
       40% 1.25rem,
+      60% 0.875rem,
       65% 0.875rem,
-      70% 0.875rem,
       30% 0.875rem;
 
     :after {
