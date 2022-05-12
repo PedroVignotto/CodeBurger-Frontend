@@ -1,16 +1,19 @@
 import { Footer, Header } from '@/application/components'
-import { Skeleton } from '@/application/pages/menu/skeleton'
+import { Categories } from '@/application/pages/menu/categories'
 import { ListCategories } from '@/domain/use-cases/category'
+import { Category } from '@/domain/models'
 
 import { Container, Content } from './styles'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = { listCategories: ListCategories }
 
 export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
+  const [categories, setCategories] = useState<Category[]>([])
+
   useEffect(() => {
-    (async () => { await listCategories() })()
+    listCategories().then(c => setCategories(c))
   }, [])
 
   return (
@@ -19,7 +22,7 @@ export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
 
       <Content>
         <h2>Cardápio</h2>
-        <Skeleton />
+        <Categories categories={categories} />
       </Content>
 
       <Footer />
