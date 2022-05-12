@@ -2,13 +2,13 @@ import React from 'react'
 
 import { Container } from './styles'
 
-type Props = { error: string }
+type Props = { error: string, reload: () => void }
 
-export const Error: React.FC<Props> = ({ error }: Props) => {
+export const Error: React.FC<Props> = ({ error, reload }: Props) => {
   return (
     <Container>
       <span>{error}</span>
-      <button>Tentar novamente!</button>
+      <button onClick={reload}>Tentar novamente!</button>
     </Container>
   )
 }

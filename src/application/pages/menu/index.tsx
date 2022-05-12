@@ -12,12 +12,19 @@ type Props = { listCategories: ListCategories }
 export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
   const [categories, setCategories] = useState<Category[]>([])
   const [error, setError] = useState('')
+  const [reload, setReload] = useState(false)
+
+  const handleReload = (): void => {
+    setCategories([])
+    setError('')
+    setReload(!reload)
+  }
 
   useEffect(() => {
     listCategories()
       .then(c => setCategories(c))
       .catch(e => setError(e.message))
-  }, [])
+  }, [reload])
 
   return (
     <Container>
@@ -25,7 +32,7 @@ export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
 
       <Content>
         <h2>Cardápio</h2>
-        {error ? <Error error={error} /> : <Categories categories={categories} />}
+        {error ? <Error error={error} reload={handleReload} /> : <Categories categories={categories} />}
       </Content>
 
       <Footer />
