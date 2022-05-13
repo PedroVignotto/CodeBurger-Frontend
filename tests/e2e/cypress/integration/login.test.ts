@@ -1,13 +1,12 @@
+import { accountParams } from '../../../mocks/account-params'
 import { mockBadRequestError, mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
 import faker from 'faker'
 
 describe('Login', () => {
-  const validEmail: string = faker.internet.email()
   const invalidEmail: string = faker.random.word()
-  const password: string = faker.internet.password()
-  const name: string = faker.name.findName()
-  const accessToken: string = faker.datatype.uuid()
+
+  const { email: validEmail, password, name, accessToken } = accountParams
 
   beforeEach(() => {
     cy.visit('login')
