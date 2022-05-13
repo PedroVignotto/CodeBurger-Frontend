@@ -48,4 +48,12 @@ describe('ListAddressesUseCase', () => {
 
     expect(result).toEqual([addressParams])
   })
+
+  it('Should return [] if HttpClient returns 200', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 200, data: [] })
+
+    const result = await sut()
+
+    expect(result).toEqual([])
+  })
 })
