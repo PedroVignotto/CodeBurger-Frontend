@@ -1,5 +1,5 @@
 import { accountParams } from '../../../mocks/account-params'
-import { mockServerError } from '../mocks'
+import { mockServerError, mockUnauthorizedError } from '../mocks'
 
 describe('Menu', () => {
   const { name, accessToken } = accountParams
@@ -14,5 +14,14 @@ describe('Menu', () => {
     cy.visit('menu')
 
     cy.contains('Algo deu errado. Tente novamente!')
+    cy.get('button').should('be.visible')
+  })
+
+  it('Should logout on UnauthorizedError', () => {
+    mockUnauthorizedError('GET', /categories/)
+
+    cy.visit('menu')
+
+    cy.testUrl('/login')
   })
 })
