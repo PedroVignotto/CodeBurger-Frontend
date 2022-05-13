@@ -25,15 +25,19 @@ export const Header: React.FC = () => {
         <Link to="/orders">Pedidos</Link>
       </nav>
       <div>
-        <IconButton>
-          <>
-            <FiShoppingCart />
-            <CartCount>{1}</CartCount>
-          </>
-        </IconButton>
-        <IconButton>
-          <FiUser />
-        </IconButton>
+        <Link to="/cart">
+          <IconButton>
+            <>
+              <FiShoppingCart />
+              <CartCount>{1}</CartCount>
+            </>
+          </IconButton>
+        </Link>
+        <Link to="/profile">
+          <IconButton>
+            <FiUser />
+          </IconButton>
+        </Link>
       </div>
     </Container>
   )

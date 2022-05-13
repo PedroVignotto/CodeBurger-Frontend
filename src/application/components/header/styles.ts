@@ -45,10 +45,10 @@ export const Container = styled.header<Props>`
     align-items: center;
     justify-content: center;
 
-    > button {
+    > a {
       position: relative;
 
-        + button {
+        + a {
         margin-left: 0.75rem;
       }
     }
