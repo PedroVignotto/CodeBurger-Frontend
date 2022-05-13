@@ -1,20 +1,17 @@
 import { Error, Footer, Header } from '@/application/components'
 import { Categories } from '@/application/pages/menu/categories'
-import { AccountContext } from '@/application/contexts'
+import { useError } from '@/application/hooks'
 import { ListCategories } from '@/domain/use-cases/category'
 import { Category } from '@/domain/models'
-import { UnauthorizedError } from '@/domain/errors'
 
 import { Container, Content } from './styles'
 
-import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 
 type Props = { listCategories: ListCategories }
 
 export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
-  const navigate = useNavigate()
-  const { setCurrentAccount } = useContext(AccountContext)
+  const handleError = useError(error => setError(error.message))
 
   const [categories, setCategories] = useState<Category[]>([])
   const [error, setError] = useState('')
@@ -26,18 +23,7 @@ export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
     setReload(!reload)
   }
 
-  useEffect(() => {
-    listCategories()
-      .then(c => setCategories(c))
-      .catch(e => {
-        setError(e.message)
-        if (e instanceof UnauthorizedError) {
-          setCurrentAccount(undefined as any)
-
-          navigate('/login')
-        }
-      })
-  }, [reload])
+  useEffect(() => { listCategories().then(setCategories).catch(handleError) }, [reload])
 
   return (
     <Container>
