@@ -4,11 +4,10 @@ import { Validator } from '@/application/validation'
 import { AccountContext } from '@/application/contexts'
 import { AddAccount } from '@/domain/use-cases/account'
 
-import { Container, ContentWrap } from './styles'
-
 import { toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
 import React, { useContext, useEffect, useState } from 'react'
+import { Auth } from '@/application/layouts'
 
 type Props = { validation: Validator, addAccount: AddAccount }
 
@@ -52,23 +51,25 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   }
 
   return (
-    <Container>
-      <aside>
-        <img src={signup} alt="Signup" />
-      </aside>
-      <ContentWrap>
-        <img src={logo} alt="Code-burguer" />
-        <form data-testid="form" onSubmit={handleSubmit}>
-          <Input type="text" name="name" placeholder="Nome" state={nameError} setState={setName} />
-          <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
-          <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
-          <Input type="password" name="passwordConfirmation" placeholder="Confirmar senha" state={passwordConfirmationError} setState={setPasswordConfirmation} />
-          <DefaultButton type="submit" disabled={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError}>
-            { loading ? <Spinner /> : 'Cadastre-se' }
-          </DefaultButton>
-        </form>
-        <Link to="/login">Já tem uma conta? <span>Entre!</span></Link>
-      </ContentWrap>
-    </Container>
+    <Auth>
+      <>
+        <aside>
+          <img src={signup} alt="Signup" />
+        </aside>
+        <div>
+          <img src={logo} alt="Code-burguer" />
+          <form data-testid="form" onSubmit={handleSubmit}>
+            <Input type="text" name="name" placeholder="Nome" state={nameError} setState={setName} />
+            <Input type="text" name="email" placeholder="Email" state={emailError} setState={setEmail} />
+            <Input type="password" name="password" placeholder="Senha" state={passwordError} setState={setPassword} />
+            <Input type="password" name="passwordConfirmation" placeholder="Confirmar senha" state={passwordConfirmationError} setState={setPasswordConfirmation} />
+            <DefaultButton type="submit" disabled={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError}>
+              { loading ? <Spinner /> : 'Cadastre-se' }
+            </DefaultButton>
+          </form>
+          <Link to="/login">Já tem uma conta? <span>Entre!</span></Link>
+        </div>
+      </>
+    </Auth>
   )
 }
