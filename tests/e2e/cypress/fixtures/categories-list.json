@@ -1,13 +1,60 @@
-[{
-  "id": "any_id",
-  "name": "any_name",
-  "products": [
-    {
-      "id": "any_product_id",
-      "name": "any_product_name",
-      "description": "any_product_description",
-      "price": 50,
-      "picture": "http://any_url/3333/any_image"
-    }
-  ]
-}]
+[
+  {
+    "id": "any_id_01",
+    "name": "any_name_01",
+    "products": [
+      {
+        "id": "any_product_id_01",
+        "name": "any_product_name_01",
+        "description": "any_product_description_01",
+        "price": 50,
+        "picture": "http://any_url/3333/any_image_01"
+      },
+      {
+        "id": "any_product_id_02",
+        "name": "any_product_name_02",
+        "description": "any_product_description_02",
+        "price": 30.50
+      },
+      {
+        "id": "any_product_id_03",
+        "name": "any_product_name_03",
+        "description": "any_product_description_03",
+        "price": 20.99,
+        "picture": "http://any_url/3333/any_image_03"
+      }
+    ]
+  },
+  {
+    "id": "any_id_02",
+    "name": "any_name_02",
+    "products": [
+      {
+        "id": "any_product_id_04",
+        "name": "any_product_name_04",
+        "description": "any_product_description_04",
+        "price": 80,
+        "picture": "http://any_url/3333/any_image_04"
+      }
+    ]
+  },
+  {
+    "id": "any_id_03",
+    "name": "any_name_03",
+    "products": [
+      {
+        "id": "any_product_id_05",
+        "name": "any_product_name_05",
+        "description": "any_product_description_05",
+        "price": 35.90,
+        "picture": "http://any_url/3333/any_image_05"
+      },
+      {
+        "id": "any_product_id_06",
+        "name": "any_product_name_06",
+        "description": "any_product_description_06",
+        "price": 42
+      }
+    ]
+  }
+]
