@@ -1,5 +1,5 @@
 import { HttpClient } from '@/domain/contracts/http'
-import { UnauthorizedError } from '@/domain/errors'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 import { Address } from '@/domain/models'
 
 type Setup = (url: string, httpClient: HttpClient<Address[]>) => ListAddresses
@@ -11,6 +11,7 @@ export const listAddressesUseCase: Setup = (url, httpClient) => async () => {
 
   switch (statusCode) {
     case 200: break
-    default: throw new UnauthorizedError()
+    case 401: throw new UnauthorizedError()
+    default: throw new UnexpectedError()
   }
 }
