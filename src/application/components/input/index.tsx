@@ -7,7 +7,7 @@ type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>
   setState: any
 }
 
-export const Input: React.FC<Props> = ({ state, setState, name, placeholder, ...props }: Props) => {
+export const Input: React.FC<Props> = ({ state, setState, name, placeholder, ...props }) => {
   return (
     <Container>
       <input

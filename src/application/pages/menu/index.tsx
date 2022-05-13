@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 
 type Props = { listCategories: ListCategories }
 
-export const Menu: React.FC<Props> = ({ listCategories }: Props) => {
+export const Menu: React.FC<Props> = ({ listCategories }) => {
   const handleError = useError(error => setError(error.message))
 
   const [categories, setCategories] = useState<Category[]>([])

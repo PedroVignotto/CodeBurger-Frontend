@@ -4,4 +4,4 @@ import { Container } from './styles'
 
 type Props = { children: string | JSX.Element }
 
-export const Auth: React.FC<Props> = ({ children }: Props) => <Container>{children}</Container>
+export const Auth: React.FC<Props> = ({ children }) => <Container>{children}</Container>

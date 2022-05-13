@@ -5,7 +5,7 @@ import { Container } from './styles'
 
 type Props = { error: string, reload: () => void }
 
-export const Error: React.FC<Props> = ({ error, reload }: Props) => {
+export const Error: React.FC<Props> = ({ error, reload }) => {
   return (
     <Container>
       <span>{error}</span>

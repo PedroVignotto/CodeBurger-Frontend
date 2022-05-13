@@ -6,7 +6,7 @@ import React from 'react'
 
 type Props = { products: Product[] }
 
-export const Products: React.FC<Props> = ({ products }: Props) => {
+export const Products: React.FC<Props> = ({ products }) => {
   return (
     <>
       {products.map(product =>

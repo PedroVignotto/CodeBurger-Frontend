@@ -8,7 +8,7 @@ import React from 'react'
 
 type Props = { categories: Category[] }
 
-export const Categories: React.FC<Props> = ({ categories }: Props) => {
+export const Categories: React.FC<Props> = ({ categories }) => {
   return (
     <>
     {categories.length
