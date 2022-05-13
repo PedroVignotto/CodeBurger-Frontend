@@ -91,7 +91,7 @@ export const Container = styled.header<Props>`
   }
 `
 
-export const Link = styled(NavLink)`
+export const ActiveLink = styled(NavLink)`
   &.active {
     :after {
       content: '';

@@ -1,9 +1,10 @@
 import { logoHeader } from '@/application/assets'
 import { IconButton } from '@/application/components'
 
-import { CartCount, Container, Link } from './styles'
+import { CartCount, Container, ActiveLink } from './styles'
 
 import { FiMenu, FiShoppingCart, FiUser, FiX } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
 
 export const Header: React.FC = () => {
@@ -20,9 +21,9 @@ export const Header: React.FC = () => {
       </IconButton>
       <img src={logoHeader} alt="Code-burguer" />
       <nav>
-        <Link to="/">Home</Link>
-        <Link to="/menu">Cardápio</Link>
-        <Link to="/orders">Pedidos</Link>
+        <ActiveLink to="/">Home</ActiveLink>
+        <ActiveLink to="/menu">Cardápio</ActiveLink>
+        <ActiveLink to="/orders">Pedidos</ActiveLink>
       </nav>
       <div>
         <Link to="/cart">
