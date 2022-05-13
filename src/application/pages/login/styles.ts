@@ -52,6 +52,10 @@ export const ContentWrap = styled.div`
     width: 100%;
     max-width: 550px;
 
+    button {
+      margin-top: 2rem;
+    }
+
     @media (max-width: 1250px) {
       padding: 1.25rem;
     }
