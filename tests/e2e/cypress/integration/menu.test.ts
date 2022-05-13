@@ -14,7 +14,17 @@ describe('Menu', () => {
     cy.visit('menu')
 
     cy.contains('Algo deu errado. Tente novamente!')
-    cy.get('button').should('be.visible')
+    cy.get('button').contains('Tentar novamente')
+  })
+
+  it('Should reload on button click', () => {
+    mockError(mockServerError)
+
+    cy.visit('menu')
+    cy.contains('Tentar novamente').click()
+
+    cy.get('ul').should('have.length', 2)
+    cy.get('li:empty').should('have.length', 7)
   })
 
   it('Should logout on UnauthorizedError', () => {
