@@ -1,17 +1,16 @@
-import { accountParams } from '../../../mocks/account-params'
 import { mockBadRequestError, mockCreated, mockServerError } from '../mocks'
 
 import faker from 'faker'
 
 describe('Signup', () => {
+  const validEmail: string = faker.internet.email()
   const invalidEmail: string = faker.random.word()
+  const password: string = faker.internet.password(8)
   const invalidPasswordConfirmation: string = faker.internet.password(16)
+  const name: string = faker.name.findName()
 
-  const { email: validEmail, password, name, accessToken } = accountParams
-
-  beforeEach(() => {
-    cy.visit('signup')
-  })
+  const mockError = (method: Function): void => method('POST', /signup/)
+  const mockSuccess = (): void => mockCreated('POST', /signup/, 'account')
 
   const populateFields = (email = validEmail, passwordConfirmation = password): void => {
     cy.getInputById('name').focus().type(name)
@@ -24,6 +23,10 @@ describe('Signup', () => {
     populateFields()
     cy.getSubmitButton().click()
   }
+
+  beforeEach(() => {
+    cy.visit('signup')
+  })
 
   it('Should load with correct initial state', () => {
     cy.getSubmitButton().should('be.disabled').should('have.text', 'Cadastre-se')
@@ -44,7 +47,7 @@ describe('Signup', () => {
   })
 
   it('Should present FieldInUseError on 400', () => {
-    mockBadRequestError('POST', /signup/)
+    mockError(mockBadRequestError)
 
     simulateSubmit()
 
@@ -53,7 +56,7 @@ describe('Signup', () => {
   })
 
   it('Should present UnexpectedError on 500', () => {
-    mockServerError('POST', /signup/)
+    mockError(mockServerError)
 
     simulateSubmit()
 
@@ -62,7 +65,7 @@ describe('Signup', () => {
   })
 
   it('Should store account on localStorage if valid credentials are provided', () => {
-    mockCreated('POST', /signup/, { name, accessToken })
+    mockSuccess()
 
     simulateSubmit()
 
@@ -71,7 +74,7 @@ describe('Signup', () => {
   })
 
   it('Should prevent multiple submits', () => {
-    mockCreated('POST', /signup/, { name, accessToken })
+    mockSuccess()
 
     populateFields()
     cy.getSubmitButton().dblclick()
@@ -81,7 +84,7 @@ describe('Signup', () => {
   })
 
   it('Should not call submit if form is invalid', () => {
-    mockCreated('POST', /signup/, { name, accessToken })
+    mockSuccess()
 
     cy.getInputById('email').focus().type(validEmail).type('{enter}')
 

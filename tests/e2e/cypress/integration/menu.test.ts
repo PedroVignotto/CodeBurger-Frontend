@@ -1,15 +1,14 @@
-import { accountParams } from '../../../mocks/account-params'
 import { mockServerError, mockUnauthorizedError } from '../mocks'
 
 describe('Menu', () => {
-  const { name, accessToken } = accountParams
+  const mockError = (method: Function): void => method('GET', /categories/)
 
   beforeEach(() => {
-    cy.setLocalStorageItem('account', { name, accessToken })
+    cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
   })
 
   it('Should present error on UnexpectedError', () => {
-    mockServerError('GET', /categories/)
+    mockError(mockServerError)
 
     cy.visit('menu')
 
@@ -18,7 +17,7 @@ describe('Menu', () => {
   })
 
   it('Should logout on UnauthorizedError', () => {
-    mockUnauthorizedError('GET', /categories/)
+    mockError(mockUnauthorizedError)
 
     cy.visit('menu')
 

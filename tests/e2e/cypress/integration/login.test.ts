@@ -1,16 +1,14 @@
-import { accountParams } from '../../../mocks/account-params'
 import { mockBadRequestError, mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
 import faker from 'faker'
 
 describe('Login', () => {
   const invalidEmail: string = faker.random.word()
+  const validEmail: string = faker.internet.email()
+  const password: string = faker.internet.password(8)
 
-  const { email: validEmail, password, name, accessToken } = accountParams
-
-  beforeEach(() => {
-    cy.visit('login')
-  })
+  const mockError = (method: Function): void => method('POST', /login/)
+  const mockSuccess = (): void => mockOk('POST', /login/, 'account')
 
   const populateFields = (email = validEmail): void => {
     cy.getInputById('email').focus().type(email)
@@ -21,6 +19,10 @@ describe('Login', () => {
     populateFields()
     cy.getSubmitButton().click()
   }
+
+  beforeEach(() => {
+    cy.visit('login')
+  })
 
   it('Should load with correct initial state', () => {
     cy.getSubmitButton().should('be.disabled').should('have.text', 'Entrar')
@@ -40,7 +42,7 @@ describe('Login', () => {
   })
 
   it('Should present UnexpectedError on 400', () => {
-    mockBadRequestError('POST', /login/)
+    mockError(mockBadRequestError)
 
     simulateSubmit()
     cy.wait('@request')
@@ -50,7 +52,7 @@ describe('Login', () => {
   })
 
   it('Should present InvalidCredentialsError on 401', () => {
-    mockUnauthorizedError('POST', /login/)
+    mockError(mockUnauthorizedError)
 
     simulateSubmit()
     cy.wait('@request')
@@ -60,7 +62,7 @@ describe('Login', () => {
   })
 
   it('Should present UnexpectedError on 500', () => {
-    mockServerError('POST', /login/)
+    mockError(mockServerError)
 
     simulateSubmit()
     cy.wait('@request')
@@ -70,7 +72,7 @@ describe('Login', () => {
   })
 
   it('Should store account on localStorage if valid credentials are provided', () => {
-    mockOk('POST', /login/, { name, accessToken })
+    mockSuccess()
 
     simulateSubmit()
     cy.wait('@request')
@@ -80,7 +82,7 @@ describe('Login', () => {
   })
 
   it('Should prevent multiple submits', () => {
-    mockOk('POST', /login/, { name, accessToken })
+    mockSuccess()
 
     populateFields()
     cy.getSubmitButton().dblclick()
@@ -90,7 +92,7 @@ describe('Login', () => {
   })
 
   it('Should not call submit if form is invalid', () => {
-    mockOk('POST', /login/, { name, accessToken })
+    mockSuccess()
 
     cy.getInputById('email').focus().type(validEmail).type('{enter}')
 
