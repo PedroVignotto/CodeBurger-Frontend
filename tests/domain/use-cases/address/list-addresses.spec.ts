@@ -1,4 +1,4 @@
-import { httpClientParams } from '@/tests/mocks'
+import { addressParams, httpClientParams } from '@/tests/mocks'
 import { ListAddresses, listAddressesUseCase } from '@/domain/use-cases/address'
 import { HttpClient } from '@/domain/contracts/http'
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
@@ -13,7 +13,7 @@ describe('ListAddressesUseCase', () => {
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200 })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: [addressParams] })
   })
 
   beforeEach(() => {
@@ -41,5 +41,11 @@ describe('ListAddressesUseCase', () => {
     const promise = sut()
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('Should return address data if HttpClient returns 200', async () => {
+    const result = await sut()
+
+    expect(result).toEqual([addressParams])
   })
 })
