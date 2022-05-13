@@ -1,7 +1,7 @@
 import { httpClientParams } from '@/tests/mocks'
 import { ListAddresses, listAddressesUseCase } from '@/domain/use-cases/address'
 import { HttpClient } from '@/domain/contracts/http'
-import { UnauthorizedError } from '@/domain/errors'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { mock } from 'jest-mock-extended'
 
@@ -33,5 +33,13 @@ describe('ListAddressesUseCase', () => {
     const promise = sut()
 
     await expect(promise).rejects.toThrow(new UnauthorizedError())
+  })
+
+  it('Should throw UnexpectedError if HttpClient returns 500', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
+
+    const promise = sut()
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
