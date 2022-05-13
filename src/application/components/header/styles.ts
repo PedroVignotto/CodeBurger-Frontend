@@ -65,17 +65,18 @@ export const Container = styled.header<Props>`
     }
 
     nav {
-      display: ${props => (props.visible ? 'flex' : 'none')};
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: fixed;
       width: 100%;
-      height: 100%;
+      height: ${props => (props.visible ? '100%' : '0')};
+      overflow: hidden;
       top: 0;
       left: 0;
       z-index: 1;
       background-color: ${colors.black};
+      transition: 0.5s;
 
       a {
         letter-spacing: 2px;
