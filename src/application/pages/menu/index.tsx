@@ -1,10 +1,11 @@
-import { Error, Footer, Header } from '@/application/components'
+import { Error } from '@/application/components'
 import { Categories } from '@/application/pages/menu/categories'
 import { useError } from '@/application/hooks'
+import { Default } from '@/application/layouts'
 import { ListCategories } from '@/domain/use-cases/category'
 import { Category } from '@/domain/models'
 
-import { Container, Content } from './styles'
+import { Content } from './styles'
 
 import React, { useEffect, useState } from 'react'
 
@@ -26,15 +27,11 @@ export const Menu: React.FC<Props> = ({ listCategories }) => {
   useEffect(() => { listCategories().then(setCategories).catch(handleError) }, [reload])
 
   return (
-    <Container>
-      <Header />
-
+    <Default>
       <Content>
         <h2>Cardápio</h2>
         {error ? <Error error={error} reload={handleReload} /> : <Categories categories={categories} />}
       </Content>
-
-      <Footer />
-    </Container>
+    </Default>
   )
 }
