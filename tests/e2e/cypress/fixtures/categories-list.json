@@ -1,0 +1,13 @@
+[{
+  "id": "any_id",
+  "name": "any_name",
+  "products": [
+    {
+      "id": "any_product_id",
+      "name": "any_product_name",
+      "description": "any_product_description",
+      "price": 50,
+      "picture": "http://any_url/3333/any_image"
+    }
+  ]
+}]
