@@ -1,6 +1,7 @@
 import { httpClientParams } from '@/tests/mocks'
 import { ListAddresses, listAddressesUseCase } from '@/domain/use-cases/address'
 import { HttpClient } from '@/domain/contracts/http'
+import { UnauthorizedError } from '@/domain/errors'
 
 import { mock } from 'jest-mock-extended'
 
@@ -11,6 +12,10 @@ describe('ListAddressesUseCase', () => {
 
   const httpClient = mock<HttpClient>()
 
+  beforeAll(() => {
+    httpClient.request.mockResolvedValue({ statusCode: 200 })
+  })
+
   beforeEach(() => {
     sut = listAddressesUseCase(url, httpClient)
   })
@@ -20,5 +25,13 @@ describe('ListAddressesUseCase', () => {
 
     expect(httpClient.request).toHaveBeenCalledWith({ url, method: 'get' })
     expect(httpClient.request).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should throw UnauthorizedError if HttpClient returns 401', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 401 })
+
+    const promise = sut()
+
+    await expect(promise).rejects.toThrow(new UnauthorizedError())
   })
 })
