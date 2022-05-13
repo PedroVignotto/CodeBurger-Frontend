@@ -1,15 +1,18 @@
 import { categoryParams, productParams } from '@/tests/mocks'
 import { Menu } from '@/application/pages'
-import { UnexpectedError } from '@/domain/errors'
+import { AccountContext } from '@/application/contexts'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 describe('Menu', () => {
-  const listCategories: jest.Mock = jest.fn()
-
   const { id, name } = categoryParams
+
+  const listCategories: jest.Mock = jest.fn()
+  const setCurrentAccountMock: jest.Mock = jest.fn()
+  const getCurrentAccountMock: jest.Mock = jest.fn()
 
   beforeAll(() => {
     listCategories.mockResolvedValue([{ id, name, products: [productParams] }])
@@ -17,9 +20,11 @@ describe('Menu', () => {
 
   const makeSut = (): void => {
     render(
-      <BrowserRouter>
-        <Menu listCategories={listCategories} />
-      </BrowserRouter>
+      <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
+        <BrowserRouter>
+          <Menu listCategories={listCategories} />
+        </BrowserRouter>
+      </AccountContext.Provider>
     )
   }
 
@@ -59,6 +64,16 @@ describe('Menu', () => {
 
     expect(screen.queryByRole('list')).not.toBeInTheDocument()
     expect(screen.getByText(/Algo deu errado. Tente novamente!/i)).toHaveTextContent(new UnexpectedError().message)
+  })
+
+  it('Should logout on UnauthorizedError', async () => {
+    listCategories.mockRejectedValueOnce(new UnauthorizedError())
+
+    makeSut()
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(window.location.pathname).toBe('/login')
   })
 
   it('Should call listCategories on reload', async () => {
