@@ -49,7 +49,7 @@ describe('Signup', () => {
     simulateSubmit()
 
     cy.contains('O email já está em uso!')
-    cy.getUrl('/signup')
+    cy.testUrl('/signup')
   })
 
   it('Should present UnexpectedError on 500', () => {
@@ -58,7 +58,7 @@ describe('Signup', () => {
     simulateSubmit()
 
     cy.contains('Algo deu errado. Tente novamente!')
-    cy.getUrl('/signup')
+    cy.testUrl('/signup')
   })
 
   it('Should store account on localStorage if valid credentials are provided', () => {
@@ -66,8 +66,8 @@ describe('Signup', () => {
 
     simulateSubmit()
 
-    cy.getUrl('/')
-    cy.getLocalStorageItem('account')
+    cy.testUrl('/')
+    cy.testLocalStorageItem('account')
   })
 
   it('Should prevent multiple submits', () => {

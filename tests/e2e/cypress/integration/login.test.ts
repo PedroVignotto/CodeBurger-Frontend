@@ -46,7 +46,7 @@ describe('Login', () => {
     cy.wait('@request')
 
     cy.contains('Algo deu errado. Tente novamente!')
-    cy.getUrl('/login')
+    cy.testUrl('/login')
   })
 
   it('Should present InvalidCredentialsError on 401', () => {
@@ -56,7 +56,7 @@ describe('Login', () => {
     cy.wait('@request')
 
     cy.contains('Credenciais inválidas')
-    cy.getUrl('/login')
+    cy.testUrl('/login')
   })
 
   it('Should present UnexpectedError on 500', () => {
@@ -66,7 +66,7 @@ describe('Login', () => {
     cy.wait('@request')
 
     cy.contains('Algo deu errado. Tente novamente!')
-    cy.getUrl('/login')
+    cy.testUrl('/login')
   })
 
   it('Should store account on localStorage if valid credentials are provided', () => {
@@ -75,8 +75,8 @@ describe('Login', () => {
     simulateSubmit()
     cy.wait('@request')
 
-    cy.getUrl('/')
-    cy.getLocalStorageItem('account')
+    cy.testUrl('/')
+    cy.testLocalStorageItem('account')
   })
 
   it('Should prevent multiple submits', () => {

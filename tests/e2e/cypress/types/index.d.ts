@@ -2,7 +2,7 @@ declare namespace Cypress {
   export interface Chainable {
     getSubmitButton: () => Chainable<Element>
     getInputById: (id: string) => Chainable<Element>
-    getUrl: (path: string) => Chainable<Element>
-    getLocalStorageItem: (item: string) => Chainable<Element>
+    testUrl: (path: string) => Chainable<Element>
+    testLocalStorageItem: (item: string) => Chainable<Element>
   }
 }
