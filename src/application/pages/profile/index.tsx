@@ -5,7 +5,7 @@ import { Default } from '@/application/layouts'
 
 import { Container, Content } from './styles'
 
-import { FiLogOut, FiPlus } from 'react-icons/fi'
+import { FiLogOut } from 'react-icons/fi'
 import React from 'react'
 
 export const Profile: React.FC = () => {
@@ -13,11 +13,6 @@ export const Profile: React.FC = () => {
     <Default>
       <Container>
         <Content>
-          <header>
-            <h2>Olá, any_name!</h2>
-            <h3>Onde você quer receber seu pedido?</h3>
-            <DefaultButton><><FiPlus />Adicionar</></DefaultButton>
-          </header>
           <Addresses />
           <Skeleton />
           <footer>
