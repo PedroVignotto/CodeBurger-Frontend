@@ -17,5 +17,6 @@ export const Container = styled.div`
 
   button {
     width: auto;
+    margin-top: 2rem;
   }
 `
