@@ -32,7 +32,7 @@ export const Profile: React.FC<Props> = ({ listAddresses }) => {
     <Default>
       <Container>
         <Content>
-        {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} />}
+          {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} />}
           <footer>
             <DefaultButton onClick={logout}><><FiLogOut />Sair</></DefaultButton>
           </footer>
