@@ -1,5 +1,5 @@
 import { HttpClient } from '@/domain/contracts/http'
-import { UnexpectedError } from '@/domain/errors'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 type Setup = (url: string, httpClient: HttpClient) => DeleteAddress
 type Output = void
@@ -10,6 +10,7 @@ export const deleteAddressUseCase: Setup = (url, httpClient) => async () => {
 
   switch (statusCode) {
     case 204: break
+    case 401: throw new UnauthorizedError()
     default: throw new UnexpectedError()
   }
 }
