@@ -8,13 +8,13 @@ import { mock } from 'jest-mock-extended'
 describe('SearchAddressUseCase', () => {
   let sut: SearchAddress
 
-  const { zipCode } = addressParams
+  const { zipCode, district, street } = addressParams
   const { url } = httpClientParams
 
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200 })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: { district, street } })
   })
 
   beforeEach(() => {
@@ -50,5 +50,11 @@ describe('SearchAddressUseCase', () => {
     const promise = sut({ zipCode })
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('Should return address data if HttpClient returns 200', async () => {
+    const result = await sut({ zipCode })
+
+    expect(result).toEqual({ district, street })
   })
 })
