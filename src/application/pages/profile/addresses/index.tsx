@@ -9,35 +9,36 @@ import React, { useState } from 'react'
 
 type Props = { addresses: Address[] }
 
-export const Addresses: React.FC<Props> = () => {
-  const loading = true
+export const Addresses: React.FC<Props> = ({ addresses }) => {
   const [handleOpenDetails, setHandleOpenDetails] = useState(false)
 
   return (
     <>
-    {loading
-      ? <Skeleton />
-      : <>
-      <Banner>
-        <h2>Olá, any_name!</h2>
-        <h3>Onde você quer receber seu pedido?</h3>
-        <DefaultButton><><FiPlus />Adicionar</></DefaultButton>
-      </Banner>
-      <Container details={handleOpenDetails}>
-        <div>
-          <div>
-            <FiEdit />
-            <FiTrash2 />
-          </div>
-          <main>
-            <h3>any_surname</h3>
-            <p>any_street, any_number, any_complement</p>
-            <p>any_district, any_zipcode</p>
-          </main>
-        </div>
-        <FiMoreVertical onClick={() => setHandleOpenDetails(!handleOpenDetails)} />
-      </Container>
-    </>
+    {addresses.length
+      ? <>
+          <Banner>
+            <h2>Olá, any_name!</h2>
+            <h3>Onde você quer receber seu pedido?</h3>
+            <DefaultButton><><FiPlus />Adicionar</></DefaultButton>
+          </Banner>
+          {addresses.map(address =>
+            <Container details={handleOpenDetails} key={address.id}>
+              <div>
+                <div>
+                  <FiEdit />
+                  <FiTrash2 />
+                </div>
+                <main>
+                  <h3>{address.surname}</h3>
+                  <p>{address.street}, {address.number}{address.complement && `, ${address.complement}`}</p>
+                  <p>{address.district}, {address.zipCode}</p>
+                </main>
+              </div>
+              <FiMoreVertical onClick={() => setHandleOpenDetails(!handleOpenDetails)} />
+            </Container>
+          )}
+        </>
+      : <Skeleton />
     }
     </>
   )
