@@ -5,6 +5,7 @@ import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import React from 'react'
 
 describe('Profile', () => {
@@ -25,6 +26,7 @@ describe('Profile', () => {
     render(
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
         <BrowserRouter>
+          <ToastContainer/>
           <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} />
         </BrowserRouter>
       </AccountContext.Provider>
@@ -121,5 +123,16 @@ describe('Profile', () => {
     expect(deleteAddress).toHaveBeenCalledTimes(1)
     expect(deleteAddress).toHaveBeenCalledWith({ id })
     await waitFor(() => screen.getByRole('main'))
+  })
+
+  it('Should show alert error if deleteAddress fails', async () => {
+    makeSut()
+    deleteAddress.mockRejectedValueOnce(new UnexpectedError())
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('delete'))
+
+    expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
   })
 })
