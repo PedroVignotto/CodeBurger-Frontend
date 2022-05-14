@@ -1,5 +1,6 @@
 import { colors } from '@/application/styles'
 
+import { darken } from 'polished'
 import styled from 'styled-components'
 
 export const Container = styled.div`
@@ -60,7 +61,7 @@ export const Container = styled.div`
       }
     }
 
-    a {
+    span {
       color: ${colors.black};
       font-weight: 400;
       font-size: 1rem;
@@ -68,13 +69,13 @@ export const Container = styled.div`
       transition: color 0.3s;
       align-self: center;
 
-      &:hover {
-        opacity: 0.9;
-      }
-
-      span {
+      a {
         color: ${colors.orange};
         font-weight: 700;
+
+        :hover {
+          color: ${darken(0.1, colors.orange)};
+        }
       }
     }
   }

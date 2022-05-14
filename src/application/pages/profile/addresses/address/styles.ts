@@ -1,5 +1,6 @@
 import { colors } from '@/application/styles'
 
+import { darken } from 'polished'
 import styled from 'styled-components'
 
 type Props = { details: boolean }
@@ -42,6 +43,10 @@ export const Container = styled.section<Props>`
         + svg {
           margin: ${props => props.details ? '0 0.75rem' : '0'};
           align-self: flex-end !important;
+        }
+
+        :hover {
+          color: ${darken(0.1, colors.orange)};
         }
       }
     }

@@ -1,5 +1,6 @@
 import { colors } from '@/application/styles'
 
+import { darken } from 'polished'
 import styled from 'styled-components'
 
 export const Container = styled.button`
@@ -20,6 +21,6 @@ export const Container = styled.button`
   }
 
   &:hover {
-    opacity: 0.9;
+    background-color: ${darken(0.1, colors.orange)};
   }
 `

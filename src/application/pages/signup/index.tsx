@@ -67,7 +67,7 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
               { loading ? <Spinner /> : 'Cadastre-se' }
             </DefaultButton>
           </form>
-          <Link to="/login">Já tem uma conta? <span>Entre!</span></Link>
+          <span>Já tem uma conta? <Link to="/login">Entre!</Link></span>
         </div>
       </>
     </Auth>
