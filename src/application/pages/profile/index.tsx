@@ -21,6 +21,7 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
   const [addresses, setAddresses] = useState<Address[]>([])
   const [error, setError] = useState('')
   const [reload, setReload] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleReload = (): void => {
     setAddresses([])
@@ -29,9 +30,15 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
   }
 
   const handleDelete = async (id: string): Promise<void> => {
+    if (loading) return
+
+    setLoading(true)
+
     await deleteAddress({ id })
 
     setAddresses(addresses.filter(address => address.id !== id))
+
+    setLoading(false)
   }
 
   useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [reload])

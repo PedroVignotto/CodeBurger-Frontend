@@ -98,11 +98,24 @@ describe('Profile', () => {
     expect(window.location.pathname).toBe('/login')
   })
 
-  it('Should call deleteAddress on reload', async () => {
+  it('Should call deleteAddress when delete button is clicked', async () => {
     makeSut()
 
     await waitFor(() => screen.getByRole('main'))
     fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('delete'))
+
+    expect(deleteAddress).toHaveBeenCalledTimes(1)
+    expect(deleteAddress).toHaveBeenCalledWith({ id })
+    await waitFor(() => screen.getByRole('main'))
+  })
+
+  it('Should call deleteAddress only once', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('delete'))
     fireEvent.click(screen.getByTestId('delete'))
 
     expect(deleteAddress).toHaveBeenCalledTimes(1)
