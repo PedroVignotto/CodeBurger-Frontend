@@ -8,6 +8,7 @@ import { Address } from '@/domain/models'
 
 import { Banner, Container, Content } from './styles'
 
+import { toast } from 'react-toastify'
 import { FiLogOut, FiPlus } from 'react-icons/fi'
 import React, { useContext, useEffect, useState } from 'react'
 
@@ -30,15 +31,19 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
   }
 
   const handleDelete = async (id: string): Promise<void> => {
-    if (loading) return
+    try {
+      if (loading) return
 
-    setLoading(true)
+      setLoading(true)
 
-    await deleteAddress({ id })
+      await deleteAddress({ id })
 
-    setAddresses(addresses.filter(address => address.id !== id))
-
-    setLoading(false)
+      setAddresses(addresses.filter(address => address.id !== id))
+    } catch (error: any) {
+      toast.error(error.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [reload])
