@@ -1,4 +1,4 @@
-import { makeLogin, makeMenu, makeSignUp } from '@/main/factories/application/pages'
+import { makeLogin, makeMenu, makeProfile, makeSignUp } from '@/main/factories/application/pages'
 import { Router } from '@/main/router'
 
 import ReactDOM from 'react-dom'
@@ -9,6 +9,7 @@ ReactDOM.render(
     Login={makeLogin}
     SignUp={makeSignUp}
     Menu={makeMenu}
+    Profile={makeProfile}
   />,
   document.getElementById('root')
 )
