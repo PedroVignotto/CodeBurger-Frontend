@@ -8,6 +8,8 @@ import React from 'react'
 describe('Profile', () => {
   const listAddresses: jest.Mock = jest.fn()
 
+  const { surname } = addressParams
+
   beforeAll(() => {
     listAddresses.mockResolvedValue([addressParams])
   })
@@ -34,5 +36,14 @@ describe('Profile', () => {
     await waitFor(() => screen.queryByRole('main'))
 
     expect(listAddresses).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should render addresses on success', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByText('Onde você quer receber seu pedido?'))
+
+    expect(screen.getByRole('main')).toBeInTheDocument()
+    expect(screen.getByText(surname)).toBeInTheDocument()
   })
 })
