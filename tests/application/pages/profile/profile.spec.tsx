@@ -3,7 +3,7 @@ import { AccountContext } from '@/application/contexts'
 import { Profile } from '@/application/pages'
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
@@ -75,5 +75,16 @@ describe('Profile', () => {
 
     expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
     expect(window.location.pathname).toBe('/login')
+  })
+
+  it('Should call listAddresses on reload', async () => {
+    listAddresses.mockRejectedValueOnce(new UnexpectedError())
+
+    makeSut()
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
+    fireEvent.click(screen.getByRole('button', { name: /Tentar novamente/i }))
+
+    expect(listAddresses).toHaveBeenCalledTimes(2)
+    await waitFor(() => screen.getByRole('main'))
   })
 })
