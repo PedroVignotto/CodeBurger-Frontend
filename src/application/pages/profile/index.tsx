@@ -1,6 +1,7 @@
+import { Error, DefaultButton } from '@/application/components'
 import { Addresses } from '@/application/pages/profile/addresses'
-import { DefaultButton } from '@/application/components'
 import { Default } from '@/application/layouts'
+import { useError } from '@/application/hooks'
 import { ListAddresses } from '@/domain/use-cases/address'
 import { Address } from '@/domain/models'
 
@@ -12,15 +13,18 @@ import React, { useEffect, useState } from 'react'
 type Props = { listAddresses: ListAddresses }
 
 export const Profile: React.FC<Props> = ({ listAddresses }) => {
-  const [addresses, setAddresses] = useState<Address[]>([])
+  const handleError = useError(error => setError(error.message))
 
-  useEffect(() => { listAddresses().then(setAddresses) }, [])
+  const [addresses, setAddresses] = useState<Address[]>([])
+  const [error, setError] = useState('')
+
+  useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [])
 
   return (
     <Default>
       <Container>
         <Content>
-          <Addresses addresses={addresses} />
+        {error ? <Error error={error} reload={() => {}} /> : <Addresses addresses={addresses} />}
           <footer>
             <DefaultButton><><FiLogOut />Sair</></DefaultButton>
           </footer>
