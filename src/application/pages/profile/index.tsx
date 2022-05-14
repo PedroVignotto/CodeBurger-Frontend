@@ -1,5 +1,4 @@
 import { Addresses } from '@/application/pages/profile/addresses'
-import { Skeleton } from '@/application/pages/profile/skeleton'
 import { DefaultButton } from '@/application/components'
 import { Default } from '@/application/layouts'
 
@@ -14,7 +13,6 @@ export const Profile: React.FC = () => {
       <Container>
         <Content>
           <Addresses />
-          <Skeleton />
           <footer>
             <DefaultButton><><FiLogOut />Sair</></DefaultButton>
           </footer>
