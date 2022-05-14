@@ -25,9 +25,9 @@ export const Container = styled.section`
     linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
     linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight});
   background-position:
-    left 1rem top 0.5rem,
-    left 1rem top 2.50rem,
-    left 1rem top 3.50rem,
+    left 1rem top 1rem,
+    left 1rem top 2.75rem,
+    left 1rem top 3.75rem,
     right 1.25rem top 1.75rem;
   background-size:
     15% 1.25rem,
