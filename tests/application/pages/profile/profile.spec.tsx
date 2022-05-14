@@ -35,7 +35,6 @@ describe('Profile', () => {
     makeSut()
 
     expect(screen.queryByRole('main')).not.toBeInTheDocument()
-    expect(screen.queryByText('Onde você quer receber seu pedido?')).not.toBeInTheDocument()
     await waitFor(() => screen.getByRole('main'))
   })
 
@@ -50,7 +49,7 @@ describe('Profile', () => {
   it('Should render user name and addresses on success', async () => {
     makeSut()
 
-    await waitFor(() => screen.getByText('Onde você quer receber seu pedido?'))
+    await waitFor(() => screen.getByRole('main'))
 
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByText(surname)).toBeInTheDocument()
@@ -102,7 +101,7 @@ describe('Profile', () => {
   it('Should call deleteAddress on reload', async () => {
     makeSut()
 
-    await waitFor(() => screen.getByText('Onde você quer receber seu pedido?'))
+    await waitFor(() => screen.getByRole('main'))
     fireEvent.click(screen.getByTestId('details'))
     fireEvent.click(screen.getByTestId('delete'))
 

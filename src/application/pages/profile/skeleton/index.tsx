@@ -1,12 +1,5 @@
-import { Container, Banner } from './styles'
+import { Container } from './styles'
 
 import React from 'react'
 
-export const Skeleton: React.FC = () => {
-  return (
-    <>
-      <Banner />
-      <Container />
-    </>
-  )
-}
+export const Skeleton: React.FC = () => <Container />

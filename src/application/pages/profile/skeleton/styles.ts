@@ -3,43 +3,6 @@ import { lighten } from 'polished'
 
 import styled from 'styled-components'
 
-export const Banner = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 9rem;
-
-  position: relative;
-  overflow: hidden;
-  background: no-repeat;
-  background-image:
-    linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
-    linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight}),
-    linear-gradient(to right, ${colors.grayLight}, ${colors.grayLight});
-  background-position:
-    left 50% top 0rem,
-    left 50% top 2.50rem,
-    right 0 top 6.50rem;
-  background-size:
-    30% 2rem,
-    55% 1.5rem,
-    17% 1.5rem;
-
-  :after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    transform: translateX(-100%);
-    background-image:
-      linear-gradient(to right, transparent, ${lighten(0.05, colors.white)}, transparent);
-    animation: ${shimmer} 1s infinite;
-  }
-`
-
 export const Container = styled.section`
   display: flex;
   align-items: center;

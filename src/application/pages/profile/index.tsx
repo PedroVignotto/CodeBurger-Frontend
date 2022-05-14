@@ -1,18 +1,20 @@
 import { Error, DefaultButton } from '@/application/components'
 import { Addresses } from '@/application/pages/profile/addresses'
 import { Default } from '@/application/layouts'
+import { AccountContext } from '@/application/contexts'
 import { useError, useLogout } from '@/application/hooks'
 import { DeleteAddress, ListAddresses } from '@/domain/use-cases/address'
 import { Address } from '@/domain/models'
 
-import { Container, Content } from './styles'
+import { Banner, Container, Content } from './styles'
 
-import { FiLogOut } from 'react-icons/fi'
-import React, { useEffect, useState } from 'react'
+import { FiLogOut, FiPlus } from 'react-icons/fi'
+import React, { useContext, useEffect, useState } from 'react'
 
 type Props = { listAddresses: ListAddresses, deleteAddress: DeleteAddress }
 
 export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
+  const { getCurrentAccount } = useContext(AccountContext)
   const handleError = useError(error => setError(error.message))
   const logout = useLogout()
 
@@ -38,6 +40,11 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
     <Default>
       <Container>
         <Content>
+          <Banner>
+            <h2>Olá, {getCurrentAccount().name}</h2>
+            <h3>Onde você quer receber seu pedido?</h3>
+            <DefaultButton><><FiPlus />Adicionar</></DefaultButton>
+          </Banner>
           {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} handleDelete={handleDelete} />}
           <footer>
             <DefaultButton onClick={logout}><><FiLogOut />Sair</></DefaultButton>
