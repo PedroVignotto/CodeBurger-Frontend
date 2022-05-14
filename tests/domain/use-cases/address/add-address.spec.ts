@@ -1,7 +1,7 @@
 import { addressParams, httpClientParams } from '@/tests/mocks'
 import { AddAddress, addAddressUseCase } from '@/domain/use-cases/address'
 import { HttpClient } from '@/domain/contracts/http'
-import { UnexpectedError } from '@/domain/errors'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { mock } from 'jest-mock-extended'
 
@@ -34,6 +34,14 @@ describe('AddAddressUseCase', () => {
     const promise = sut(address)
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('Should throw UnauthorizedError if HttpClient returns 401', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 401 })
+
+    const promise = sut(address)
+
+    await expect(promise).rejects.toThrow(new UnauthorizedError())
   })
 
   it('Should throw UnexpectedError if HttpClient returns 500', async () => {
