@@ -50,4 +50,10 @@ describe('DeleteAddressUseCase', () => {
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  it('Should delete an address if HttpClient returns 204', async () => {
+    const result = await sut()
+
+    expect(result).toBeUndefined()
+  })
 })
