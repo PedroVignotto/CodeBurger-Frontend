@@ -1,11 +1,12 @@
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
+import { PrivateRoute } from '@/main/proxies'
 import { GlobalStyle } from '@/application/styles'
 import { AccountContext } from '@/application/contexts'
+import { Profile } from '@/application/pages'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import React from 'react'
-import { PrivateRoute } from '@/main/proxies'
 
 type Props = {
   Login: React.FC
@@ -23,6 +24,7 @@ export const Router: React.FC<Props> = ({ Login, SignUp, Menu }) => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/menu" element={<PrivateRoute><Menu /></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </AccountContext.Provider>
