@@ -28,6 +28,8 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
 
   const handleDelete = async (id: string): Promise<void> => {
     await deleteAddress({ id })
+
+    setAddresses(addresses.filter(address => address.id !== id))
   }
 
   useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [reload])

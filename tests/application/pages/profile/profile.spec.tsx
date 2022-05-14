@@ -9,9 +9,10 @@ import React from 'react'
 
 describe('Profile', () => {
   const { name } = accountParams
-  const { surname, street, number, complement, district, zipCode } = addressParams
+  const { id, surname, street, number, complement, district, zipCode } = addressParams
 
   const listAddresses: jest.Mock = jest.fn()
+  const deleteAddress: jest.Mock = jest.fn()
   const setCurrentAccountMock: jest.Mock = jest.fn()
   const getCurrentAccountMock: jest.Mock = jest.fn()
 
@@ -24,7 +25,7 @@ describe('Profile', () => {
     render(
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
         <BrowserRouter>
-          <Profile listAddresses={listAddresses} />
+          <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} />
         </BrowserRouter>
       </AccountContext.Provider>
     )
@@ -96,5 +97,17 @@ describe('Profile', () => {
 
     expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
     expect(window.location.pathname).toBe('/login')
+  })
+
+  it('Should call deleteAddress on reload', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByText('Onde você quer receber seu pedido?'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('delete'))
+
+    expect(deleteAddress).toHaveBeenCalledTimes(1)
+    expect(deleteAddress).toHaveBeenCalledWith({ id })
+    await waitFor(() => screen.getByRole('main'))
   })
 })
