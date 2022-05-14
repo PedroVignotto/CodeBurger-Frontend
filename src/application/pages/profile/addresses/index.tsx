@@ -1,12 +1,15 @@
 import { DefaultButton } from '@/application/components'
 import { Skeleton } from '@/application/pages/profile/skeleton'
+import { Address } from '@/domain/models'
 
 import { Container, Banner } from './styles'
 
 import { FiEdit, FiMoreVertical, FiPlus, FiTrash2 } from 'react-icons/fi'
 import React, { useState } from 'react'
 
-export const Addresses: React.FC = () => {
+type Props = { addresses: Address[] }
+
+export const Addresses: React.FC<Props> = () => {
   const loading = true
   const [handleOpenDetails, setHandleOpenDetails] = useState(false)
 
@@ -36,7 +39,6 @@ export const Addresses: React.FC = () => {
       </Container>
     </>
     }
-
     </>
   )
 }
