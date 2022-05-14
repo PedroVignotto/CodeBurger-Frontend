@@ -17,14 +17,21 @@ export const Profile: React.FC<Props> = ({ listAddresses }) => {
 
   const [addresses, setAddresses] = useState<Address[]>([])
   const [error, setError] = useState('')
+  const [reload, setReload] = useState(false)
 
-  useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [])
+  const handleReload = (): void => {
+    setAddresses([])
+    setError('')
+    setReload(!reload)
+  }
+
+  useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [reload])
 
   return (
     <Default>
       <Container>
         <Content>
-        {error ? <Error error={error} reload={() => {}} /> : <Addresses addresses={addresses} />}
+        {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} />}
           <footer>
             <DefaultButton><><FiLogOut />Sair</></DefaultButton>
           </footer>
