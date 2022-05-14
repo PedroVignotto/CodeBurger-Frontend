@@ -1,13 +1,7 @@
-import { colors } from '@/application/styles'
+import { colors, shimmer } from '@/application/styles'
 
 import { lighten } from 'polished'
-import styled, { keyframes } from 'styled-components'
-
-const shimmer = keyframes`
-  100% {
-    transform: translateX(100%);
-  }
-`
+import styled from 'styled-components'
 
 export const Container = styled.div`
   + div {

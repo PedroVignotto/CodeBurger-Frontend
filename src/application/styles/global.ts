@@ -1,6 +1,12 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, keyframes } from 'styled-components'
 
 import 'react-toastify/dist/ReactToastify.css'
+
+export const shimmer = keyframes`
+  100% {
+    transform: translateX(100%);
+  }
+`
 
 export const GlobalStyle = createGlobalStyle`
   * {
