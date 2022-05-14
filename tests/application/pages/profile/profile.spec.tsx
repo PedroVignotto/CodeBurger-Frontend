@@ -1,7 +1,7 @@
 import { accountParams, addressParams } from '@/tests/mocks'
 import { AccountContext } from '@/application/contexts'
 import { Profile } from '@/application/pages'
-import { UnexpectedError } from '@/domain/errors'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
@@ -65,5 +65,15 @@ describe('Profile', () => {
     await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
 
     expect(screen.getByText(new UnexpectedError().message)).toBeInTheDocument()
+  })
+
+  it('Should logout on UnauthorizedError', async () => {
+    listAddresses.mockRejectedValueOnce(new UnauthorizedError())
+
+    makeSut()
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(window.location.pathname).toBe('/login')
   })
 })
