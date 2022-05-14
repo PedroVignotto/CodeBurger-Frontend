@@ -5,9 +5,9 @@ import { Container } from './styles'
 import { FiEdit, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
 import React, { useState } from 'react'
 
-type Props = { address: AdressModel }
+type Props = { address: AdressModel, handleDelete: (id: string) => void }
 
-export const Address: React.FC<Props> = ({ address }) => {
+export const Address: React.FC<Props> = ({ address, handleDelete }) => {
   const [handleOpenDetails, setHandleOpenDetails] = useState(false)
 
   return (
@@ -15,7 +15,7 @@ export const Address: React.FC<Props> = ({ address }) => {
       <div>
         <div>
           <FiEdit />
-          <FiTrash2 />
+          <FiTrash2 data-testid="delete" onClick={() => handleDelete(address.id)}/>
         </div>
         <main>
           <h3>{address.surname}</h3>
@@ -23,7 +23,7 @@ export const Address: React.FC<Props> = ({ address }) => {
           <p>{address.district}, {address.zipCode}</p>
         </main>
       </div>
-      <FiMoreVertical onClick={() => setHandleOpenDetails(!handleOpenDetails)} />
+      <FiMoreVertical data-testid="details" onClick={() => setHandleOpenDetails(!handleOpenDetails)} />
     </Container>
   )
 }

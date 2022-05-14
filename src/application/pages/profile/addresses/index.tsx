@@ -9,9 +9,9 @@ import { Banner } from './styles'
 import { FiPlus } from 'react-icons/fi'
 import React, { useContext } from 'react'
 
-type Props = { addresses: AddressModel[] }
+type Props = { addresses: AddressModel[], handleDelete: (id: string) => void }
 
-export const Addresses: React.FC<Props> = ({ addresses }) => {
+export const Addresses: React.FC<Props> = ({ addresses, handleDelete }) => {
   const { getCurrentAccount } = useContext(AccountContext)
 
   return (
@@ -23,7 +23,7 @@ export const Addresses: React.FC<Props> = ({ addresses }) => {
               <h3>Onde você quer receber seu pedido?</h3>
               <DefaultButton><><FiPlus />Adicionar</></DefaultButton>
             </Banner>
-            {addresses.map(address => <Address address={address} key={address.id} />)}
+            {addresses.map(address => <Address address={address} key={address.id} handleDelete={handleDelete} />)}
           </>
         : <Skeleton />
       }
