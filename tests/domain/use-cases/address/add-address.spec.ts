@@ -14,7 +14,7 @@ describe('AddAddressUseCase', () => {
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 201, data: address })
+    httpClient.request.mockResolvedValue({ statusCode: 201, data: addressParams })
   })
 
   beforeEach(() => {
@@ -50,5 +50,11 @@ describe('AddAddressUseCase', () => {
     const promise = sut(address)
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('Should return an address if HttpClient returns 201', async () => {
+    const result = await sut(address)
+
+    expect(result).toEqual(addressParams)
   })
 })
