@@ -1,14 +1,21 @@
+import { addressParams } from '@/tests/mocks'
 import { Profile } from '@/application/pages'
 
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 describe('Profile', () => {
+  const listAddresses: jest.Mock = jest.fn()
+
+  beforeAll(() => {
+    listAddresses.mockResolvedValue([addressParams])
+  })
+
   const makeSut = (): void => {
     render(
       <BrowserRouter>
-        <Profile />
+        <Profile listAddresses={listAddresses} />
       </BrowserRouter>
     )
   }
@@ -18,5 +25,14 @@ describe('Profile', () => {
 
     expect(screen.queryByRole('main')).not.toBeInTheDocument()
     expect(screen.queryByText('Onde você quer receber seu pedido?')).not.toBeInTheDocument()
+    await waitFor(() => screen.queryByRole('main'))
+  })
+
+  it('Should call listAddresses', async () => {
+    makeSut()
+
+    await waitFor(() => screen.queryByRole('main'))
+
+    expect(listAddresses).toHaveBeenCalledTimes(1)
   })
 })
