@@ -1,7 +1,7 @@
 import { addressParams, httpClientParams } from '@/tests/mocks'
 import { searchAddressUseCase, SearchAddress } from '@/domain/use-cases/address'
 import { HttpClient } from '@/domain/contracts/http'
-import { FieldNotFoundError, UnauthorizedError } from '@/domain/errors'
+import { FieldNotFoundError, UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { mock } from 'jest-mock-extended'
 
@@ -42,5 +42,13 @@ describe('SearchAddressUseCase', () => {
     const promise = sut({ zipCode })
 
     await expect(promise).rejects.toThrow(new UnauthorizedError())
+  })
+
+  it('Should throw UnexpectedError if HttpClient returns 500', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
+
+    const promise = sut({ zipCode })
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
