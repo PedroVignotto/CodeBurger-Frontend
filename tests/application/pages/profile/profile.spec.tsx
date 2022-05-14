@@ -1,6 +1,7 @@
 import { accountParams, addressParams } from '@/tests/mocks'
 import { AccountContext } from '@/application/contexts'
 import { Profile } from '@/application/pages'
+import { UnexpectedError } from '@/domain/errors'
 
 import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
@@ -34,13 +35,13 @@ describe('Profile', () => {
 
     expect(screen.queryByRole('main')).not.toBeInTheDocument()
     expect(screen.queryByText('Onde você quer receber seu pedido?')).not.toBeInTheDocument()
-    await waitFor(() => screen.queryByRole('main'))
+    await waitFor(() => screen.getByRole('main'))
   })
 
   it('Should call listAddresses', async () => {
     makeSut()
 
-    await waitFor(() => screen.queryByRole('main'))
+    await waitFor(() => screen.getByRole('main'))
 
     expect(listAddresses).toHaveBeenCalledTimes(1)
   })
@@ -55,5 +56,14 @@ describe('Profile', () => {
     expect(screen.getByText(`${street}, ${number}, ${complement}`)).toBeInTheDocument()
     expect(screen.getByText(`${district}, ${zipCode}`)).toBeInTheDocument()
     expect(screen.getByText(`Olá, ${name}`)).toBeInTheDocument()
+  })
+
+  it('Should render error on UnexpectedError', async () => {
+    listAddresses.mockRejectedValueOnce(new UnexpectedError())
+
+    makeSut()
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
+
+    expect(screen.getByText(new UnexpectedError().message)).toBeInTheDocument()
   })
 })
