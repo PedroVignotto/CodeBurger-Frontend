@@ -87,4 +87,14 @@ describe('Profile', () => {
     expect(listAddresses).toHaveBeenCalledTimes(2)
     await waitFor(() => screen.getByRole('main'))
   })
+
+  it('Should logout when exit button is clicked', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByText('Onde você quer receber seu pedido?'))
+    fireEvent.click(screen.getByRole('button', { name: /sair/i }))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(window.location.pathname).toBe('/login')
+  })
 })
