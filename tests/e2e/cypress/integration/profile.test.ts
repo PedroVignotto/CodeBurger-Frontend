@@ -1,7 +1,8 @@
-import { mockServerError, mockUnauthorizedError } from '../mocks'
+import { mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
 describe('profile', () => {
   const mockError = (method: Function): void => method('GET', /addresses/)
+  const mockSuccess = (): void => mockOk('GET', /addresses/, 'addresses-list')
 
   beforeEach(() => {
     cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
@@ -31,5 +32,14 @@ describe('profile', () => {
     cy.visit('profile')
 
     cy.testUrl('/login')
+  })
+
+  it('Should present addresses list', () => {
+    mockSuccess()
+
+    cy.visit('profile')
+
+    cy.get('section').should('have.length', 1)
+    cy.get('section').should('have.length', 2)
   })
 })
