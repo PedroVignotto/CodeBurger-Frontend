@@ -30,9 +30,13 @@ export const AddAddress: React.FC<Props> = ({ validation, searchAddress }) => {
   const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
+    if (loading || zipCodeError) return
+
     setLoading(true)
 
     await searchAddress({ zipCode })
+
+    setLoading(false)
   }
 
   return (
