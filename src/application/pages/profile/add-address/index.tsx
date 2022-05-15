@@ -1,14 +1,15 @@
 import { DefaultButton, Input, Spinner } from '@/application/components'
 import { Validator } from '@/application/validation'
 import { Default } from '@/application/layouts'
+import { SearchAddress } from '@/domain/use-cases/address'
 
 import { Container } from './styles'
 
 import React, { useEffect, useState } from 'react'
 
-type Props = { validation: Validator }
+type Props = { validation: Validator, searchAddress: SearchAddress }
 
-export const AddAddress: React.FC<Props> = ({ validation }) => {
+export const AddAddress: React.FC<Props> = ({ validation, searchAddress }) => {
   const [formSearchVisible] = useState(true)
   const [loading, setLoading] = useState(false)
 
@@ -30,6 +31,8 @@ export const AddAddress: React.FC<Props> = ({ validation }) => {
     event.preventDefault()
 
     setLoading(true)
+
+    await searchAddress({ zipCode })
   }
 
   return (
