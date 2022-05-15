@@ -9,6 +9,7 @@ import { Address } from '@/domain/models'
 import { Banner, Container, Content } from './styles'
 
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 import { FiLogOut, FiPlus } from 'react-icons/fi'
 import React, { useContext, useEffect, useState } from 'react'
 
@@ -55,7 +56,7 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
           <Banner>
             <h2>Olá, {getCurrentAccount().name}</h2>
             <h3>Onde você quer receber seu pedido?</h3>
-            <DefaultButton><><FiPlus />Adicionar</></DefaultButton>
+           <Link to="/address/register"><DefaultButton><><FiPlus />Adicionar</></DefaultButton></Link>
           </Banner>
           {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} handleDelete={handleDelete} />}
           <footer>

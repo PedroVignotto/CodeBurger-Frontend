@@ -73,14 +73,17 @@ export const Banner = styled.header`
     align-self: center;
   }
 
-  button {
+  a {
     align-self: flex-end;
-    height: 2.35rem;
-    width: auto;
-    margin: 3rem 0 0.5rem 0;
 
-    svg {
-      margin-right: 0.5rem;
+    button {
+      height: 2.35rem;
+      width: auto;
+      margin: 3rem 0 0.5rem 0;
+
+      svg {
+        margin-right: 0.5rem;
+      }
     }
   }
 `
