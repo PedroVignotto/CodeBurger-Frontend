@@ -12,6 +12,10 @@ describe('AddAddress', () => {
 
   const validator = mock<Validator>()
 
+  beforeAll(() => {
+    validator.validate.mockReturnValue('')
+  })
+
   const makeSut = (): void => {
     render(
       <BrowserRouter>
@@ -44,5 +48,13 @@ describe('AddAddress', () => {
     populateField('Informe seu CEP', zipCode)
 
     expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', error)
+  })
+
+  it('Should show valid input states if Validation succeeds', () => {
+    makeSut()
+
+    populateField('Informe seu CEP', zipCode)
+
+    expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', '')
   })
 })
