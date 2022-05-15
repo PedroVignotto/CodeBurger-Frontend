@@ -53,11 +53,17 @@ export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, ad
   const handleAddSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (loading || numberError || complementError || surnameError) return
+    try {
+      if (loading || numberError || complementError || surnameError) return
 
-    setLoading(true)
+      setLoading(true)
 
-    await addAddress({ zipCode, surname, district, street, number: +number, complement })
+      await addAddress({ zipCode, surname, district, street, number: +number, complement })
+    } catch (error: any) {
+      setLoading(false)
+
+      toast.error(error.message)
+    }
   }
 
   return (
