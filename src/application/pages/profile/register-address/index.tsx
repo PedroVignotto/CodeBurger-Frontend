@@ -6,11 +6,14 @@ import { AddAddress, SearchAddress } from '@/domain/use-cases/address'
 import { Container } from './styles'
 
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 
 type Props = { validation: Validator, searchAddress: SearchAddress, addAddress: AddAddress }
 
 export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, addAddress }) => {
+  const navigate = useNavigate()
+
   const [formSearchVisible, setFormSearchVisible] = useState(true)
   const [loading, setLoading] = useState(false)
 
@@ -59,6 +62,8 @@ export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, ad
       setLoading(true)
 
       await addAddress({ zipCode, surname, district, street, number: +number, complement })
+
+      navigate('/profile')
     } catch (error: any) {
       setLoading(false)
 
