@@ -1,5 +1,5 @@
 import { addressParams, populateField } from '@/tests/mocks'
-import { AddAddress } from '@/application/pages'
+import { RegisterAddress } from '@/application/pages'
 import { Validator } from '@/application/validation'
 import { UnexpectedError } from '@/domain/errors'
 
@@ -9,11 +9,12 @@ import { mock } from 'jest-mock-extended'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
-describe('AddAddress', () => {
+describe('RegisterAddress', () => {
   const { zipCode, district, street, surname, number, complement, error } = addressParams
 
   const validator = mock<Validator>()
   const searchAddress: jest.Mock = jest.fn()
+  const addAddress: jest.Mock = jest.fn()
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
@@ -24,7 +25,7 @@ describe('AddAddress', () => {
     render(
       <BrowserRouter>
         <ToastContainer/>
-        <AddAddress validation={validator} searchAddress={searchAddress} />
+        <RegisterAddress validation={validator} searchAddress={searchAddress} addAddress={addAddress} />
       </BrowserRouter>
     )
   }
@@ -161,5 +162,15 @@ describe('AddAddress', () => {
     await waitFor(() => screen.getByTestId('form-add'))
 
     expect(screen.queryByRole('button', { name: /Adicionar/i })).not.toBeInTheDocument()
+  })
+
+  it('Should call AddAddress with correct values', async () => {
+    makeSut()
+
+    await simulateAddFormSubmit()
+    await waitFor(() => screen.getByTestId('form-add'))
+
+    expect(addAddress).toHaveBeenCalledWith({ zipCode, district, street, surname, number, complement })
+    await waitFor(() => screen.getByTestId('form-add'))
   })
 })
