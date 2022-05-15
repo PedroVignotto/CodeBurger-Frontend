@@ -118,7 +118,7 @@ describe('RegisterAddress', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
-    simulateSearchFormSubmit()
+    populateSearchFormFields()
     fireEvent.submit(screen.getByTestId('form-search'))
 
     expect(searchAddress).not.toHaveBeenCalled()
@@ -172,5 +172,15 @@ describe('RegisterAddress', () => {
 
     expect(addAddress).toHaveBeenCalledWith({ zipCode, district, street, surname, number, complement })
     await waitFor(() => screen.getByTestId('form-add'))
+  })
+
+  it('Should not call AddAddress if form is invalid', async () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce('').mockReturnValueOnce(error)
+
+    await populateAddFormFields()
+    fireEvent.submit(screen.getByTestId('form-add'))
+
+    expect(addAddress).not.toHaveBeenCalled()
   })
 })
