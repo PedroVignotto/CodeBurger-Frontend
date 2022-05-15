@@ -1,8 +1,10 @@
 import { addressParams, populateField } from '@/tests/mocks'
 import { AddAddress } from '@/application/pages'
 import { Validator } from '@/application/validation'
+import { UnexpectedError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { ToastContainer } from 'react-toastify'
 import { mock } from 'jest-mock-extended'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
@@ -20,6 +22,7 @@ describe('AddAddress', () => {
   const makeSut = (): void => {
     render(
       <BrowserRouter>
+        <ToastContainer/>
         <AddAddress validation={validator} searchAddress={searchAddress} />
       </BrowserRouter>
     )
@@ -102,5 +105,15 @@ describe('AddAddress', () => {
     fireEvent.submit(screen.getByTestId('form-search'))
 
     expect(searchAddress).not.toHaveBeenCalled()
+  })
+
+  it('Should show alert error if SearchAddress fails', async () => {
+    makeSut()
+    searchAddress.mockRejectedValueOnce(new UnexpectedError())
+
+    simulateSearchFormSubmit()
+
+    expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Buscar/i })).toBeInTheDocument()
   })
 })
