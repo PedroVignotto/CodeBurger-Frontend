@@ -5,6 +5,7 @@ import { SearchAddress } from '@/domain/use-cases/address'
 
 import { Container } from './styles'
 
+import { toast } from 'react-toastify'
 import React, { useEffect, useState } from 'react'
 
 type Props = { validation: Validator, searchAddress: SearchAddress }
@@ -30,13 +31,17 @@ export const AddAddress: React.FC<Props> = ({ validation, searchAddress }) => {
   const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (loading || zipCodeError) return
+    try {
+      if (loading || zipCodeError) return
 
-    setLoading(true)
+      setLoading(true)
 
-    await searchAddress({ zipCode })
-
-    setLoading(false)
+      await searchAddress({ zipCode })
+    } catch (error: any) {
+      toast.error(error.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
