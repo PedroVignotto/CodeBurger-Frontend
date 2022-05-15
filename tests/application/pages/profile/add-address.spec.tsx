@@ -2,7 +2,7 @@ import { addressParams, populateField } from '@/tests/mocks'
 import { AddAddress } from '@/application/pages'
 import { Validator } from '@/application/validation'
 
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { mock } from 'jest-mock-extended'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
@@ -66,5 +66,15 @@ describe('AddAddress', () => {
     populateField('Informe seu CEP', zipCode)
 
     expect(screen.getByRole('button', { name: /Buscar/i })).toBeEnabled()
+  })
+
+  it('Should show spinner on submit', async () => {
+    makeSut()
+
+    populateField('Informe seu CEP', zipCode)
+    fireEvent.click(screen.getByRole('button', { name: /Buscar/i }))
+    await waitFor(() => screen.getByTestId('form-search'))
+
+    expect(screen.queryByRole('button', { name: /Buscar/i })).not.toBeInTheDocument()
   })
 })
