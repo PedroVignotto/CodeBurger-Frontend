@@ -10,7 +10,7 @@ type Props = { validation: Validator }
 
 export const AddAddress: React.FC<Props> = ({ validation }) => {
   const [formSearchVisible] = useState(true)
-  const loading = false
+  const [loading, setLoading] = useState(false)
 
   const [zipCode, setZipCode] = useState('')
   const [zipCodeError, setZipCodeError] = useState<string | undefined>('')
@@ -26,11 +26,17 @@ export const AddAddress: React.FC<Props> = ({ validation }) => {
   useEffect(() => setComplementError(validation.validate('complement', { complement })), [complement])
   useEffect(() => setSurnameError(validation.validate('surname', { surname })), [surname])
 
+  const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+
+    setLoading(true)
+  }
+
   return (
     <Default>
       <Container>
       {formSearchVisible
-        ? <form data-testid="form-search">
+        ? <form data-testid="form-search" onSubmit={handleSearchSubmit}>
             <Input type="text" name="zipCode" placeholder="Informe seu CEP" state={zipCodeError} setState={setZipCode} />
             <DefaultButton type="submit" disabled={!!zipCodeError}>{loading ? <Spinner /> : 'Buscar'}</DefaultButton>
           </form>
