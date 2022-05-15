@@ -7,3 +7,5 @@ Cypress.Commands.add('testUrl', (path) => cy.url().should('eq', `${Cypress.confi
 Cypress.Commands.add('testLocalStorageItem', (item) => cy.window().then(window => assert.isOk(window.localStorage.getItem(item))))
 
 Cypress.Commands.add('setLocalStorageItem', (key, value) => localStorage.setItem(key, JSON.stringify(value)))
+
+Cypress.Commands.add('getByTestId', (id) => cy.get(`[data-testid=${id}]`))

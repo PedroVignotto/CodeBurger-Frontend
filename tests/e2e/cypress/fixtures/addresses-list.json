@@ -1,20 +1,11 @@
 [
   {
-    "id": "any_id_01",
-    "surname": "any_surname_01",
-    "zipCode": "any_zipcode_01",
-    "district": "any_district_01",
-    "street": "any_street_01",
+    "id": "any_id",
+    "surname": "any_surname",
+    "zipCode": "any_zipcode",
+    "district": "any_district",
+    "street": "any_street",
     "number": 123,
-    "complement": "any_complement_01"
-  },
-  {
-    "id": "any_id_02",
-    "surname": "any_surname_02",
-    "zipCode": "any_zipcode_02",
-    "district": "any_district_02",
-    "street": "any_street_02",
-    "number": 456,
-    "complement": "any_complement_02"
+    "complement": "any_complement"
   }
 ]

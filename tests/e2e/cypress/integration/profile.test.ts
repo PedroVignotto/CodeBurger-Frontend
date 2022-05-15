@@ -1,4 +1,4 @@
-import { mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
+import { mockNoContent, mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
 describe('profile', () => {
   const mockError = (method: Function): void => method('GET', /addresses/)
@@ -39,8 +39,8 @@ describe('profile', () => {
 
     cy.visit('profile')
 
+    cy.get('section:empty').should('have.length', 1)
     cy.get('section').should('have.length', 1)
-    cy.get('section').should('have.length', 2)
   })
 
   it('Should logout when exit button is clicked', () => {
@@ -50,5 +50,16 @@ describe('profile', () => {
     cy.get('button').contains('Sair').click()
 
     cy.testUrl('/login')
+  })
+
+  it('Should call delete address when delete button is clicked', () => {
+    mockSuccess()
+    mockNoContent('DELETE', /address/)
+
+    cy.visit('profile')
+    cy.getByTestId('details').click()
+    cy.getByTestId('delete').click()
+
+    cy.get('section:empty').should('have.length', 1)
   })
 })
