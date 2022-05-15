@@ -42,4 +42,13 @@ describe('profile', () => {
     cy.get('section').should('have.length', 1)
     cy.get('section').should('have.length', 2)
   })
+
+  it('Should logout when exit button is clicked', () => {
+    mockSuccess()
+
+    cy.visit('profile')
+    cy.get('button').contains('Sair').click()
+
+    cy.testUrl('/login')
+  })
 })
