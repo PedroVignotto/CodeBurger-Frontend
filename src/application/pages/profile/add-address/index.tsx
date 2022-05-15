@@ -32,7 +32,7 @@ export const AddAddress: React.FC<Props> = ({ validation }) => {
       {formSearchVisible
         ? <form data-testid="form-search">
             <Input type="text" name="zipCode" placeholder="Informe seu CEP" state={zipCodeError} setState={setZipCode} />
-            <DefaultButton type="submit" disabled={true}>{loading ? <Spinner /> : 'Buscar'}</DefaultButton>
+            <DefaultButton type="submit" disabled={!!zipCodeError}>{loading ? <Spinner /> : 'Buscar'}</DefaultButton>
           </form>
         : <form data-testid="form-add">
             <div>
