@@ -10,13 +10,14 @@ import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 describe('AddAddress', () => {
-  const { zipCode, error } = addressParams
+  const { zipCode, district, street, error } = addressParams
 
   const validator = mock<Validator>()
   const searchAddress: jest.Mock = jest.fn()
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
+    searchAddress.mockResolvedValue({ district, street })
   })
 
   const makeSut = (): void => {
@@ -86,6 +87,7 @@ describe('AddAddress', () => {
     await waitFor(() => screen.getByTestId('form-search'))
 
     expect(screen.queryByRole('button', { name: /Buscar/i })).not.toBeInTheDocument()
+    await waitFor(() => screen.getByTestId('form-add'))
   })
 
   it('Should call SearchAddress with correct values', async () => {
@@ -95,6 +97,7 @@ describe('AddAddress', () => {
     await waitFor(() => screen.getByTestId('form-search'))
 
     expect(searchAddress).toHaveBeenCalledWith({ zipCode })
+    await waitFor(() => screen.getByTestId('form-add'))
   })
 
   it('Should not call SearchAddress if form is invalid', () => {
@@ -115,5 +118,18 @@ describe('AddAddress', () => {
 
     expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Buscar/i })).toBeInTheDocument()
+  })
+
+  it('Should show form-add if SearchAddress succeeds', async () => {
+    makeSut()
+
+    simulateSearchFormSubmit()
+    await waitFor(() => screen.getByTestId('form-add'))
+
+    expect(screen.getByTestId('form-add')).toBeInTheDocument()
+    expect(screen.queryByTestId('form-search')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('Bairro')).toHaveProperty('title', district)
+    expect(screen.getByLabelText('CEP')).toHaveProperty('title', zipCode)
+    expect(screen.getByLabelText('Rua')).toHaveProperty('title', street)
   })
 })
