@@ -11,6 +11,7 @@ describe('AddAddress', () => {
   const { zipCode, error } = addressParams
 
   const validator = mock<Validator>()
+  const searchAddress: jest.Mock = jest.fn()
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
@@ -19,7 +20,7 @@ describe('AddAddress', () => {
   const makeSut = (): void => {
     render(
       <BrowserRouter>
-        <AddAddress validation={validator} />
+        <AddAddress validation={validator} searchAddress={searchAddress} />
       </BrowserRouter>
     )
   }
@@ -82,5 +83,14 @@ describe('AddAddress', () => {
     await waitFor(() => screen.getByTestId('form-search'))
 
     expect(screen.queryByRole('button', { name: /Buscar/i })).not.toBeInTheDocument()
+  })
+
+  it('Should call SearchAddress with correct values', async () => {
+    makeSut()
+
+    simulateSearchFormSubmit()
+    await waitFor(() => screen.getByTestId('form-search'))
+
+    expect(searchAddress).toHaveBeenCalledWith({ zipCode })
   })
 })
