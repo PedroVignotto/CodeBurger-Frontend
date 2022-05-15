@@ -1,5 +1,5 @@
 import { Error } from '@/application/components'
-import { Categories } from '@/application/pages/menu/categories'
+import { Categories } from '@/application/pages/menu/components'
 import { useError } from '@/application/hooks'
 import { Default } from '@/application/layouts'
 import { ListCategories } from '@/domain/use-cases/category'

@@ -1,5 +1,4 @@
-import { Skeleton } from '@/application/pages/profile/skeleton'
-import { Address } from '@/application/pages/profile/addresses/address'
+import { Skeleton, Address } from '@/application/pages/profile/components'
 import { Address as AddressModel } from '@/domain/models'
 
 import React from 'react'

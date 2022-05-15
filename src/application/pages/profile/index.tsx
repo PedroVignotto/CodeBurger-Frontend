@@ -1,5 +1,5 @@
 import { Error, DefaultButton } from '@/application/components'
-import { Addresses } from '@/application/pages/profile/addresses'
+import { Addresses } from '@/application/pages/profile/components'
 import { Default } from '@/application/layouts'
 import { AccountContext } from '@/application/contexts'
 import { useError, useLogout } from '@/application/hooks'

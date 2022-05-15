@@ -1,5 +1,4 @@
-import { Skeleton } from '@/application/pages/menu/skeleton'
-import { Products } from '@/application/pages/menu/categories/product'
+import { Skeleton, Products } from '@/application/pages/menu/components'
 import { Category } from '@/domain/models'
 
 import { Container } from './styles'
