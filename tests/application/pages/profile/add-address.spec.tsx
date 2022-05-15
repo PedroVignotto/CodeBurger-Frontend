@@ -1,3 +1,4 @@
+import { addressParams, populateField } from '@/tests/mocks'
 import { AddAddress } from '@/application/pages'
 import { Validator } from '@/application/validation'
 
@@ -7,6 +8,8 @@ import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 describe('AddAddress', () => {
+  const { zipCode, error } = addressParams
+
   const validator = mock<Validator>()
 
   const makeSut = (): void => {
@@ -32,5 +35,14 @@ describe('AddAddress', () => {
     expect(validator.validate).toHaveBeenCalledWith('number', { number: '' })
     expect(validator.validate).toHaveBeenCalledWith('complement', { complement: '' })
     expect(validator.validate).toHaveBeenCalledWith('surname', { surname: '' })
+  })
+
+  it('Should show error if Validation fails', () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce(error)
+
+    populateField('Informe seu CEP', zipCode)
+
+    expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', error)
   })
 })
