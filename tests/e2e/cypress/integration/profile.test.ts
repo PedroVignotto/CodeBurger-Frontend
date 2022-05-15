@@ -1,6 +1,6 @@
 import { mockNoContent, mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
-describe('profile', () => {
+describe('Profile', () => {
   const mockError = (method: Function): void => method('GET', /addresses/)
   const mockSuccess = (): void => mockOk('GET', /addresses/, 'addresses-list')
 
@@ -63,7 +63,7 @@ describe('profile', () => {
     cy.get('section:empty').should('have.length', 1)
   })
 
-  it('Should prevent multiple submits', () => {
+  it('Should prevent multiple requests on delete', () => {
     mockSuccess()
     mockNoContent('DELETE', /address/, 'deleteRequest')
 
@@ -73,5 +73,17 @@ describe('profile', () => {
     cy.wait('@deleteRequest')
 
     cy.get('@deleteRequest.all').should('have.length', 1)
+  })
+
+  it('Should present alert error if delete fails', () => {
+    mockSuccess()
+    mockServerError('DELETE', /address/, 'deleteRequest')
+
+    cy.visit('profile')
+    cy.getByTestId('details').click()
+    cy.getByTestId('delete').click()
+    cy.wait('@deleteRequest')
+
+    cy.contains('Algo deu errado. Tente novamente!')
   })
 })

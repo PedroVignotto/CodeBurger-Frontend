@@ -37,9 +37,9 @@ export const mockUnauthorizedError = (method: string, url: RegExp): void => {
   ).as('request')
 }
 
-export const mockServerError = (method: string, url: RegExp): void => {
+export const mockServerError = (method: string, url: RegExp, alias: string = 'request'): void => {
   cy.intercept(
     { method, url },
     { delay: 50, statusCode: 500, body }
-  ).as('request')
+  ).as(alias)
 }
