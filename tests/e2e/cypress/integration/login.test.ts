@@ -98,4 +98,10 @@ describe('Login', () => {
 
     cy.get('@request.all').should('have.length', 0)
   })
+
+  it('Should go to signup page', () => {
+    cy.get('a').click()
+
+    cy.testUrl('/signup')
+  })
 })
