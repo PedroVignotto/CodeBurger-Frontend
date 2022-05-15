@@ -25,6 +25,8 @@ describe('AddAddress', () => {
   }
 
   it('Should load with correct initial state', async () => {
+    validator.validate.mockReturnValueOnce(error)
+
     makeSut()
 
     expect(screen.getByTestId('form-search')).toBeInTheDocument()
@@ -56,5 +58,13 @@ describe('AddAddress', () => {
     populateField('Informe seu CEP', zipCode)
 
     expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', '')
+  })
+
+  it('Should enable submit button if form-search is valid', () => {
+    makeSut()
+
+    populateField('Informe seu CEP', zipCode)
+
+    expect(screen.getByRole('button', { name: /Buscar/i })).toBeEnabled()
   })
 })
