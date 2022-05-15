@@ -162,6 +162,7 @@ describe('RegisterAddress', () => {
     await waitFor(() => screen.getByTestId('form-add'))
 
     expect(screen.queryByRole('button', { name: /Adicionar/i })).not.toBeInTheDocument()
+    await waitFor(() => screen.getByTestId('form-add'))
   })
 
   it('Should call AddAddress with correct values', async () => {
@@ -182,5 +183,15 @@ describe('RegisterAddress', () => {
     fireEvent.submit(screen.getByTestId('form-add'))
 
     expect(addAddress).not.toHaveBeenCalled()
+  })
+
+  it('Should show alert error if AddAddress fails', async () => {
+    makeSut()
+    addAddress.mockRejectedValueOnce(new UnexpectedError())
+
+    await simulateAddFormSubmit()
+
+    expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Adicionar/i })).toBeInTheDocument()
   })
 })
