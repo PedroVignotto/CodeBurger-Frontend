@@ -44,6 +44,11 @@ describe('AddAddress', () => {
     fireEvent.click(screen.getByRole('button', { name: /Buscar/i }))
   }
 
+  const simulateAddFormSubmit = async (): Promise<void> => {
+    await populateAddFormFields()
+    fireEvent.click(screen.getByRole('button', { name: /Adicionar/i }))
+  }
+
   it('Should load with correct initial state', async () => {
     validator.validate.mockReturnValueOnce(error)
 
@@ -147,5 +152,14 @@ describe('AddAddress', () => {
     await populateAddFormFields()
 
     expect(screen.getByRole('button', { name: /Adicionar/i })).toBeEnabled()
+  })
+
+  it('Should show spinner on form-add submit', async () => {
+    makeSut()
+
+    await simulateAddFormSubmit()
+    await waitFor(() => screen.getByTestId('form-add'))
+
+    expect(screen.queryByRole('button', { name: /Adicionar/i })).not.toBeInTheDocument()
   })
 })
