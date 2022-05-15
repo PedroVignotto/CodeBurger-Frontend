@@ -62,4 +62,16 @@ describe('profile', () => {
 
     cy.get('section:empty').should('have.length', 1)
   })
+
+  it('Should prevent multiple submits', () => {
+    mockSuccess()
+    mockNoContent('DELETE', /address/, 'deleteRequest')
+
+    cy.visit('profile')
+    cy.getByTestId('details').click()
+    cy.getByTestId('delete').dblclick()
+    cy.wait('@deleteRequest')
+
+    cy.get('@deleteRequest.all').should('have.length', 1)
+  })
 })
