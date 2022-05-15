@@ -24,6 +24,13 @@ describe('AddAddress', () => {
     )
   }
 
+  const populateSearchForm = (): void => populateField('Informe seu CEP', zipCode)
+
+  const simulateSearchFormSubmit = (): void => {
+    populateSearchForm()
+    fireEvent.click(screen.getByRole('button', { name: /Buscar/i }))
+  }
+
   it('Should load with correct initial state', async () => {
     validator.validate.mockReturnValueOnce(error)
 
@@ -47,7 +54,7 @@ describe('AddAddress', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
-    populateField('Informe seu CEP', zipCode)
+    populateSearchForm()
 
     expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', error)
   })
@@ -55,7 +62,7 @@ describe('AddAddress', () => {
   it('Should show valid input states if Validation succeeds', () => {
     makeSut()
 
-    populateField('Informe seu CEP', zipCode)
+    populateSearchForm()
 
     expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', '')
   })
@@ -63,7 +70,7 @@ describe('AddAddress', () => {
   it('Should enable submit button if form-search is valid', () => {
     makeSut()
 
-    populateField('Informe seu CEP', zipCode)
+    populateSearchForm()
 
     expect(screen.getByRole('button', { name: /Buscar/i })).toBeEnabled()
   })
@@ -71,8 +78,7 @@ describe('AddAddress', () => {
   it('Should show spinner on submit', async () => {
     makeSut()
 
-    populateField('Informe seu CEP', zipCode)
-    fireEvent.click(screen.getByRole('button', { name: /Buscar/i }))
+    simulateSearchFormSubmit()
     await waitFor(() => screen.getByTestId('form-search'))
 
     expect(screen.queryByRole('button', { name: /Buscar/i })).not.toBeInTheDocument()
