@@ -50,6 +50,12 @@ export const AddAddress: React.FC<Props> = ({ validation, searchAddress }) => {
     }
   }
 
+  const handleAddSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+
+    setLoading(true)
+  }
+
   return (
     <Default>
       <Container>
@@ -58,7 +64,7 @@ export const AddAddress: React.FC<Props> = ({ validation, searchAddress }) => {
             <Input type="text" name="zipCode" placeholder="Informe seu CEP" state={zipCodeError} setState={setZipCode} />
             <DefaultButton type="submit" disabled={!!zipCodeError}>{loading ? <Spinner /> : 'Buscar'}</DefaultButton>
           </form>
-        : <form data-testid="form-add">
+        : <form data-testid="form-add" onSubmit={handleAddSubmit}>
             <div>
               <Input type="text" name="district" placeholder="Bairro" state={district} setState={setDistrict} readOnly />
               <Input type="text" name="zipCode" placeholder="CEP" state={zipCode} setState={setZipCode} readOnly />
