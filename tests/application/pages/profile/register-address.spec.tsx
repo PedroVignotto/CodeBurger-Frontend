@@ -9,6 +9,8 @@ import { mock } from 'jest-mock-extended'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
+jest.mock('react-router-dom', () => ({ ...jest.requireActual('react-router-dom'), useNavigate: () => (jest.fn()) }))
+
 describe('RegisterAddress', () => {
   const { zipCode, district, street, surname, number, complement, error } = addressParams
 
