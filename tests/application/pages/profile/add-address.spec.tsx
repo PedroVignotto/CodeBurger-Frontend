@@ -25,10 +25,10 @@ describe('AddAddress', () => {
     )
   }
 
-  const populateSearchForm = (): void => populateField('Informe seu CEP', zipCode)
+  const populateSearchFormFields = (): void => populateField('Informe seu CEP', zipCode)
 
   const simulateSearchFormSubmit = (): void => {
-    populateSearchForm()
+    populateSearchFormFields()
     fireEvent.click(screen.getByRole('button', { name: /Buscar/i }))
   }
 
@@ -55,7 +55,7 @@ describe('AddAddress', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
-    populateSearchForm()
+    populateSearchFormFields()
 
     expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', error)
   })
@@ -63,7 +63,7 @@ describe('AddAddress', () => {
   it('Should show valid input states if Validation succeeds', () => {
     makeSut()
 
-    populateSearchForm()
+    populateSearchFormFields()
 
     expect(screen.getByLabelText('Informe seu CEP')).toHaveProperty('title', '')
   })
@@ -71,7 +71,7 @@ describe('AddAddress', () => {
   it('Should enable submit button if form-search is valid', () => {
     makeSut()
 
-    populateSearchForm()
+    populateSearchFormFields()
 
     expect(screen.getByRole('button', { name: /Buscar/i })).toBeEnabled()
   })
@@ -92,5 +92,15 @@ describe('AddAddress', () => {
     await waitFor(() => screen.getByTestId('form-search'))
 
     expect(searchAddress).toHaveBeenCalledWith({ zipCode })
+  })
+
+  it('Should not call SearchAddress if form is invalid', () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce(error)
+
+    simulateSearchFormSubmit()
+    fireEvent.submit(screen.getByTestId('form-search'))
+
+    expect(searchAddress).not.toHaveBeenCalled()
   })
 })
