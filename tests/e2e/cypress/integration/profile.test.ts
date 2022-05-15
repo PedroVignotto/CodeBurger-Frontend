@@ -86,4 +86,12 @@ describe('Profile', () => {
 
     cy.contains('Algo deu errado. Tente novamente!')
   })
+
+  it('Should go to add address page', () => {
+    mockSuccess()
+
+    cy.contains('Adicionar').click()
+
+    cy.testUrl('/address/register')
+  })
 })

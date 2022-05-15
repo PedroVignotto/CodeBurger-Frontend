@@ -135,4 +135,13 @@ describe('Profile', () => {
 
     expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
   })
+
+  it('Should go to add address page', async () => {
+    makeSut()
+
+    fireEvent.click(screen.getByRole('button', { name: /Adicionar/i }))
+    await waitFor(() => screen.getByRole('main'))
+
+    expect(window.location.pathname).toBe('/address/register')
+  })
 })
