@@ -4,4 +4,10 @@ describe('Private Routes', () => {
 
     cy.testUrl('/login')
   })
+
+  it('Should logout if profile has no accessToken', () => {
+    cy.visit('profile')
+
+    cy.testUrl('/login')
+  })
 })
