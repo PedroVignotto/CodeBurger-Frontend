@@ -1,4 +1,4 @@
-import { mockServerError } from '../mocks'
+import { mockServerError, mockUnauthorizedError } from '../mocks'
 
 describe('profile', () => {
   const mockError = (method: Function): void => method('GET', /addresses/)
@@ -23,5 +23,13 @@ describe('profile', () => {
     cy.contains('Tentar novamente').click()
 
     cy.get('section').should('have.length', 1)
+  })
+
+  it('Should logout on UnauthorizedError', () => {
+    mockError(mockUnauthorizedError)
+
+    cy.visit('profile')
+
+    cy.testUrl('/login')
   })
 })
