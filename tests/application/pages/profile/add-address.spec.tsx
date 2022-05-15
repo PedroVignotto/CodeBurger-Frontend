@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 describe('AddAddress', () => {
-  const { zipCode, district, street, error } = addressParams
+  const { zipCode, district, street, surname, number, complement, error } = addressParams
 
   const validator = mock<Validator>()
   const searchAddress: jest.Mock = jest.fn()
@@ -30,6 +30,14 @@ describe('AddAddress', () => {
   }
 
   const populateSearchFormFields = (): void => populateField('Informe seu CEP', zipCode)
+
+  const populateAddFormFields = async (): Promise<void> => {
+    simulateSearchFormSubmit()
+    await waitFor(() => screen.getByTestId('form-add'))
+    populateField('Número', number.toString())
+    populateField('Complemento', complement)
+    populateField('Apelido', surname)
+  }
 
   const simulateSearchFormSubmit = (): void => {
     populateSearchFormFields()
@@ -131,5 +139,13 @@ describe('AddAddress', () => {
     expect(screen.getByLabelText('Bairro')).toHaveProperty('title', district)
     expect(screen.getByLabelText('CEP')).toHaveProperty('title', zipCode)
     expect(screen.getByLabelText('Rua')).toHaveProperty('title', street)
+  })
+
+  it('Should enable submit button if form-add is valid', async () => {
+    makeSut()
+
+    await populateAddFormFields()
+
+    expect(screen.getByRole('button', { name: /Adicionar/i })).toBeEnabled()
   })
 })
