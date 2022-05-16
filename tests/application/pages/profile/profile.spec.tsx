@@ -236,6 +236,16 @@ describe('Profile', () => {
     expect(updateAddress).not.toHaveBeenCalled()
   })
 
+  it('Should show alert error if UpdateAddress fails', async () => {
+    makeSut()
+    updateAddress.mockRejectedValueOnce(new UnexpectedError())
+
+    await simulateSubmit()
+
+    expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
+    expect(screen.getByTestId('form')).toBeInTheDocument()
+  })
+
   it('Should go to add address page', async () => {
     makeSut()
 
