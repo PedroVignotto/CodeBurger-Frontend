@@ -11,7 +11,7 @@ export const searchAddressUseCase: Setup = (url, httpClient) => async ({ zipCode
 
   switch (statusCode) {
     case 200: return data!
-    case 400: throw new FieldNotFoundError('zipCode')
+    case 400: throw new FieldNotFoundError('CEP')
     case 401: throw new UnauthorizedError()
     default: throw new UnexpectedError()
   }

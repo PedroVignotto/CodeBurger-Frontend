@@ -33,7 +33,7 @@ describe('SearchAddressUseCase', () => {
 
     const promise = sut({ zipCode })
 
-    await expect(promise).rejects.toThrow(new FieldNotFoundError('zipCode'))
+    await expect(promise).rejects.toThrow(new FieldNotFoundError('CEP'))
   })
 
   it('Should throw UnauthorizedError if HttpClient returns 401', async () => {
