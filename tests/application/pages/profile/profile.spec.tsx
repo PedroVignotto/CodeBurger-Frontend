@@ -184,6 +184,17 @@ describe('Profile', () => {
     expect(screen.getByLabelText('Número')).toHaveProperty('title', error)
   })
 
+  it('Should show valid input states if Validation succeeds', async () => {
+    makeSut()
+
+    await openEditModal()
+    populateFields()
+
+    expect(screen.getByLabelText('Apelido')).toHaveProperty('title', '')
+    expect(screen.getByLabelText('Complemento')).toHaveProperty('title', '')
+    expect(screen.getByLabelText('Número')).toHaveProperty('title', '')
+  })
+
   it('Should go to add address page', async () => {
     makeSut()
 
