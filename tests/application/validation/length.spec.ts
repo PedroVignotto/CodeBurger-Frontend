@@ -27,4 +27,12 @@ describe('LengthValidation', () => {
 
     expect(error).toBeFalsy()
   })
+
+  it('Should return falsy if value is empty', () => {
+    const sut = new LengthValidation(fieldName, 8)
+
+    const error = sut.validate({ [fieldName]: undefined })
+
+    expect(error).toBeFalsy()
+  })
 })
