@@ -10,14 +10,14 @@ import React, { useContext, useEffect, useState } from 'react'
 type Props = { OpenModal: boolean, CloseModal: () => void, address: Address }
 
 export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address }) => {
-  const { validation } = useContext(AddressContext)
+  const { validation, updateAddress } = useContext(AddressContext)
   const [loading, setLoading] = useState(false)
 
-  const [complement, setComplement] = useState('')
+  const [complement, setComplement] = useState(address.complement)
   const [complementError, setComplementError] = useState<string | undefined>('')
-  const [number, setNumber] = useState('')
+  const [number, setNumber] = useState(address.number)
   const [numberError, setNumberError] = useState<string | undefined>('')
-  const [surname, setSurname] = useState('')
+  const [surname, setSurname] = useState(address.surname)
   const [surnameError, setSurnameError] = useState<string | undefined>('')
 
   useEffect(() => setComplementError(validation.validate('complement', { complement })), [complement])
@@ -28,6 +28,8 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
     event.preventDefault()
 
     setLoading(true)
+
+    await updateAddress({ id: address.id, complement, number: +number, surname })
   }
 
   return (
@@ -35,10 +37,10 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
       <Content>
         <form data-testid="form" onSubmit={handleSubmit}>
           <section>
-            <Input type="text" name="complement" placeholder="Complemento" value={address.complement} state={complementError} setState={setComplement} />
-            <Input type="text" name="number" placeholder="Número" value={address.number} state={numberError} setState={setNumber} />
+            <Input type="text" name="complement" placeholder="Complemento" value={complement} state={complementError} setState={setComplement} />
+            <Input type="text" name="number" placeholder="Número" value={number} state={numberError} setState={setNumber} />
           </section>
-          <Input type="text" name="surname" placeholder="Apelido" value={address.surname} state={surnameError} setState={setSurname} />
+          <Input type="text" name="surname" placeholder="Apelido" value={surname} state={surnameError} setState={setSurname} />
           <DefaultButton type="submit" disabled={!!numberError || !!complementError || !!surnameError}>{loading ? <Spinner /> : 'Salvar'}</DefaultButton>
         </form>
       </Content>
