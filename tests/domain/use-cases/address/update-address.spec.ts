@@ -51,4 +51,10 @@ describe('UpdateAddressUseCase', () => {
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  it('Should update an address if HttpClient returns 204', async () => {
+    const result = await sut({ id, surname, number, complement })
+
+    expect(result).toBeUndefined()
+  })
 })
