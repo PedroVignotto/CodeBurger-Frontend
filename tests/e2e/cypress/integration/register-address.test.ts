@@ -1,4 +1,4 @@
-import { mockBadRequestError, mockServerError } from '../mocks'
+import { mockBadRequestError, mockOk, mockServerError } from '../mocks'
 
 import faker from 'faker'
 
@@ -7,6 +7,7 @@ describe('RegisterAddress', () => {
   const invalidZipCode = faker.address.zipCode('####')
 
   const mockError = (method: Function): void => method('GET', /address/)
+  const mockSuccess = (): void => mockOk('GET', /address/, 'search-address')
 
   const populateSearchFormFields = (zipCode = validZipCode): void => {
     cy.getInputById('zipCode').focus().type(zipCode)
@@ -62,5 +63,15 @@ describe('RegisterAddress', () => {
     cy.wait('@request')
 
     cy.contains('Algo deu errado. Tente novamente!')
+  })
+
+  it('Should show form add if SearchAddress succeeds', () => {
+    cy.visit('address/register')
+    mockSuccess()
+
+    simulateSearchFormSubmit()
+    cy.wait('@request')
+
+    cy.getSubmitButton().should('be.disabled').should('have.text', 'Adicionar')
   })
 })
