@@ -1,23 +1,27 @@
-import { accountParams, addressParams } from '@/tests/mocks'
+import { accountParams, addressParams, populateField } from '@/tests/mocks'
 import { AccountContext } from '@/application/contexts'
 import { Profile } from '@/application/pages'
+import { Validator } from '@/application/validation'
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { mock } from 'jest-mock-extended'
 import React from 'react'
 
 describe('Profile', () => {
   const { name } = accountParams
   const { id, surname, street, number, complement, district, zipCode } = addressParams
 
+  const validator = mock<Validator>()
   const listAddresses: jest.Mock = jest.fn()
   const deleteAddress: jest.Mock = jest.fn()
   const setCurrentAccountMock: jest.Mock = jest.fn()
   const getCurrentAccountMock: jest.Mock = jest.fn()
 
   beforeAll(() => {
+    validator.validate.mockReturnValue('')
     listAddresses.mockResolvedValue([addressParams])
     getCurrentAccountMock.mockReturnValue({ name })
   })
@@ -27,10 +31,16 @@ describe('Profile', () => {
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
         <BrowserRouter>
           <ToastContainer/>
-          <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} />
+          <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} validation={validator} />
         </BrowserRouter>
       </AccountContext.Provider>
     )
+  }
+
+  const populateFields = (): void => {
+    populateField('Apelido', surname)
+    populateField('Complemento', complement)
+    populateField('Número', number.toString())
   }
 
   it('Should load with correct initial state', async () => {
@@ -144,6 +154,20 @@ describe('Profile', () => {
     fireEvent.click(screen.getByTestId('edit'))
 
     expect(screen.getByTestId('form')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Salvar/i })).toBeInTheDocument()
+  })
+
+  it('Should call validation with correct values when edit button is clicked', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('edit'))
+    populateFields()
+
+    expect(validator.validate).toHaveBeenCalledWith('surname', { surname: '' })
+    expect(validator.validate).toHaveBeenCalledWith('complement', { complement: '' })
+    expect(validator.validate).toHaveBeenCalledWith('number', { number: '' })
   })
 
   it('Should go to add address page', async () => {
