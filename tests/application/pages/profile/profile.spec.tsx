@@ -17,6 +17,7 @@ describe('Profile', () => {
   const validator = mock<Validator>()
   const listAddresses: jest.Mock = jest.fn()
   const deleteAddress: jest.Mock = jest.fn()
+  const updateAddress: jest.Mock = jest.fn()
   const setCurrentAccountMock: jest.Mock = jest.fn()
   const getCurrentAccountMock: jest.Mock = jest.fn()
 
@@ -31,7 +32,7 @@ describe('Profile', () => {
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
         <BrowserRouter>
           <ToastContainer/>
-          <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} validation={validator} />
+          <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} validation={validator} updateAddress={updateAddress} />
         </BrowserRouter>
       </AccountContext.Provider>
     )
@@ -172,9 +173,9 @@ describe('Profile', () => {
 
     await populateFields()
 
-    expect(validator.validate).toHaveBeenCalledWith('surname', { surname: '' })
-    expect(validator.validate).toHaveBeenCalledWith('complement', { complement: '' })
-    expect(validator.validate).toHaveBeenCalledWith('number', { number: '' })
+    expect(validator.validate).toHaveBeenCalledWith('surname', { surname })
+    expect(validator.validate).toHaveBeenCalledWith('complement', { complement })
+    expect(validator.validate).toHaveBeenCalledWith('number', { number })
   })
 
   it('Should show error if Validation fails', async () => {
@@ -214,6 +215,15 @@ describe('Profile', () => {
     await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
+  })
+
+  it('Should call UpdateAddress with correct values', async () => {
+    makeSut()
+
+    await simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(updateAddress).toHaveBeenCalledWith({ id, surname, number, complement })
   })
 
   it('Should go to add address page', async () => {
