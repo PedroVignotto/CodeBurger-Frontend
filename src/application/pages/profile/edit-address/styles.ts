@@ -1,18 +1,19 @@
+import { colors } from '@/application/styles'
+
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+export const Content = styled.section`
+  padding: 1rem;
+
+  span {
+    font-weight: 500;
+    font-size: 1rem;
+    color: ${colors.black};
+  }
 
   form {
     display: flex;
     flex-direction: column;
-    padding: 2.5rem;
     width: 100%;
 
     section {
@@ -37,22 +38,20 @@ export const Container = styled.div`
     }
   }
 
-  @media (max-width: 1250px) {
-    padding: 1.25rem;
-  }
-
   @media (max-width: 400px) {
-    section {
-      flex-direction: column;
-      gap: 0;
+    form {
+      section {
+        flex-direction: column;
+        gap: 0;
 
-      div {
-        :first-child {
-          width: 100%;
-        }
+        div {
+          :first-child {
+            width: 100%;
+          }
 
-        :last-child {
-          width: 100% !important;
+          :last-child {
+            width: 100% !important;
+          }
         }
       }
     }
