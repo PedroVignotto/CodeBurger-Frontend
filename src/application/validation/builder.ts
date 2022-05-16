@@ -1,4 +1,5 @@
 import { CompareValidation, EmailValidation, FieldValidation, RequiredValidation } from '@/application/validation'
+import { LengthValidation } from '@/application/validation/length'
 
 export class ValidationBuilder {
   private constructor (
@@ -24,6 +25,12 @@ export class ValidationBuilder {
 
   sameAs (fieldToCompare: string): ValidationBuilder {
     this.validations.push(new CompareValidation(this.fieldName, fieldToCompare))
+
+    return this
+  }
+
+  length (length: number): ValidationBuilder {
+    this.validations.push(new LengthValidation(this.fieldName, length))
 
     return this
   }
