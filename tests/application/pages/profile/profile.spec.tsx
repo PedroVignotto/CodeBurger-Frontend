@@ -12,7 +12,7 @@ import React from 'react'
 
 describe('Profile', () => {
   const { name } = accountParams
-  const { id, surname, street, number, complement, district, zipCode } = addressParams
+  const { id, surname, street, number, complement, district, zipCode, error } = addressParams
 
   const validator = mock<Validator>()
   const listAddresses: jest.Mock = jest.fn()
@@ -168,6 +168,20 @@ describe('Profile', () => {
     expect(validator.validate).toHaveBeenCalledWith('surname', { surname: '' })
     expect(validator.validate).toHaveBeenCalledWith('complement', { complement: '' })
     expect(validator.validate).toHaveBeenCalledWith('number', { number: '' })
+  })
+
+  it('Should show error if Validation fails', async () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error)
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('edit'))
+    populateFields()
+
+    expect(screen.getByLabelText('Apelido')).toHaveProperty('title', error)
+    expect(screen.getByLabelText('Complemento')).toHaveProperty('title', error)
+    expect(screen.getByLabelText('Número')).toHaveProperty('title', error)
   })
 
   it('Should go to add address page', async () => {
