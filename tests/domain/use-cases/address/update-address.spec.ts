@@ -24,7 +24,7 @@ describe('UpdateAddressUseCase', () => {
   it('Should call HttpClient with correct values', async () => {
     await sut({ id, surname, number, complement })
 
-    expect(httpClient.request).toHaveBeenCalledWith({ url: `${url}/${id}`, method: 'post', body: { surname, number, complement } })
+    expect(httpClient.request).toHaveBeenCalledWith({ url: `${url}/${id}`, method: 'put', body: { surname, number, complement } })
     expect(httpClient.request).toHaveBeenCalledTimes(1)
   })
 
