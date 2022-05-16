@@ -23,4 +23,10 @@ describe('RegisterAddress', () => {
     cy.getInputById('zipCode').should('have.attr', 'title', 'Valor inválido')
     cy.getSubmitButton().should('be.disabled')
   })
+
+  it('Should enable the button if form is valid', () => {
+    populateSearchFormFields()
+
+    cy.getSubmitButton().should('be.enabled')
+  })
 })
