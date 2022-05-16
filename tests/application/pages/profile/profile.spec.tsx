@@ -182,6 +182,7 @@ describe('Profile', () => {
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', error)
     expect(screen.getByLabelText('Complemento')).toHaveProperty('title', error)
     expect(screen.getByLabelText('Número')).toHaveProperty('title', error)
+    expect(screen.getByRole('button', { name: /Salvar/i })).toBeDisabled()
   })
 
   it('Should show valid input states if Validation succeeds', async () => {
@@ -193,6 +194,15 @@ describe('Profile', () => {
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', '')
     expect(screen.getByLabelText('Complemento')).toHaveProperty('title', '')
     expect(screen.getByLabelText('Número')).toHaveProperty('title', '')
+  })
+
+  it('Should enable submit button if form is valid', async () => {
+    makeSut()
+
+    await openEditModal()
+    populateFields()
+
+    expect(screen.getByRole('button', { name: /Salvar/i })).toBeEnabled()
   })
 
   it('Should go to add address page', async () => {
