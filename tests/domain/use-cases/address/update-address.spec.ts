@@ -43,4 +43,12 @@ describe('UpdateAddressUseCase', () => {
 
     await expect(promise).rejects.toThrow(new UnauthorizedError())
   })
+
+  it('Should throw UnexpectedError if HttpClient returns 500', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
+
+    const promise = sut({ id, surname, number, complement })
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
 })
