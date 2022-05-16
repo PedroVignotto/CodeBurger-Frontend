@@ -2,7 +2,7 @@ import { ValidationBuilder as Builder, ValidationComposite } from '@/application
 
 export const makeRegisterAddressValidation = (): ValidationComposite =>
   ValidationComposite.build([
-    ...Builder.of('zipCode').required().build(),
+    ...Builder.of('zipCode').required().length(8).build(),
     ...Builder.of('password').required().build(),
     ...Builder.of('number').required().build(),
     ...Builder.of('complement').required().build(),
