@@ -49,6 +49,11 @@ describe('Profile', () => {
     populateField('Número', number.toString())
   }
 
+  const simulateSubmit = (): void => {
+    populateFields()
+    fireEvent.click(screen.getByRole('button', { name: /Salvar/i }))
+  }
+
   it('Should load with correct initial state', async () => {
     makeSut()
 
@@ -203,6 +208,16 @@ describe('Profile', () => {
     populateFields()
 
     expect(screen.getByRole('button', { name: /Salvar/i })).toBeEnabled()
+  })
+
+  it('Should show spinner on submit', async () => {
+    makeSut()
+
+    await openEditModal()
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
   })
 
   it('Should go to add address page', async () => {
