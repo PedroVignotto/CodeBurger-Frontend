@@ -136,6 +136,16 @@ describe('Profile', () => {
     expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
   })
 
+  it('Should open edit address modal when edit button is clicked', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('edit'))
+
+    expect(screen.getByTestId('form')).toBeInTheDocument()
+  })
+
   it('Should go to add address page', async () => {
     makeSut()
 
