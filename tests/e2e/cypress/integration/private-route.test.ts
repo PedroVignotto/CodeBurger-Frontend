@@ -10,4 +10,10 @@ describe('Private Routes', () => {
 
     cy.testUrl('/login')
   })
+
+  it('Should logout if register address has no accessToken', () => {
+    cy.visit('address/register')
+
+    cy.testUrl('/login')
+  })
 })
