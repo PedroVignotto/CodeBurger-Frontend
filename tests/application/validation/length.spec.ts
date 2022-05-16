@@ -19,4 +19,12 @@ describe('LengthValidation', () => {
 
     expect(error).toEqual(new InvalidFieldError())
   })
+
+  it('Should return falsy if value is valid', () => {
+    const sut = new LengthValidation(fieldName, 8)
+
+    const error = sut.validate({ [fieldName]: field })
+
+    expect(error).toBeFalsy()
+  })
 })
