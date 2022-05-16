@@ -20,7 +20,7 @@ export const Address: React.FC<Props> = ({ address }) => {
       <Container details={handleOpenDetails}>
         <div>
           <div>
-            <FiEdit onClick={() => setOpenModal(!OpenModal)} />
+            <FiEdit data-testid="edit" onClick={() => setOpenModal(!OpenModal)} />
             <FiTrash2 data-testid="delete" onClick={async () => handleDelete(address.id)}/>
           </div>
           <main>
