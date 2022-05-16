@@ -4,6 +4,7 @@ import { Address } from '@/domain/models'
 
 import { Content } from './styles'
 
+import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import React, { useContext, useEffect, useState } from 'react'
 
@@ -27,11 +28,17 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (loading || numberError || complementError || surnameError) return
+    try {
+      if (loading || numberError || complementError || surnameError) return
 
-    setLoading(true)
+      setLoading(true)
 
-    await updateAddress({ id: address.id, complement, number: +number, surname })
+      await updateAddress({ id: address.id, complement, number: +number, surname })
+    } catch (error: any) {
+      setLoading(false)
+
+      toast.error(error.message)
+    }
   }
 
   return (
