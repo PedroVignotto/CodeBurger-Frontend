@@ -20,17 +20,15 @@ export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, ad
   const [district, setDistrict] = useState('')
   const [street, setStreet] = useState('')
   const [zipCode, setZipCode] = useState('')
+  const [complement, setComplement] = useState('')
   const [zipCodeError, setZipCodeError] = useState<string | undefined>('')
   const [number, setNumber] = useState('')
   const [numberError, setNumberError] = useState<string | undefined>('')
-  const [complement, setComplement] = useState('')
-  const [complementError, setComplementError] = useState<string | undefined>('')
   const [surname, setSurname] = useState('')
   const [surnameError, setSurnameError] = useState<string | undefined>('')
 
   useEffect(() => setZipCodeError(validation.validate('zipCode', { zipCode })), [zipCode])
   useEffect(() => setNumberError(validation.validate('number', { number })), [number])
-  useEffect(() => setComplementError(validation.validate('complement', { complement })), [complement])
   useEffect(() => setSurnameError(validation.validate('surname', { surname })), [surname])
 
   const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -57,7 +55,7 @@ export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, ad
     event.preventDefault()
 
     try {
-      if (loading || numberError || complementError || surnameError) return
+      if (loading || numberError || surnameError) return
 
       setLoading(true)
 
@@ -88,9 +86,9 @@ export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, ad
               <Input type="text" name="street" placeholder="Rua" value={street} setState={setStreet} readOnly />
               <Input type="text" name="number" placeholder="Número" state={numberError} setState={setNumber} />
             </section>
-            <Input type="text" name="complement" placeholder="Complemento" state={complementError} setState={setComplement} />
+            <Input type="text" name="complement" placeholder="Complemento" setState={setComplement} />
             <Input type="text" name="surname" placeholder="Apelido" state={surnameError} setState={setSurname} />
-            <DefaultButton type="submit" disabled={!!numberError || !!complementError || !!surnameError}>{loading ? <Spinner /> : 'Adicionar'}</DefaultButton>
+            <DefaultButton type="submit" disabled={!!numberError || !!surnameError}>{loading ? <Spinner /> : 'Adicionar'}</DefaultButton>
           </form>
       }
       </Container>

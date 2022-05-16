@@ -67,7 +67,6 @@ describe('RegisterAddress', () => {
 
     expect(validator.validate).toHaveBeenCalledWith('zipCode', { zipCode: '' })
     expect(validator.validate).toHaveBeenCalledWith('number', { number: '' })
-    expect(validator.validate).toHaveBeenCalledWith('complement', { complement: '' })
     expect(validator.validate).toHaveBeenCalledWith('surname', { surname: '' })
   })
 

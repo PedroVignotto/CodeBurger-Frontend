@@ -5,6 +5,5 @@ export const makeRegisterAddressValidation = (): ValidationComposite =>
     ...Builder.of('zipCode').required().length(8).build(),
     ...Builder.of('password').required().build(),
     ...Builder.of('number').required().build(),
-    ...Builder.of('complement').required().build(),
     ...Builder.of('surname').required().build()
   ])
