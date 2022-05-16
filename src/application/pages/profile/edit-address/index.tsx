@@ -33,7 +33,7 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
             <Input type="text" name="number" placeholder="Número" value={address.number} state={numberError} setState={setNumber} />
           </section>
           <Input type="text" name="surname" placeholder="Apelido" value={address.surname} state={surnameError} setState={setSurname} />
-          <DefaultButton type="submit">{loading ? <Spinner /> : 'Salvar'}</DefaultButton>
+          <DefaultButton type="submit" disabled={!!numberError || !!complementError || !!surnameError}>{loading ? <Spinner /> : 'Salvar'}</DefaultButton>
         </form>
       </Content>
     </Modal>
