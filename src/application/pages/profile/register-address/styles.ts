@@ -21,12 +21,14 @@ export const Container = styled.div`
       align-items: center;
       gap: 1rem;
 
-      :first-child {
-        flex: 1;
-      }
+      div {
+        :first-child {
+          flex: 1;
+        }
 
-      :last-child {
-        width: 35%;
+        :last-child {
+          width: 35%;
+        }
       }
     }
 
@@ -39,16 +41,18 @@ export const Container = styled.div`
     }
 
     @media (max-width: 400px) {
-      div {
+      section {
         flex-direction: column;
         gap: 0;
 
-        :first-child {
-          width: 100%;
-        }
+        div {
+          :first-child {
+            width: 100%;
+          }
 
-        :last-child {
-          width: 100%;
+          :last-child {
+            width: 100%;
+          }
         }
       }
     }

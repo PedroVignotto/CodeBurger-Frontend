@@ -45,7 +45,7 @@ export const Container = styled.div`
   label {
     position: absolute;
     left: 0.5rem;
-    color: ${colors.black};
+    color: ${colors.grayDark};
     transform-origin: 0%;
     transform: translateY(0px);
     transition: transform 400ms ease;
