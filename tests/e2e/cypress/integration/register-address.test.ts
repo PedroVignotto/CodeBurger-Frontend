@@ -1,5 +1,6 @@
+import { mockBadRequestError, mockServerError } from '../mocks'
+
 import faker from 'faker'
-import { mockBadRequestError } from '../mocks'
 
 describe('RegisterAddress', () => {
   const validZipCode = faker.address.zipCode('########')
@@ -18,14 +19,17 @@ describe('RegisterAddress', () => {
 
   beforeEach(() => {
     cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
-    cy.visit('address/register')
   })
 
   it('Should load with correct initial state', () => {
+    cy.visit('address/register')
+
     cy.getSubmitButton().should('be.disabled').should('have.text', 'Buscar')
   })
 
   it('Should keep the button disabled if form is invalid', () => {
+    cy.visit('address/register')
+
     populateSearchFormFields(invalidZipCode)
 
     cy.getInputById('zipCode').should('have.attr', 'title', 'Valor inválido')
@@ -33,17 +37,30 @@ describe('RegisterAddress', () => {
   })
 
   it('Should enable the button if form is valid', () => {
+    cy.visit('address/register')
+
     populateSearchFormFields()
 
     cy.getSubmitButton().should('be.enabled')
   })
 
   it('Should present FieldNotFoundError on 400', () => {
+    cy.visit('address/register')
     mockError(mockBadRequestError)
 
     simulateSearchFormSubmit()
     cy.wait('@request')
 
     cy.contains('CEP não encontrado')
+  })
+
+  it('Should present UnexpectedError on 500', () => {
+    cy.visit('address/register')
+    mockError(mockServerError)
+
+    simulateSearchFormSubmit()
+    cy.wait('@request')
+
+    cy.contains('Algo deu errado. Tente novamente!')
   })
 })
