@@ -144,9 +144,9 @@ describe('RegisterAddress', () => {
 
     expect(screen.getByTestId('form-add')).toBeInTheDocument()
     expect(screen.queryByTestId('form-search')).not.toBeInTheDocument()
-    expect(screen.getByLabelText('Bairro')).toHaveProperty('title', district)
-    expect(screen.getByLabelText('CEP')).toHaveProperty('title', zipCode)
-    expect(screen.getByLabelText('Rua')).toHaveProperty('title', street)
+    expect(screen.getByLabelText('Bairro')).toHaveProperty('value', district)
+    expect(screen.getByLabelText('CEP')).toHaveProperty('value', zipCode)
+    expect(screen.getByLabelText('Rua')).toHaveProperty('value', street)
   })
 
   it('Should enable submit button if form-add is valid', async () => {

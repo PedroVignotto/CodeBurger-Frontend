@@ -81,11 +81,11 @@ export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, ad
           </form>
         : <form data-testid="form-add" onSubmit={handleAddSubmit}>
             <div>
-              <Input type="text" name="district" placeholder="Bairro" state={district} setState={setDistrict} readOnly />
-              <Input type="text" name="zipCode" placeholder="CEP" state={zipCode} setState={setZipCode} readOnly />
+              <Input type="text" name="district" placeholder="Bairro" value={district} setState={setDistrict} readOnly />
+              <Input type="text" name="zipCode" placeholder="CEP" value={zipCode} setState={setZipCode} readOnly />
             </div>
             <div>
-              <Input type="text" name="street" placeholder="Rua" state={street} setState={setStreet} readOnly />
+              <Input type="text" name="street" placeholder="Rua" value={street} setState={setStreet} readOnly />
               <Input type="text" name="number" placeholder="Número" state={numberError} setState={setNumber} />
             </div>
             <Input type="text" name="complement" placeholder="Complemento" state={complementError} setState={setComplement} />
