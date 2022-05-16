@@ -80,14 +80,14 @@ export const RegisterAddress: React.FC<Props> = ({ validation, searchAddress, ad
             <DefaultButton type="submit" disabled={!!zipCodeError}>{loading ? <Spinner /> : 'Buscar'}</DefaultButton>
           </form>
         : <form data-testid="form-add" onSubmit={handleAddSubmit}>
-            <div>
+            <section>
               <Input type="text" name="district" placeholder="Bairro" value={district} setState={setDistrict} readOnly />
               <Input type="text" name="zipCode" placeholder="CEP" value={zipCode} setState={setZipCode} readOnly />
-            </div>
-            <div>
+            </section>
+            <section>
               <Input type="text" name="street" placeholder="Rua" value={street} setState={setStreet} readOnly />
               <Input type="text" name="number" placeholder="Número" state={numberError} setState={setNumber} />
-            </div>
+            </section>
             <Input type="text" name="complement" placeholder="Complemento" state={complementError} setState={setComplement} />
             <Input type="text" name="surname" placeholder="Apelido" state={surnameError} setState={setSurname} />
             <DefaultButton type="submit" disabled={!!numberError || !!complementError || !!surnameError}>{loading ? <Spinner /> : 'Adicionar'}</DefaultButton>
