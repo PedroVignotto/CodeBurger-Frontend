@@ -43,14 +43,15 @@ describe('Profile', () => {
     fireEvent.click(screen.getByTestId('edit'))
   }
 
-  const populateFields = (): void => {
+  const populateFields = async (): Promise<void> => {
+    await openEditModal()
     populateField('Apelido', surname)
     populateField('Complemento', complement)
     populateField('Número', number.toString())
   }
 
-  const simulateSubmit = (): void => {
-    populateFields()
+  const simulateSubmit = async (): Promise<void> => {
+    await populateFields()
     fireEvent.click(screen.getByRole('button', { name: /Salvar/i }))
   }
 
@@ -169,8 +170,7 @@ describe('Profile', () => {
   it('Should call validation with correct values when edit button is clicked', async () => {
     makeSut()
 
-    await openEditModal()
-    populateFields()
+    await populateFields()
 
     expect(validator.validate).toHaveBeenCalledWith('surname', { surname: '' })
     expect(validator.validate).toHaveBeenCalledWith('complement', { complement: '' })
@@ -181,8 +181,7 @@ describe('Profile', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error)
 
-    await openEditModal()
-    populateFields()
+    await populateFields()
 
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', error)
     expect(screen.getByLabelText('Complemento')).toHaveProperty('title', error)
@@ -193,8 +192,7 @@ describe('Profile', () => {
   it('Should show valid input states if Validation succeeds', async () => {
     makeSut()
 
-    await openEditModal()
-    populateFields()
+    await populateFields()
 
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', '')
     expect(screen.getByLabelText('Complemento')).toHaveProperty('title', '')
@@ -204,8 +202,7 @@ describe('Profile', () => {
   it('Should enable submit button if form is valid', async () => {
     makeSut()
 
-    await openEditModal()
-    populateFields()
+    await populateFields()
 
     expect(screen.getByRole('button', { name: /Salvar/i })).toBeEnabled()
   })
@@ -213,8 +210,7 @@ describe('Profile', () => {
   it('Should show spinner on submit', async () => {
     makeSut()
 
-    await openEditModal()
-    simulateSubmit()
+    await simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
