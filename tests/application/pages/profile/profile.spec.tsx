@@ -226,6 +226,16 @@ describe('Profile', () => {
     expect(updateAddress).toHaveBeenCalledWith({ id, surname, number, complement })
   })
 
+  it('Should not call UpdateAddress if form is invalid', async () => {
+    makeSut()
+    validator.validate.mockReturnValueOnce(error)
+
+    await simulateSubmit()
+    fireEvent.submit(screen.getByTestId('form'))
+
+    expect(updateAddress).not.toHaveBeenCalled()
+  })
+
   it('Should go to add address page', async () => {
     makeSut()
 
