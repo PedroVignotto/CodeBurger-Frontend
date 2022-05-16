@@ -11,11 +11,11 @@ describe('CompareValidation', () => {
   let value: string
 
   beforeAll(() => {
-    value = faker.random.words(1)
+    value = faker.random.words(3)
     fieldToCompareValid = value
-    fieldToCompareInvalid = faker.random.words(2)
-    field = faker.database.column()
-    fieldToCompare = faker.database.column()
+    fieldToCompareInvalid = faker.random.words(4)
+    field = faker.random.words(1)
+    fieldToCompare = faker.random.words(2)
   })
 
   it('Should return InvalidFieldError if fields are not equal', () => {
