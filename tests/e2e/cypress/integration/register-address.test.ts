@@ -5,6 +5,9 @@ import faker from 'faker'
 describe('RegisterAddress', () => {
   const validZipCode = faker.address.zipCode('########')
   const invalidZipCode = faker.address.zipCode('####')
+  const surname = faker.random.word()
+  const number = faker.datatype.number()
+  const complement = faker.random.words(3)
 
   const mockError = (method: Function): void => method('GET', /address/)
   const mockSuccess = (): void => mockOk('GET', /address/, 'search-address')
@@ -16,6 +19,13 @@ describe('RegisterAddress', () => {
   const simulateSearchFormSubmit = (): void => {
     populateSearchFormFields()
     cy.getSubmitButton().click()
+  }
+
+  const populateAddFormFields = (): void => {
+    simulateSearchFormSubmit()
+    cy.getInputById('number').focus().type(number.toString())
+    cy.getInputById('complement').focus().type(complement)
+    cy.getInputById('surname').focus().type(surname)
   }
 
   beforeEach(() => {
@@ -73,5 +83,14 @@ describe('RegisterAddress', () => {
     cy.wait('@request')
 
     cy.getSubmitButton().should('be.disabled').should('have.text', 'Adicionar')
+  })
+
+  it('Should enable submit button if form add is valid', () => {
+    cy.visit('address/register')
+    mockSuccess()
+
+    populateAddFormFields()
+
+    cy.getSubmitButton().should('be.enabled').should('have.text', 'Adicionar')
   })
 })
