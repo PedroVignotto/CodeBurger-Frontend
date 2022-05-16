@@ -174,29 +174,27 @@ describe('Profile', () => {
     await populateFields()
 
     expect(validator.validate).toHaveBeenCalledWith('surname', { surname })
-    expect(validator.validate).toHaveBeenCalledWith('complement', { complement })
     expect(validator.validate).toHaveBeenCalledWith('number', { number })
   })
 
   it('Should show error if Validation fails', async () => {
     makeSut()
-    validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error)
+    validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error)
 
     await populateFields()
 
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', error)
-    expect(screen.getByLabelText('Complemento')).toHaveProperty('title', error)
     expect(screen.getByLabelText('Número')).toHaveProperty('title', error)
     expect(screen.getByRole('button', { name: /Salvar/i })).toBeDisabled()
   })
 
   it('Should show valid input states if Validation succeeds', async () => {
     makeSut()
+    validator.validate.mockReturnValueOnce('').mockReturnValueOnce('')
 
     await populateFields()
 
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', '')
-    expect(screen.getByLabelText('Complemento')).toHaveProperty('title', '')
     expect(screen.getByLabelText('Número')).toHaveProperty('title', '')
   })
 

@@ -15,13 +15,11 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
   const [loading, setLoading] = useState(false)
 
   const [complement, setComplement] = useState(address.complement)
-  const [complementError, setComplementError] = useState<string | undefined>('')
   const [number, setNumber] = useState(address.number)
   const [numberError, setNumberError] = useState<string | undefined>('')
   const [surname, setSurname] = useState(address.surname)
   const [surnameError, setSurnameError] = useState<string | undefined>('')
 
-  useEffect(() => setComplementError(validation.validate('complement', { complement })), [complement])
   useEffect(() => setNumberError(validation.validate('number', { number })), [number])
   useEffect(() => setSurnameError(validation.validate('surname', { surname })), [surname])
 
@@ -29,7 +27,7 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
     event.preventDefault()
 
     try {
-      if (loading || numberError || complementError || surnameError) return
+      if (loading || numberError || surnameError) return
 
       setLoading(true)
 
@@ -46,11 +44,11 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
       <Content>
         <form data-testid="form" onSubmit={handleSubmit}>
           <section>
-            <Input type="text" name="complement" placeholder="Complemento" value={complement} state={complementError} setState={setComplement} />
+            <Input type="text" name="complement" placeholder="Complemento" value={complement} setState={setComplement} />
             <Input type="text" name="number" placeholder="Número" value={number} state={numberError} setState={setNumber} />
           </section>
           <Input type="text" name="surname" placeholder="Apelido" value={surname} state={surnameError} setState={setSurname} />
-          <DefaultButton type="submit" disabled={!!numberError || !!complementError || !!surnameError}>{loading ? <Spinner /> : 'Salvar'}</DefaultButton>
+          <DefaultButton type="submit" disabled={!!numberError || !!surnameError}>{loading ? <Spinner /> : 'Salvar'}</DefaultButton>
         </form>
       </Content>
     </Modal>
