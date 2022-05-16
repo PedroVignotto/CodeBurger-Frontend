@@ -2,7 +2,6 @@ import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapt
 import { PrivateRoute } from '@/main/proxies'
 import { GlobalStyle } from '@/application/styles'
 import { AccountContext } from '@/application/contexts'
-import { RegisterAddress } from '@/application/pages'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -13,9 +12,10 @@ type Props = {
   SignUp: React.FC
   Menu: React.FC
   Profile: React.FC
+  RegisterAddress: React.FC
 }
 
-export const Router: React.FC<Props> = ({ Login, SignUp, Menu, Profile }) => {
+export const Router: React.FC<Props> = ({ Login, SignUp, Menu, Profile, RegisterAddress }) => {
   return (
     <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountAdapter, getCurrentAccount: getCurrentAccountAdapter }}>
       <ToastContainer autoClose={3000} theme="colored" />
