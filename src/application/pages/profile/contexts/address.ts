@@ -7,6 +7,8 @@ type Props = {
   handleDelete: (id: string) => Promise<void>
   validation: Validator
   updateAddress: UpdateAddress
+  setReload: (value: React.SetStateAction<boolean>) => void
+  reload: boolean
 }
 
 export const AddressContext = createContext<Props>(null as any)

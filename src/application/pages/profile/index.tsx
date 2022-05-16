@@ -53,7 +53,7 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validat
 
   return (
     <Default>
-      <AddressContext.Provider value={{ handleDelete, validation, updateAddress }}>
+      <AddressContext.Provider value={{ handleDelete, validation, updateAddress, setReload, reload }}>
         <Container>
           <Content>
             <Banner>

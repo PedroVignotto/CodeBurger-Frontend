@@ -11,7 +11,7 @@ import React, { useContext, useEffect, useState } from 'react'
 type Props = { OpenModal: boolean, CloseModal: () => void, address: Address }
 
 export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address }) => {
-  const { validation, updateAddress } = useContext(AddressContext)
+  const { validation, updateAddress, setReload, reload } = useContext(AddressContext)
   const [loading, setLoading] = useState(false)
 
   const [complement, setComplement] = useState(address.complement)
@@ -32,6 +32,9 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
       setLoading(true)
 
       await updateAddress({ id: address.id, complement, number: +number, surname })
+
+      setReload(!reload)
+      CloseModal()
     } catch (error: any) {
       setLoading(false)
 
