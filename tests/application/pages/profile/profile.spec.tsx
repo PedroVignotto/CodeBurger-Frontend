@@ -37,6 +37,12 @@ describe('Profile', () => {
     )
   }
 
+  const openEditModal = async (): Promise<void> => {
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('edit'))
+  }
+
   const populateFields = (): void => {
     populateField('Apelido', surname)
     populateField('Complemento', complement)
@@ -149,9 +155,7 @@ describe('Profile', () => {
   it('Should open edit address modal when edit button is clicked', async () => {
     makeSut()
 
-    await waitFor(() => screen.getByRole('main'))
-    fireEvent.click(screen.getByTestId('details'))
-    fireEvent.click(screen.getByTestId('edit'))
+    await openEditModal()
 
     expect(screen.getByTestId('form')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Salvar/i })).toBeInTheDocument()
@@ -160,9 +164,7 @@ describe('Profile', () => {
   it('Should call validation with correct values when edit button is clicked', async () => {
     makeSut()
 
-    await waitFor(() => screen.getByRole('main'))
-    fireEvent.click(screen.getByTestId('details'))
-    fireEvent.click(screen.getByTestId('edit'))
+    await openEditModal()
     populateFields()
 
     expect(validator.validate).toHaveBeenCalledWith('surname', { surname: '' })
@@ -174,9 +176,7 @@ describe('Profile', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error)
 
-    await waitFor(() => screen.getByRole('main'))
-    fireEvent.click(screen.getByTestId('details'))
-    fireEvent.click(screen.getByTestId('edit'))
+    await openEditModal()
     populateFields()
 
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', error)
