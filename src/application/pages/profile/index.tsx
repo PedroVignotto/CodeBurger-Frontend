@@ -2,6 +2,7 @@ import { Error, DefaultButton } from '@/application/components'
 import { Addresses } from '@/application/pages/profile/components'
 import { Default } from '@/application/layouts'
 import { AccountContext } from '@/application/contexts'
+import { AddressContext } from '@/application/pages/profile/contexts'
 import { useError, useLogout } from '@/application/hooks'
 import { DeleteAddress, ListAddresses } from '@/domain/use-cases/address'
 import { Address } from '@/domain/models'
@@ -51,19 +52,21 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
 
   return (
     <Default>
-      <Container>
-        <Content>
-          <Banner>
-            <h2>Olá, {getCurrentAccount().name}</h2>
-            <h3>Onde você quer receber seu pedido?</h3>
-           <Link to="/address/register"><DefaultButton><><FiPlus />Adicionar</></DefaultButton></Link>
-          </Banner>
-          {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} handleDelete={handleDelete} />}
-          <footer>
-            <DefaultButton onClick={logout}><><FiLogOut />Sair</></DefaultButton>
-          </footer>
-        </Content>
-      </Container>
+      <AddressContext.Provider value={{ handleDelete }}>
+        <Container>
+          <Content>
+            <Banner>
+              <h2>Olá, {getCurrentAccount().name}</h2>
+              <h3>Onde você quer receber seu pedido?</h3>
+            <Link to="/address/register"><DefaultButton><><FiPlus />Adicionar</></DefaultButton></Link>
+            </Banner>
+            {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} />}
+            <footer>
+              <DefaultButton onClick={logout}><><FiLogOut />Sair</></DefaultButton>
+            </footer>
+          </Content>
+        </Container>
+      </AddressContext.Provider>
     </Default>
   )
 }

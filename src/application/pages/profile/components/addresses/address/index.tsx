@@ -3,12 +3,15 @@ import { Address as AdressModel } from '@/domain/models'
 import { Container } from './styles'
 
 import { FiEdit, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { EditAddress } from '@/application/pages/profile/edit-address'
+import { AddressContext } from '@/application/pages/profile/contexts'
 
-type Props = { address: AdressModel, handleDelete: (id: string) => void }
+type Props = { address: AdressModel }
 
-export const Address: React.FC<Props> = ({ address, handleDelete }) => {
+export const Address: React.FC<Props> = ({ address }) => {
+  const { handleDelete } = useContext(AddressContext)
+
   const [OpenModal, setOpenModal] = useState(false)
   const [handleOpenDetails, setHandleOpenDetails] = useState(false)
 
@@ -18,7 +21,7 @@ export const Address: React.FC<Props> = ({ address, handleDelete }) => {
         <div>
           <div>
             <FiEdit onClick={() => setOpenModal(!OpenModal)} />
-            <FiTrash2 data-testid="delete" onClick={() => handleDelete(address.id)}/>
+            <FiTrash2 data-testid="delete" onClick={async () => handleDelete(address.id)}/>
           </div>
           <main>
             <h3>{address.surname}</h3>
