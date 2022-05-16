@@ -27,6 +27,8 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
+    if (loading || numberError || complementError || surnameError) return
+
     setLoading(true)
 
     await updateAddress({ id: address.id, complement, number: +number, surname })
