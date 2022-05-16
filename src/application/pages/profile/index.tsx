@@ -1,6 +1,7 @@
 import { Error, DefaultButton } from '@/application/components'
 import { Addresses } from '@/application/pages/profile/components'
 import { Default } from '@/application/layouts'
+import { Validator } from '@/application/validation'
 import { AccountContext } from '@/application/contexts'
 import { AddressContext } from '@/application/pages/profile/contexts'
 import { useError, useLogout } from '@/application/hooks'
@@ -14,9 +15,9 @@ import { Link } from 'react-router-dom'
 import { FiLogOut, FiPlus } from 'react-icons/fi'
 import React, { useContext, useEffect, useState } from 'react'
 
-type Props = { listAddresses: ListAddresses, deleteAddress: DeleteAddress }
+type Props = { listAddresses: ListAddresses, deleteAddress: DeleteAddress, validation: Validator }
 
-export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
+export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validation }) => {
   const { getCurrentAccount } = useContext(AccountContext)
   const handleError = useError(error => setError(error.message))
   const logout = useLogout()
@@ -52,7 +53,7 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress }) => {
 
   return (
     <Default>
-      <AddressContext.Provider value={{ handleDelete }}>
+      <AddressContext.Provider value={{ handleDelete, validation }}>
         <Container>
           <Content>
             <Banner>

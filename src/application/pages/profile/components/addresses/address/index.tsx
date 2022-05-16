@@ -32,7 +32,7 @@ export const Address: React.FC<Props> = ({ address }) => {
         <FiMoreVertical data-testid="details" onClick={() => setHandleOpenDetails(!handleOpenDetails)} />
       </Container>
 
-      <EditAddress OpenModal={OpenModal} CloseModal={() => setOpenModal(!OpenModal)} />
+      <EditAddress OpenModal={OpenModal} CloseModal={() => setOpenModal(!OpenModal)} address={address} />
     </>
   )
 }
