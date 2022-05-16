@@ -1,5 +1,5 @@
 import { HttpClient } from '@/domain/contracts/http'
-import { UnexpectedError } from '@/domain/errors'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 type Setup = (url: string, httpClient: HttpClient) => UpdateAddress
 type Input = { id: string, surname?: string, number?: number, complement?: string }
@@ -11,6 +11,7 @@ export const updateAddressUseCase: Setup = (url, httpClient) => async ({ id, ...
 
   switch (statusCode) {
     case 204: break
+    case 401: throw new UnauthorizedError()
     default: throw new UnexpectedError()
   }
 }
