@@ -28,6 +28,11 @@ describe('RegisterAddress', () => {
     cy.getInputById('surname').focus().type(surname)
   }
 
+  const simulateAddFormSubmit = (): void => {
+    populateAddFormFields()
+    cy.getSubmitButton().click()
+  }
+
   beforeEach(() => {
     cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
   })
@@ -103,5 +108,16 @@ describe('RegisterAddress', () => {
     populateAddFormFields()
 
     cy.getSubmitButton().should('be.enabled').should('have.text', 'Adicionar')
+  })
+
+  it('Should present UnexpectedError if add fails', () => {
+    cy.visit('address/register')
+    mockSuccess()
+    mockServerError('POST', /address/)
+
+    simulateAddFormSubmit()
+    cy.wait('@request')
+
+    cy.contains('Algo deu errado. Tente novamente!')
   })
 })
