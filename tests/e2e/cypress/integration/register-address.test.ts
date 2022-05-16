@@ -75,6 +75,17 @@ describe('RegisterAddress', () => {
     cy.contains('Algo deu errado. Tente novamente!')
   })
 
+  it('Should prevent multiple submits', () => {
+    cy.visit('address/register')
+    mockError(mockServerError)
+
+    cy.getInputById('zipCode').focus().type(validZipCode)
+    cy.getSubmitButton().dblclick()
+    cy.wait('@request')
+
+    cy.get('@request.all').should('have.length', 1)
+  })
+
   it('Should show form add if SearchAddress succeeds', () => {
     cy.visit('address/register')
     mockSuccess()
