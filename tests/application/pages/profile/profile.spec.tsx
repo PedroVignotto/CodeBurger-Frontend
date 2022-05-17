@@ -44,15 +44,14 @@ describe('Profile', () => {
     fireEvent.click(screen.getByTestId('edit'))
   }
 
-  const populateFields = async (): Promise<void> => {
-    await openEditModal()
+  const populateFields = (): void => {
     populateField('Apelido', surname)
     populateField('Complemento', complement)
     populateField('Número', number.toString())
   }
 
-  const simulateSubmit = async (): Promise<void> => {
-    await populateFields()
+  const simulateSubmit = (): void => {
+    populateFields()
     fireEvent.click(screen.getByRole('button', { name: /Salvar/i }))
   }
 
@@ -171,7 +170,8 @@ describe('Profile', () => {
   it('Should call validation with correct values when edit button is clicked', async () => {
     makeSut()
 
-    await populateFields()
+    await openEditModal()
+    populateFields()
 
     expect(validator.validate).toHaveBeenCalledWith('surname', { surname })
     expect(validator.validate).toHaveBeenCalledWith('number', { number })
@@ -181,7 +181,8 @@ describe('Profile', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error)
 
-    await populateFields()
+    await openEditModal()
+    populateFields()
 
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', error)
     expect(screen.getByLabelText('Número')).toHaveProperty('title', error)
@@ -192,7 +193,8 @@ describe('Profile', () => {
     makeSut()
     validator.validate.mockReturnValueOnce('').mockReturnValueOnce('')
 
-    await populateFields()
+    await openEditModal()
+    populateFields()
 
     expect(screen.getByLabelText('Apelido')).toHaveProperty('title', '')
     expect(screen.getByLabelText('Número')).toHaveProperty('title', '')
@@ -201,7 +203,8 @@ describe('Profile', () => {
   it('Should enable submit button if form is valid', async () => {
     makeSut()
 
-    await populateFields()
+    await openEditModal()
+    populateFields()
 
     expect(screen.getByRole('button', { name: /Salvar/i })).toBeEnabled()
   })
@@ -209,7 +212,8 @@ describe('Profile', () => {
   it('Should show spinner on submit', async () => {
     makeSut()
 
-    await simulateSubmit()
+    await openEditModal()
+    simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
@@ -218,7 +222,8 @@ describe('Profile', () => {
   it('Should call UpdateAddress with correct values', async () => {
     makeSut()
 
-    await simulateSubmit()
+    await openEditModal()
+    simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(updateAddress).toHaveBeenCalledWith({ id, surname, number, complement })
@@ -228,7 +233,8 @@ describe('Profile', () => {
     makeSut()
     validator.validate.mockReturnValueOnce(error)
 
-    await simulateSubmit()
+    await openEditModal()
+    populateFields()
     fireEvent.submit(screen.getByTestId('form'))
 
     expect(updateAddress).not.toHaveBeenCalled()
@@ -238,7 +244,8 @@ describe('Profile', () => {
     makeSut()
     updateAddress.mockRejectedValueOnce(new UnexpectedError())
 
-    await simulateSubmit()
+    await openEditModal()
+    simulateSubmit()
 
     expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
     expect(screen.getByTestId('form')).toBeInTheDocument()
