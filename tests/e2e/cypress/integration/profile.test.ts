@@ -87,9 +87,20 @@ describe('Profile', () => {
     cy.contains('Algo deu errado. Tente novamente!')
   })
 
+  it('Should load edit modal with correct initial state', () => {
+    mockSuccess()
+
+    cy.visit('profile')
+    cy.getByTestId('details').click()
+    cy.getByTestId('edit').click()
+
+    cy.getSubmitButton().should('be.enabled').should('have.text', 'Salvar')
+  })
+
   it('Should go to add address page', () => {
     mockSuccess()
 
+    cy.visit('profile')
     cy.contains('Adicionar').click()
 
     cy.testUrl('/address/register')
