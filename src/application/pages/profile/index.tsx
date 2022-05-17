@@ -20,6 +20,7 @@ type Props = { listAddresses: ListAddresses, deleteAddress: DeleteAddress, valid
 export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validation, updateAddress }) => {
   const { getCurrentAccount } = useContext(AccountContext)
   const handleError = useError(error => setError(error.message))
+  const handleDeleteError = useError(error => toast.error(error.message))
   const logout = useLogout()
 
   const [addresses, setAddresses] = useState<Address[]>([])
@@ -43,7 +44,7 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validat
 
       setAddresses(addresses.filter(address => address.id !== id))
     } catch (error: any) {
-      toast.error(error.message)
+      handleDeleteError(error)
     } finally {
       setLoading(false)
     }
