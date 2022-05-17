@@ -76,10 +76,10 @@ describe('Profile', () => {
     await waitFor(() => screen.getByRole('main'))
 
     expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByText(surname)).toBeInTheDocument()
-    expect(screen.getByText(`${street}, ${number}, ${complement}`)).toBeInTheDocument()
-    expect(screen.getByText(`${district}, ${zipCode}`)).toBeInTheDocument()
-    expect(screen.getByText(`Olá, ${name}`)).toBeInTheDocument()
+    expect(await screen.findByText(surname)).toBeInTheDocument()
+    expect(await screen.findByText(`${street}, ${number}, ${complement}`)).toBeInTheDocument()
+    expect(await screen.findByText(`${district}, ${zipCode}`)).toBeInTheDocument()
+    expect(await screen.findByText(`Olá, ${name}`)).toBeInTheDocument()
   })
 
   it('Should render error on UnexpectedError', async () => {
