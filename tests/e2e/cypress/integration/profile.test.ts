@@ -17,9 +17,9 @@ describe('Profile', () => {
 
   const populateFields = (): void => {
     openEditModal()
-    cy.getInputById('number').focus().type(number.toString())
-    cy.getInputById('complement').focus().type(complement)
-    cy.getInputById('surname').focus().type(surname)
+    cy.getInputById('number').focus().clear().type(number.toString())
+    cy.getInputById('complement').focus().clear().type(complement)
+    cy.getInputById('surname').focus().clear().type(surname)
   }
 
   const simulateSubmit = (): void => {
@@ -170,6 +170,17 @@ describe('Profile', () => {
     cy.getInputById('number').focus().clear().type('{enter}')
 
     cy.get('@deleteAddress.all').should('have.length', 0)
+  })
+
+  it('Should close modal on success', () => {
+    mockSuccess()
+    mockNoContent('PUT', /address/, 'deleteAddress')
+
+    cy.visit('profile')
+    simulateSubmit()
+    cy.wait('@deleteAddress')
+
+    cy.get('form').should('not.exist')
   })
 
   it('Should go to add address page', () => {
