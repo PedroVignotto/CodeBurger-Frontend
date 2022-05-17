@@ -54,6 +54,9 @@ describe('Menu', () => {
 
     expect(screen.getAllByRole('listitem')).toHaveLength(1)
     expect(screen.queryByRole('button', { name: /Tentar novamente/i })).not.toBeInTheDocument()
+    expect(screen.getByText(name)).toBeInTheDocument()
+    expect(screen.getByText(productParams.name)).toBeInTheDocument()
+    expect(screen.getByText(productParams.description)).toBeInTheDocument()
   })
 
   it('Should render error on UnexpectedError', async () => {
@@ -63,7 +66,7 @@ describe('Menu', () => {
     await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
 
     expect(screen.queryByRole('list')).not.toBeInTheDocument()
-    expect(screen.getByText(/Algo deu errado. Tente novamente!/i)).toHaveTextContent(new UnexpectedError().message)
+    expect(screen.getByText(new UnexpectedError().message)).toBeInTheDocument()
   })
 
   it('Should logout on UnauthorizedError', async () => {

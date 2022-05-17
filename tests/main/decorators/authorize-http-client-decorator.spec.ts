@@ -1,9 +1,9 @@
 import { accountParams, httpClientParams } from '@/tests/mocks'
 import { AuthorizeHttpClientDecorator } from '@/main/decorators'
 import { GetStorage } from '@/domain/contracts/cache'
+import { HttpClient } from '@/domain/contracts/http'
 
 import { mock } from 'jest-mock-extended'
-import { HttpClient } from '@/domain/contracts/http'
 
 describe('AuthorizeHttpClientDecorator', () => {
   let sut: AuthorizeHttpClientDecorator

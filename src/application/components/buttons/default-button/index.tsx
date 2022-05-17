@@ -1,12 +1,11 @@
-import React from 'react'
-
 import { Container } from './styles'
 
-type ButtonType = 'button' | 'submit' | 'reset' | undefined
+import React from 'react'
+
 type Props = {
   children: string | JSX.Element
   disabled?: boolean
-  type?: ButtonType
+  type?: 'button' | 'submit' | 'reset' | undefined
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 

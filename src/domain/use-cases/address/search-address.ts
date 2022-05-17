@@ -3,7 +3,7 @@ import { FieldNotFoundError, UnauthorizedError, UnexpectedError } from '@/domain
 
 type Setup = (url: string, httpClient: HttpClient<{ district: string, street: string}>) => SearchAddress
 type Input = { zipCode: string }
-type Output = { district: string, street: string}
+type Output = { district: string, street: string }
 export type SearchAddress = (input: Input) => Promise<Output>
 
 export const searchAddressUseCase: Setup = (url, httpClient) => async ({ zipCode }) => {

@@ -1,17 +1,17 @@
 import faker from 'faker'
 
-export const mockOk = (method: string, url: RegExp, fixture: string | object): void => {
+export const mockOk = (method: string, url: RegExp, fixture: string | object, alias: string = 'request'): void => {
   cy.intercept(
     { method, url },
     { delay: 50, statusCode: 200, fixture }
-  ).as('request')
+  ).as(alias)
 }
 
-export const mockCreated = (method: string, url: RegExp, fixture: string | object): void => {
+export const mockCreated = (method: string, url: RegExp, fixture: string | object, alias: string = 'request'): void => {
   cy.intercept(
     { method, url },
     { delay: 50, statusCode: 201, fixture }
-  ).as('request')
+  ).as(alias)
 }
 
 export const mockNoContent = (method: string, url: RegExp, alias: string = 'request'): void => {
@@ -23,18 +23,18 @@ export const mockNoContent = (method: string, url: RegExp, alias: string = 'requ
 
 const body = { error: faker.random.words() }
 
-export const mockBadRequestError = (method: string, url: RegExp): void => {
+export const mockBadRequestError = (method: string, url: RegExp, alias: string = 'request'): void => {
   cy.intercept(
     { method, url },
     { delay: 50, statusCode: 400, body }
-  ).as('request')
+  ).as(alias)
 }
 
-export const mockUnauthorizedError = (method: string, url: RegExp): void => {
+export const mockUnauthorizedError = (method: string, url: RegExp, alias: string = 'request'): void => {
   cy.intercept(
     { method, url },
     { delay: 50, statusCode: 401, body }
-  ).as('request')
+  ).as(alias)
 }
 
 export const mockServerError = (method: string, url: RegExp, alias: string = 'request'): void => {

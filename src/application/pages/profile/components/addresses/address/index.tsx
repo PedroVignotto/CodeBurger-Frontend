@@ -1,11 +1,11 @@
+import { AddressContext } from '@/application/pages/profile/contexts'
+import { EditAddress } from '@/application/pages'
 import { Address as AdressModel } from '@/domain/models'
 
 import { Container } from './styles'
 
 import { FiEdit, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
 import React, { useContext, useState } from 'react'
-import { EditAddress } from '@/application/pages/profile/edit-address'
-import { AddressContext } from '@/application/pages/profile/contexts'
 
 type Props = { address: AdressModel }
 

@@ -30,7 +30,7 @@ export const Content = styled.div`
     }
   }
 
-  footer {
+  > button {
     display: flex;
     justify-content: center;
     margin-top: 1.25rem;

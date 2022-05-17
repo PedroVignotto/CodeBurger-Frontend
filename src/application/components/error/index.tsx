@@ -1,7 +1,8 @@
 import { DefaultButton } from '@/application/components/buttons'
-import React from 'react'
 
 import { Container } from './styles'
+
+import React from 'react'
 
 type Props = { error: string, reload: () => void }
 

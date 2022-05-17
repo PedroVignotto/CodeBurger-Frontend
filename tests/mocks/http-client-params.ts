@@ -1,4 +1,5 @@
 import { HttpMethod } from '@/domain/contracts/http'
+
 import faker from 'faker'
 
 export const httpClientParams = {

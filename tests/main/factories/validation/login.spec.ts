@@ -1,5 +1,5 @@
-import { EmailValidation, RequiredValidation, ValidationComposite } from '@/application/validation'
 import { makeLoginValidation } from '@/main/factories/application/validation'
+import { EmailValidation, RequiredValidation, ValidationComposite } from '@/application/validation'
 
 describe('LoginValidationFactory', () => {
   it('Should make ValidationComposite with correct validations', () => {

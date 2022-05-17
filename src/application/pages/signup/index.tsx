@@ -1,3 +1,4 @@
+import { Auth } from '@/application/layouts'
 import { signup, logo } from '@/application/assets'
 import { DefaultButton, Input, Spinner } from '@/application/components'
 import { Validator } from '@/application/validation'
@@ -7,7 +8,6 @@ import { AddAccount } from '@/domain/use-cases/account'
 import { toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
 import React, { useContext, useEffect, useState } from 'react'
-import { Auth } from '@/application/layouts'
 
 type Props = { validation: Validator, addAccount: AddAccount }
 

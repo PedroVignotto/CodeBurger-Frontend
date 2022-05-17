@@ -62,9 +62,7 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validat
             <Link to="/address/register"><DefaultButton><><FiPlus />Adicionar</></DefaultButton></Link>
             </Banner>
             {error ? <Error error={error} reload={handleReload} /> : <Addresses addresses={addresses} />}
-            <footer>
-              <DefaultButton onClick={logout}><><FiLogOut />Sair</></DefaultButton>
-            </footer>
+            <DefaultButton onClick={logout}><><FiLogOut />Sair</></DefaultButton>
           </Content>
         </Container>
       </AddressContext.Provider>
