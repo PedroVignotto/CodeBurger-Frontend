@@ -9,6 +9,7 @@ type Props = {
   updateAddress: UpdateAddress
   setReload: (value: React.SetStateAction<boolean>) => void
   reload: boolean
+  handleUpdateActiveAddress: (id: string) => Promise<void>
 }
 
 export const AddressContext = createContext<Props>(null as any)

@@ -10,7 +10,7 @@ import React, { useContext, useState } from 'react'
 type Props = { address: AdressModel }
 
 export const Address: React.FC<Props> = ({ address }) => {
-  const { handleDelete } = useContext(AddressContext)
+  const { handleDelete, handleUpdateActiveAddress } = useContext(AddressContext)
 
   const [OpenModal, setOpenModal] = useState(false)
   const [handleOpenDetails, setHandleOpenDetails] = useState(false)
@@ -23,7 +23,7 @@ export const Address: React.FC<Props> = ({ address }) => {
             <FiEdit data-testid="edit" onClick={() => setOpenModal(!OpenModal)} />
             <FiTrash2 data-testid="delete" onClick={async () => handleDelete(address.id)}/>
           </div>
-          <main>
+          <main onClick={async () => handleUpdateActiveAddress(address.id)}>
             <h3>{address.surname}</h3>
             <p>{address.street}, {address.number}{address.complement && `, ${address.complement}`}</p>
             <p>{address.district}, {address.zipCode}</p>

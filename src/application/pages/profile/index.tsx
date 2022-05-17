@@ -50,11 +50,15 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validat
     }
   }
 
+  const handleUpdateActiveAddress = async (id: string): Promise<void> => {
+    await updateAddress({ id, active: true })
+  }
+
   useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [reload])
 
   return (
     <Default>
-      <AddressContext.Provider value={{ handleDelete, validation, updateAddress, setReload, reload }}>
+      <AddressContext.Provider value={{ handleDelete, validation, updateAddress, setReload, reload, handleUpdateActiveAddress }}>
         <Container>
           <Content>
             <Banner>
