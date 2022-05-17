@@ -8,9 +8,9 @@ import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import React, { useContext, useEffect, useState } from 'react'
 
-type Props = { OpenModal: boolean, CloseModal: () => void, address: Address }
+type Props = { OpenModal: boolean, CloseModal: () => void, address: Address, setHandleOpenDetails: React.Dispatch<React.SetStateAction<boolean>> }
 
-export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address }) => {
+export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address, setHandleOpenDetails }) => {
   const { validation, updateAddress, setReload, reload } = useContext(AddressContext)
   const [loading, setLoading] = useState(false)
 
@@ -33,12 +33,13 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address })
 
       await updateAddress({ id: address.id, complement, number: +number, surname })
 
+      setHandleOpenDetails(false)
       setReload(!reload)
       CloseModal()
     } catch (error: any) {
-      setLoading(false)
-
       toast.error(error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
