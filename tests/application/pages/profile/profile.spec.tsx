@@ -155,6 +155,19 @@ describe('Profile', () => {
     expect(screen.getByText(new UnexpectedError().message)).toBeInTheDocument()
   })
 
+  it('Should logout if UpdateActiveAddress return UnauthorizedError', async () => {
+    makeSut()
+    updateAddress.mockRejectedValueOnce(new UnauthorizedError())
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(window.location.pathname).toBe('/login')
+  })
+
   it('Should call deleteAddress when delete button is clicked', async () => {
     makeSut()
 
