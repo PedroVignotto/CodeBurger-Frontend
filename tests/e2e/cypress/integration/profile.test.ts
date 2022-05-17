@@ -16,6 +16,7 @@ describe('Profile', () => {
   }
 
   const populateFields = (): void => {
+    openEditModal()
     cy.getInputById('number').focus().type(number.toString())
     cy.getInputById('complement').focus().type(complement)
     cy.getInputById('surname').focus().type(surname)
@@ -133,7 +134,6 @@ describe('Profile', () => {
     mockSuccess()
 
     cy.visit('profile')
-    openEditModal()
     populateFields()
 
     cy.getSubmitButton().should('be.enabled')
@@ -144,10 +144,21 @@ describe('Profile', () => {
     mockServerError('PUT', /address/)
 
     cy.visit('profile')
-    openEditModal()
     simulateSubmit()
 
     cy.contains('Algo deu errado. Tente novamente!')
+  })
+
+  it('Should prevent multiple submits', () => {
+    mockSuccess()
+    mockServerError('PUT', /address/, 'deleteAddress')
+
+    cy.visit('profile')
+    populateFields()
+    cy.getSubmitButton().dblclick()
+    cy.wait('@deleteAddress')
+
+    cy.get('@deleteAddress.all').should('have.length', 1)
   })
 
   it('Should go to add address page', () => {
