@@ -161,6 +161,17 @@ describe('Profile', () => {
     cy.get('@deleteAddress.all').should('have.length', 1)
   })
 
+  it('Should not call submit if form is invalid', () => {
+    mockSuccess()
+    mockServerError('PUT', /address/, 'deleteAddress')
+
+    cy.visit('profile')
+    openEditModal()
+    cy.getInputById('number').focus().clear().type('{enter}')
+
+    cy.get('@deleteAddress.all').should('have.length', 0)
+  })
+
   it('Should go to add address page', () => {
     mockSuccess()
 
