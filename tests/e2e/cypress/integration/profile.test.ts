@@ -4,6 +4,11 @@ describe('Profile', () => {
   const mockError = (method: Function): void => method('GET', /addresses/)
   const mockSuccess = (): void => mockOk('GET', /addresses/, 'addresses-list')
 
+  const openEditModal = (): void => {
+    cy.getByTestId('details').click()
+    cy.getByTestId('edit').click()
+  }
+
   beforeEach(() => {
     cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
   })
@@ -91,10 +96,20 @@ describe('Profile', () => {
     mockSuccess()
 
     cy.visit('profile')
-    cy.getByTestId('details').click()
-    cy.getByTestId('edit').click()
+    openEditModal()
 
     cy.getSubmitButton().should('be.enabled').should('have.text', 'Salvar')
+  })
+
+  it('Should keep the button disabled if form is invalid', () => {
+    mockSuccess()
+
+    cy.visit('profile')
+    openEditModal()
+    cy.getInputById('number').focus().clear()
+
+    cy.getInputById('number').should('have.attr', 'title', 'Campo obrigatório')
+    cy.getSubmitButton().should('be.disabled')
   })
 
   it('Should go to add address page', () => {
