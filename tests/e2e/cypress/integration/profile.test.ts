@@ -1,12 +1,24 @@
 import { mockNoContent, mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
+import faker from 'faker'
+
 describe('Profile', () => {
+  const surname = faker.random.word()
+  const number = faker.datatype.number()
+  const complement = faker.random.words(3)
+
   const mockError = (method: Function): void => method('GET', /addresses/)
   const mockSuccess = (): void => mockOk('GET', /addresses/, 'addresses-list')
 
   const openEditModal = (): void => {
     cy.getByTestId('details').click()
     cy.getByTestId('edit').click()
+  }
+
+  const populateFields = (): void => {
+    cy.getInputById('number').focus().type(number.toString())
+    cy.getInputById('complement').focus().type(complement)
+    cy.getInputById('surname').focus().type(surname)
   }
 
   beforeEach(() => {
@@ -110,6 +122,16 @@ describe('Profile', () => {
 
     cy.getInputById('number').should('have.attr', 'title', 'Campo obrigatório')
     cy.getSubmitButton().should('be.disabled')
+  })
+
+  it('Should enable the button if form is valid', () => {
+    mockSuccess()
+
+    cy.visit('profile')
+    openEditModal()
+    populateFields()
+
+    cy.getSubmitButton().should('be.enabled')
   })
 
   it('Should go to add address page', () => {
