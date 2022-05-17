@@ -122,6 +122,15 @@ describe('Profile', () => {
     expect(window.location.pathname).toBe('/login')
   })
 
+  it('Should call UpdateActiveAddress with correct values', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+
+    expect(updateAddress).toHaveBeenCalledWith({ id, active: true })
+  })
+
   it('Should call deleteAddress when delete button is clicked', async () => {
     makeSut()
 
