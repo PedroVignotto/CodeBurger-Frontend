@@ -21,6 +21,11 @@ describe('Profile', () => {
     cy.getInputById('surname').focus().type(surname)
   }
 
+  const simulateSubmit = (): void => {
+    populateFields()
+    cy.getSubmitButton().click()
+  }
+
   beforeEach(() => {
     cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
   })
@@ -132,6 +137,17 @@ describe('Profile', () => {
     populateFields()
 
     cy.getSubmitButton().should('be.enabled')
+  })
+
+  it('Should present UnexpectedError on 500', () => {
+    mockSuccess()
+    mockServerError('PUT', /address/)
+
+    cy.visit('profile')
+    openEditModal()
+    simulateSubmit()
+
+    cy.contains('Algo deu errado. Tente novamente!')
   })
 
   it('Should go to add address page', () => {
