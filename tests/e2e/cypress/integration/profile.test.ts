@@ -110,6 +110,17 @@ describe('Profile', () => {
     cy.contains('Algo deu errado. Tente novamente!')
   })
 
+  it('Should logout if delete return UnauthorizedError', () => {
+    mockSuccess()
+    mockUnauthorizedError('DELETE', /address/, 'deleteRequest')
+
+    cy.visit('profile')
+    cy.getByTestId('details').click()
+    cy.getByTestId('delete').click()
+
+    cy.testUrl('/login')
+  })
+
   it('Should load edit modal with correct initial state', () => {
     mockSuccess()
 

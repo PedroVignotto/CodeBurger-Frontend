@@ -158,6 +158,19 @@ describe('Profile', () => {
     expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
   })
 
+  it('Should logout if deleteAddress return UnauthorizedError', async () => {
+    makeSut()
+    deleteAddress.mockRejectedValueOnce(new UnauthorizedError())
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByTestId('details'))
+    fireEvent.click(screen.getByTestId('delete'))
+    await waitFor(async () => await screen.findByText(new UnauthorizedError().message))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(window.location.pathname).toBe('/login')
+  })
+
   it('Should open edit address modal when edit button is clicked', async () => {
     makeSut()
 
