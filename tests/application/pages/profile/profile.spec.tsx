@@ -129,6 +129,18 @@ describe('Profile', () => {
     fireEvent.click(screen.getByRole('main'))
 
     expect(updateAddress).toHaveBeenCalledWith({ id, active: true })
+    await waitFor(() => screen.getByRole('main'))
+  })
+
+  it('Should call UpdateActiveAddress only once', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+
+    expect(updateAddress).toHaveBeenCalledTimes(1)
+    await waitFor(() => screen.getByRole('main'))
   })
 
   it('Should call deleteAddress when delete button is clicked', async () => {
