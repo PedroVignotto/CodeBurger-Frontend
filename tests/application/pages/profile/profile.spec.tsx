@@ -143,6 +143,18 @@ describe('Profile', () => {
     await waitFor(() => screen.getByRole('main'))
   })
 
+  it('Should render error if UpdateActiveAddress return UnexpectedError', async () => {
+    makeSut()
+    updateAddress.mockRejectedValueOnce(new UnexpectedError())
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+    await waitFor(() => screen.getByRole('button', { name: /Tentar novamente/i }))
+
+    expect(screen.getByText(new UnexpectedError().message)).toBeInTheDocument()
+  })
+
   it('Should call deleteAddress when delete button is clicked', async () => {
     makeSut()
 
