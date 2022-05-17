@@ -160,36 +160,46 @@ describe('Profile', () => {
     cy.contains('Algo deu errado. Tente novamente!')
   })
 
+  it('Should logout if edit return UnauthorizedError', () => {
+    mockSuccess()
+    mockUnauthorizedError('PUT', /address/)
+
+    cy.visit('profile')
+    simulateSubmit()
+
+    cy.testUrl('/login')
+  })
+
   it('Should prevent multiple submits', () => {
     mockSuccess()
-    mockServerError('PUT', /address/, 'deleteAddress')
+    mockServerError('PUT', /address/, 'updateAddress')
 
     cy.visit('profile')
     populateFields()
     cy.getSubmitButton().dblclick()
-    cy.wait('@deleteAddress')
+    cy.wait('@updateAddress')
 
-    cy.get('@deleteAddress.all').should('have.length', 1)
+    cy.get('@updateAddress.all').should('have.length', 1)
   })
 
   it('Should not call submit if form is invalid', () => {
     mockSuccess()
-    mockServerError('PUT', /address/, 'deleteAddress')
+    mockServerError('PUT', /address/, 'updateAddress')
 
     cy.visit('profile')
     openEditModal()
     cy.getInputById('number').focus().clear().type('{enter}')
 
-    cy.get('@deleteAddress.all').should('have.length', 0)
+    cy.get('@updateAddress.all').should('have.length', 0)
   })
 
   it('Should close modal on success', () => {
     mockSuccess()
-    mockNoContent('PUT', /address/, 'deleteAddress')
+    mockNoContent('PUT', /address/, 'updateAddress')
 
     cy.visit('profile')
     simulateSubmit()
-    cy.wait('@deleteAddress')
+    cy.wait('@updateAddress')
 
     cy.get('form').should('not.exist')
   })

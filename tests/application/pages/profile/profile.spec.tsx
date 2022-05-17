@@ -264,6 +264,18 @@ describe('Profile', () => {
     expect(screen.getByTestId('form')).toBeInTheDocument()
   })
 
+  it('Should logout if updateAddress return UnauthorizedError', async () => {
+    makeSut()
+    updateAddress.mockRejectedValueOnce(new UnauthorizedError())
+
+    await openEditModal()
+    simulateSubmit()
+    await waitFor(async () => await screen.findByText(new UnauthorizedError().message))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(window.location.pathname).toBe('/login')
+  })
+
   it('Should go to add address page', async () => {
     makeSut()
 
