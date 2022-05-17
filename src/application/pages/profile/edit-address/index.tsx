@@ -1,5 +1,6 @@
 import { DefaultButton, Input, Spinner } from '@/application/components'
 import { AddressContext } from '@/application/pages/profile/contexts'
+import { useError } from '@/application/hooks'
 import { Address } from '@/domain/models'
 
 import { Content } from './styles'
@@ -13,6 +14,7 @@ type Props = { OpenModal: boolean, CloseModal: () => void, address: Address, set
 
 export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address, setHandleOpenDetails }) => {
   const { validation, updateAddress, setReload, reload } = useContext(AddressContext)
+  const handleError = useError(error => toast.error(error.message))
   const [loading, setLoading] = useState(false)
 
   const [complement, setComplement] = useState(address.complement)
@@ -38,7 +40,7 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address, s
       setReload(!reload)
       CloseModal()
     } catch (error: any) {
-      toast.error(error.message)
+      handleError(error)
     } finally {
       setLoading(false)
     }
