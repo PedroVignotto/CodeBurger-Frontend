@@ -17,7 +17,7 @@ export const Address: React.FC<Props> = ({ address }) => {
 
   return (
     <>
-      <Container details={handleOpenDetails}>
+      <Container details={handleOpenDetails} active={address.active}>
         <div>
           <div>
             <FiEdit data-testid="edit" onClick={() => setOpenModal(!OpenModal)} />

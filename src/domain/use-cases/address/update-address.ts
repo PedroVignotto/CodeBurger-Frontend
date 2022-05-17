@@ -2,7 +2,7 @@ import { HttpClient } from '@/domain/contracts/http'
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 type Setup = (url: string, httpClient: HttpClient) => UpdateAddress
-type Input = { id: string, surname?: string, number?: number, complement?: string }
+type Input = { id: string, surname?: string, number?: number, complement?: string, active?: boolean }
 type Output = void
 export type UpdateAddress = (input: Input) => Promise<Output>
 

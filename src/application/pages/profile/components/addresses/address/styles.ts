@@ -3,14 +3,14 @@ import { colors } from '@/application/styles'
 import { darken } from 'polished'
 import styled from 'styled-components'
 
-type Props = { details: boolean }
+type Props = { details: boolean, active: boolean }
 
 export const Container = styled.section<Props>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  border: 1px solid ${colors.grayLight};
+  border: 1px solid ${props => props.active ? colors.orange : colors.grayLight};;
   box-shadow: 0px 4px 6px -4px ${colors.grayLight};
 
   + section {
@@ -27,6 +27,8 @@ export const Container = styled.section<Props>`
   div {
     display: flex;
     align-items: center;
+    flex: 1;
+    cursor: pointer;
 
     > div {
       display: flex;
@@ -52,6 +54,8 @@ export const Container = styled.section<Props>`
     }
 
     main {
+      width: 100%;
+
       h3 {
         font-weight: 500;
         font-size: 1.25rem;
