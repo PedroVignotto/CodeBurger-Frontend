@@ -5,6 +5,7 @@ import { Address } from '@/domain/models'
 import { Content } from './styles'
 
 import { toast } from 'react-toastify'
+import { FiX } from 'react-icons/fi'
 import Modal from 'react-modal'
 import React, { useContext, useEffect, useState } from 'react'
 
@@ -45,6 +46,7 @@ export const EditAddress: React.FC<Props> = ({ OpenModal, CloseModal, address, s
 
   return (
     <Modal isOpen={OpenModal} onRequestClose={CloseModal} ariaHideApp={false} overlayClassName='modal-overlay' className='modal-content'>
+      <button onClick={CloseModal} className="modal-close"><FiX /></button>
       <Content>
         <form data-testid="form" onSubmit={handleSubmit}>
           <section>

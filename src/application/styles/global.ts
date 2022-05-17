@@ -90,4 +90,17 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 0.25rem;
     background-color: #fff;
   }
+
+  .modal-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    border: 0;
+    background: transparent;
+
+    svg {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
 `
