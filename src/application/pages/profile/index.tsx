@@ -51,7 +51,13 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validat
   }
 
   const handleUpdateActiveAddress = async (id: string): Promise<void> => {
+    if (loading) return
+
+    setLoading(true)
+
     await updateAddress({ id, active: true })
+
+    setLoading(false)
   }
 
   useEffect(() => { listAddresses().then(setAddresses).catch(handleError) }, [reload])
