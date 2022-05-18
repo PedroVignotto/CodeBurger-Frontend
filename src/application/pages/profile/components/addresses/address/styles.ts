@@ -10,7 +10,7 @@ export const Container = styled.section<Props>`
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  border: 1px solid ${props => props.active ? colors.orange : colors.grayLight};;
+  border: 1px solid ${props => props.active ? colors.orange : colors.grayLight};
   box-shadow: 0px 4px 6px -4px ${colors.grayLight};
 
   + section {
@@ -44,7 +44,7 @@ export const Container = styled.section<Props>`
 
         + svg {
           margin: ${props => props.details ? '0 0.75rem' : '0'};
-          align-self: flex-end !important;
+          align-self: flex-end;
         }
 
         :hover {
@@ -73,6 +73,12 @@ export const Container = styled.section<Props>`
         display: -webkit-box;
           -webkit-line-clamp: 1;
           -webkit-box-orient: vertical;
+      }
+
+      :hover {
+        -webkit-transform: scale(1.01);
+        transform: scale(1.01);
+        transition: 0.2s;
       }
     }
   }
