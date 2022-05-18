@@ -83,9 +83,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .modal-content {
-    width: 100%;
-    max-width: 500px;
-    padding: 1rem;
+    max-width: 600px;
     position: relative;
     border-radius: 0.25rem;
     background-color: #fff;

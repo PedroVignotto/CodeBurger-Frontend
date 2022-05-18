@@ -3,7 +3,8 @@ import { colors } from '@/application/styles'
 import styled from 'styled-components'
 
 export const Content = styled.section`
-  padding: 1rem;
+  padding: 2rem;
+  width: 500px;
 
   span {
     font-weight: 500;
@@ -36,6 +37,10 @@ export const Content = styled.section`
     button {
       margin-top: 2rem;
     }
+  }
+
+  @media (max-width: 530px) {
+    width: 100%;
   }
 
   @media (max-width: 400px) {
