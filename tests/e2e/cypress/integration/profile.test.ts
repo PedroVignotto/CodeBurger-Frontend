@@ -51,6 +51,7 @@ describe('Profile', () => {
       mockSuccess()
 
       visit()
+      cy.wait('@request')
       cy.get('button').contains('Sair').click()
 
       cy.testUrl('/login')
@@ -74,10 +75,21 @@ describe('Profile', () => {
       visit()
       cy.wait('@request')
       cy.get('main').click()
-
       cy.wait('@activeAddress')
 
       cy.get('@activeAddress.all').should('have.length', 1)
+    })
+
+    it('Should not call active address when address is already active', () => {
+      mockOk('GET', /addresses/, 'address-active')
+      mockNoContent('PUT', /address/, 'activeAddress')
+
+      visit()
+      cy.wait('@request')
+      cy.get('main').click()
+
+      cy.get('@activeAddress.all').should('have.length', 0)
+      cy.get('section').should('have.css', 'border', '1px solid rgb(255, 159, 80)')
     })
   })
 
