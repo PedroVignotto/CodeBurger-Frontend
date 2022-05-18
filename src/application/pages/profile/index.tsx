@@ -50,13 +50,15 @@ export const Profile: React.FC<Props> = ({ listAddresses, deleteAddress, validat
     }
   }
 
-  const handleUpdateActiveAddress = async (id: string): Promise<void> => {
+  const handleUpdateActiveAddress = async (id: string, active: boolean): Promise<void> => {
     try {
-      if (loading) return
+      if (loading || active) return
 
       setLoading(true)
 
       await updateAddress({ id, active: true })
+
+      setReload(!reload)
     } catch (error: any) {
       handleError(error)
     } finally {

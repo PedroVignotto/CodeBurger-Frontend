@@ -23,7 +23,7 @@ export const Address: React.FC<Props> = ({ address }) => {
             <FiEdit data-testid="edit" onClick={() => setOpenModal(!OpenModal)} />
             <FiTrash2 data-testid="delete" onClick={async () => handleDelete(address.id)}/>
           </div>
-          <main onClick={async () => handleUpdateActiveAddress(address.id)}>
+          <main onClick={async () => handleUpdateActiveAddress(address.id, address.active)}>
             <h3>{address.surname}</h3>
             <p>{address.street}, {address.number}{address.complement && `, ${address.complement}`}</p>
             <p>{address.district}, {address.zipCode}</p>
