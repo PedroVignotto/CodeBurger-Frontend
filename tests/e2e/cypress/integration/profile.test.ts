@@ -66,6 +66,21 @@ describe('Profile', () => {
     })
   })
 
+  describe('active', () => {
+    it('Should call active address when main is clicked', () => {
+      mockSuccess()
+      mockNoContent('PUT', /address/, 'activeAddress')
+
+      visit()
+      cy.wait('@request')
+      cy.get('main').click()
+
+      cy.wait('@activeAddress')
+
+      cy.get('@activeAddress.all').should('have.length', 1)
+    })
+  })
+
   describe('delete', () => {
     it('Should call delete address when delete button is clicked', () => {
       mockSuccess()
