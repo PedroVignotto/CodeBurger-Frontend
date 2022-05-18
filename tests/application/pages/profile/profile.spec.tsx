@@ -23,7 +23,7 @@ describe('Profile', () => {
 
   beforeAll(() => {
     validator.validate.mockReturnValue('')
-    listAddresses.mockResolvedValue([addressParams])
+    listAddresses.mockResolvedValue([{ id, surname, street, number, complement, district, zipCode, active: false }])
     getCurrentAccountMock.mockReturnValue({ name })
   })
 
@@ -141,6 +141,17 @@ describe('Profile', () => {
 
     expect(updateAddress).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getByRole('main'))
+  })
+
+  it('Should not call UpdateActiveAddress if address have active true', async () => {
+    listAddresses.mockResolvedValueOnce([{ ...addressParams, active: true }])
+    makeSut()
+
+    await waitFor(() => screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+    fireEvent.click(screen.getByRole('main'))
+
+    expect(updateAddress).not.toHaveBeenCalled()
   })
 
   it('Should render error if UpdateActiveAddress return UnexpectedError', async () => {
