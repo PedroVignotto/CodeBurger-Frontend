@@ -6,6 +6,7 @@
     "district": "any_district",
     "street": "any_street",
     "number": 123,
-    "complement": "any_complement"
+    "complement": "any_complement",
+    "active": true
   }
 ]
