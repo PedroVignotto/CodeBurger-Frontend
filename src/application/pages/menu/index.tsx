@@ -29,7 +29,7 @@ export const Menu: React.FC<Props> = ({ listCategories }) => {
   return (
     <Default>
       <Content>
-        <h2>Cardápio</h2>
+        <h2 data-testid="menu">Cardápio</h2>
         {error ? <Error error={error} reload={handleReload} /> : <Categories categories={categories} />}
       </Content>
     </Default>
