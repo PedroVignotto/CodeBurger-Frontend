@@ -9,9 +9,9 @@ type Props = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const DefaultButton: React.FC<Props> = ({ disabled, children, type, onClick }) => {
+export const DefaultButton: React.FC<Props> = ({ disabled, children, type, onClick, ...rest }) => {
   return (
-    <Container type={type} disabled={disabled} onClick={onClick}>
+    <Container {...rest} type={type} disabled={disabled} onClick={onClick}>
       {children}
     </Container>
   )

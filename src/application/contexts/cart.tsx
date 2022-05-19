@@ -16,7 +16,13 @@ type ProviderProps = { children: ReactNode }
 export function CartProvider ({ children }: ProviderProps): any {
   const [cart, setCart] = useState<Cart[]>([])
 
-  const addToCart = (product: Product): void => setCart(old => ({ ...old, product }))
+  const addToCart = (product: Product): void => {
+    const addProduct = cart
+
+    addProduct.push({ quantity: 1, product })
+
+    setCart(addProduct)
+  }
 
   return <CartContext.Provider value={{ addToCart, cart }}>{children}</CartContext.Provider>
 }

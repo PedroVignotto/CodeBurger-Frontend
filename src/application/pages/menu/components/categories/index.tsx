@@ -14,7 +14,7 @@ export const Categories: React.FC<Props> = ({ categories }) => {
       ? categories.map(category =>
         <Container key={category.id}>
           <h3>{category.products.length >= 1 && category.name}</h3>
-          <ul data-testid="products">
+          <ul>
             {category.products.map(product => <Product product={product} key={product.id} />)}
           </ul>
         </Container>
