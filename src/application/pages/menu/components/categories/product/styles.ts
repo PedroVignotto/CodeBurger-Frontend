@@ -1,5 +1,4 @@
 import { colors } from '@/application/styles'
-import { darken, lighten } from 'polished'
 
 import styled from 'styled-components'
 
@@ -56,8 +55,6 @@ export const Container = styled.li`
       width: auto;
       align-self: flex-end;
       padding: 0.875rem;
-      background:
-          linear-gradient(to right, ${darken(0.1, colors.orange)}, ${lighten(0.05, colors.orange)});
 
       svg {
         height: 1.25rem;
