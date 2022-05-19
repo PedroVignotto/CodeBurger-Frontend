@@ -19,7 +19,10 @@ export function CartProvider ({ children }: ProviderProps): any {
   const addToCart = (product: Product): void => {
     const addProduct = cart
 
-    addProduct.push({ quantity: 1, product })
+    const productIndex = addProduct.findIndex(p => p.product.id === product.id)
+
+    if (productIndex >= 0) addProduct[productIndex].quantity += 1
+    else addProduct.push({ quantity: 1, product })
 
     setCart([...addProduct])
   }
