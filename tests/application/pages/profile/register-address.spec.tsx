@@ -26,7 +26,7 @@ describe('RegisterAddress', () => {
 
   const makeSut = (): void => {
     render(
-      <CartContext.Provider value={{ addToCart: jest.fn(), cart: [] }}>
+      <CartContext.Provider value={{ addToCart: jest.fn(), cart: [], updateQuantity: jest.fn() }}>
         <BrowserRouter>
           <ToastContainer/>
           <RegisterAddress validation={validator} searchAddress={searchAddress} addAddress={addAddress} />

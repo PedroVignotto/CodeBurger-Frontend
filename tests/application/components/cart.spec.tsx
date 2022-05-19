@@ -2,7 +2,7 @@ import { productParams } from '@/tests/mocks'
 import { Cart as CartType, CartContext } from '@/application/contexts'
 import { Cart } from '@/application/components'
 
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
@@ -47,5 +47,15 @@ describe('Cart', () => {
     makeSut()
 
     expect(screen.getByText('1 item')).toBeInTheDocument()
+  })
+
+  it('Should call updateQuantity when increment button is clicked', async () => {
+    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
+    makeSut()
+
+    fireEvent.click(screen.getByTestId('increment'))
+
+    expect(updateQuantity).toHaveBeenCalledWith(id, 2)
+    expect(updateQuantity).toHaveBeenCalledTimes(1)
   })
 })

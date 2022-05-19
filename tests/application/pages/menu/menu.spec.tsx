@@ -22,7 +22,7 @@ describe('Menu', () => {
   const makeSut = (): void => {
     render(
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
-        <CartContext.Provider value={{ addToCart, cart: [] }}>
+        <CartContext.Provider value={{ addToCart, cart: [], updateQuantity: jest.fn() }}>
           <BrowserRouter>
             <Menu listCategories={listCategories} />
           </BrowserRouter>
