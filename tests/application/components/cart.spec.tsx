@@ -1,3 +1,4 @@
+import { productParams } from '@/tests/mocks'
 import { Cart as CartType, CartContext } from '@/application/contexts'
 import { Cart } from '@/application/components'
 
@@ -6,6 +7,8 @@ import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 describe('Cart', () => {
+  const { id, name, description, price, picture } = productParams
+
   const addToCart: jest.Mock = jest.fn()
   const cart: CartType[] = []
 
@@ -23,5 +26,14 @@ describe('Cart', () => {
     makeSut()
 
     expect(screen.getByTestId('emptyCart')).toBeInTheDocument()
+  })
+
+  it('Should show a list products', async () => {
+    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
+    makeSut()
+
+    expect(screen.queryByTestId('emptyCart')).not.toBeInTheDocument()
+    expect(screen.getByText('1 item')).toBeInTheDocument()
+    expect(screen.getByText(productParams.name)).toBeInTheDocument()
   })
 })
