@@ -1,60 +1,64 @@
 import { DefaultButton, IconButton } from '@/application/components/buttons'
-import { chicken } from '@/application/assets'
 import { useCart } from '@/application/hooks'
 
 import { Container, Content, MainWrap, Info, Quantity, FooterWrap, HeaderWrap, Products } from './styles'
 
 import { FiArrowRight, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 import React from 'react'
-import faker from 'faker'
+import { chicken } from '@/application/assets'
 
 type Props = { opened: boolean, setOpened: React.Dispatch<React.SetStateAction<boolean>> }
 
 export const Cart: React.FC<Props> = ({ opened, setOpened }) => {
   const { cart } = useCart()
+  const subtotal = cart.reduce((total, { quantity, product }) => +total + product.price * quantity, 0)
+  const deliveryFee = 5
+  const total = +subtotal + deliveryFee
 
-  console.log(cart)
+  const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
   return (
     <Container opened={opened}>
       <Content>
         <HeaderWrap>
           <IconButton onClick={() => setOpened(!opened)}><FiArrowRight /></IconButton>
-          <h3>Você tem <span>2 itens</span> no seu carrinho</h3>
+          <h3>Você tem <span>{cart.length === 1 ? `${cart.length} item` : `${cart.length} itens`} </span> no seu carrinho</h3>
         </HeaderWrap>
         {cart.length
           ? <>
           <MainWrap>
             <Products>
-              <section>
-                <img src={chicken} alt="" />
-                <aside>
-                  <Info>
-                    <h4>{faker.commerce.productName()}</h4>
-                    <span>R$ {faker.commerce.price(9, 100)}</span>
-                  </Info>
-                  <Quantity>
-                    <FiMinusCircle />
-                    <span>2</span>
-                    <FiPlusCircle />
-                  </Quantity>
-                </aside>
-              </section>
+              {cart.map(({ quantity, product }) =>
+                <section key={product.id}>
+                  {product.picture && <img src={chicken} alt={product.name} />}
+                  <aside>
+                    <Info>
+                      <h4>{product.name}</h4>
+                      <span>{formatPrice(product.price)}</span>
+                    </Info>
+                    <Quantity>
+                      <FiMinusCircle />
+                      <span>{quantity}</span>
+                      <FiPlusCircle />
+                    </Quantity>
+                  </aside>
+                </section>
+              )}
             </Products>
           </MainWrap>
           <FooterWrap>
             <div>
               <span>Subtotal:</span>
-              <strong>R$ {faker.commerce.price(50, 200)}</strong>
+              <strong>{formatPrice(subtotal)}</strong>
             </div>
             <div>
               <span>Taxa de entrega:</span>
-              <strong>R$ {faker.commerce.price(1, 5)}</strong>
+              <strong>{formatPrice(deliveryFee)}</strong>
             </div>
             <hr />
             <div>
               <span>Total:</span>
-              <strong>R$ {faker.commerce.price(50, 200)}</strong>
+              <strong>{formatPrice(total)}</strong>
             </div>
             <DefaultButton>Finalizar pedido</DefaultButton>
           </FooterWrap>

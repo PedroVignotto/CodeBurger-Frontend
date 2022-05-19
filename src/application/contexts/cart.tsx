@@ -21,7 +21,7 @@ export function CartProvider ({ children }: ProviderProps): any {
 
     addProduct.push({ quantity: 1, product })
 
-    setCart(addProduct)
+    setCart([...addProduct])
   }
 
   return <CartContext.Provider value={{ addToCart, cart }}>{children}</CartContext.Provider>
