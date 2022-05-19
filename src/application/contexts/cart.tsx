@@ -4,7 +4,7 @@ import React, { createContext, ReactNode, useState } from 'react'
 
 type Cart = { quantity: number, product: Product }
 
-type ContextProps = {
+export type ContextProps = {
   cart: Cart[]
   addToCart: (product: Product) => void
 }
