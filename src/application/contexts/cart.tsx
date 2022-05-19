@@ -7,6 +7,7 @@ export type Cart = { quantity: number, product: Product }
 export type ContextProps = {
   cart: Cart[]
   addToCart: (product: Product) => void
+  updateQuantity: (id: string, quantity: number) => void
 }
 
 export const CartContext = createContext<ContextProps>(null as any)
@@ -27,5 +28,15 @@ export function CartProvider ({ children }: ProviderProps): any {
     setCart([...addProduct])
   }
 
-  return <CartContext.Provider value={{ addToCart, cart }}>{children}</CartContext.Provider>
+  const updateQuantity = (id: string, quantity: number): void => {
+    const products = cart
+
+    const productIndex = products.findIndex(p => p.product.id === id)
+
+    if (productIndex >= 0) products[productIndex].quantity = quantity
+
+    setCart([...products])
+  }
+
+  return <CartContext.Provider value={{ addToCart, cart, updateQuantity }}>{children}</CartContext.Provider>
 }

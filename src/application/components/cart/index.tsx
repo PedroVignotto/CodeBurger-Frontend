@@ -5,15 +5,14 @@ import { Container, Content, MainWrap, Info, Quantity, FooterWrap, HeaderWrap, P
 
 import { FiArrowRight, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 import React from 'react'
-import { chicken } from '@/application/assets'
 
 type Props = { opened: boolean, setOpened: React.Dispatch<React.SetStateAction<boolean>> }
 
 export const Cart: React.FC<Props> = ({ opened, setOpened }) => {
-  const { cart } = useCart()
-  const subtotal = cart.reduce((total, { quantity, product }) => +total + product.price * quantity, 0)
+  const { cart, updateQuantity } = useCart()
+  const subtotal = cart.reduce((total, { quantity, product }) => total + product.price * quantity, 0)
   const deliveryFee = 5
-  const total = +subtotal + deliveryFee
+  const total = subtotal + deliveryFee
 
   const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
@@ -30,7 +29,7 @@ export const Cart: React.FC<Props> = ({ opened, setOpened }) => {
             <Products>
               {cart.map(({ quantity, product }) =>
                 <section key={product.id}>
-                  {product.picture && <img src={chicken} alt={product.name} />}
+                  {product.picture && <img src={product.picture} alt={product.name} />}
                   <aside>
                     <Info>
                       <h4>{product.name}</h4>
@@ -39,7 +38,7 @@ export const Cart: React.FC<Props> = ({ opened, setOpened }) => {
                     <Quantity>
                       <FiMinusCircle />
                       <span>{quantity}</span>
-                      <FiPlusCircle />
+                      <FiPlusCircle onClick={() => updateQuantity(product.id, quantity + 1)} data-testid="increment" />
                     </Quantity>
                   </aside>
                 </section>
