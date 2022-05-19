@@ -1,6 +1,6 @@
 import { categoryParams, productParams } from '@/tests/mocks'
 import { Menu } from '@/application/pages'
-import { AccountContext } from '@/application/contexts'
+import { AccountContext, CartContext } from '@/application/contexts'
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -11,6 +11,7 @@ describe('Menu', () => {
   const { id, name } = categoryParams
 
   const listCategories: jest.Mock = jest.fn()
+  const addToCart: jest.Mock = jest.fn()
   const setCurrentAccountMock: jest.Mock = jest.fn()
   const getCurrentAccountMock: jest.Mock = jest.fn()
 
@@ -21,9 +22,11 @@ describe('Menu', () => {
   const makeSut = (): void => {
     render(
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
-        <BrowserRouter>
-          <Menu listCategories={listCategories} />
-        </BrowserRouter>
+        <CartContext.Provider value={{ addToCart, cart: [] }}>
+          <BrowserRouter>
+            <Menu listCategories={listCategories} />
+          </BrowserRouter>
+        </CartContext.Provider>
       </AccountContext.Provider>
     )
   }
@@ -88,5 +91,15 @@ describe('Menu', () => {
 
     expect(listCategories).toHaveBeenCalledTimes(2)
     await waitFor(() => screen.getByRole('list'))
+  })
+
+  it('Should add product on cart', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('list'))
+    fireEvent.click(screen.getByTestId('addToCartButton'))
+
+    expect(addToCart).toHaveBeenCalledWith(productParams)
+    expect(addToCart).toHaveBeenCalledTimes(1)
   })
 })
