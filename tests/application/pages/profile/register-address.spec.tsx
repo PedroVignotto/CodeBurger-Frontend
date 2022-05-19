@@ -1,5 +1,6 @@
 import { addressParams, populateField } from '@/tests/mocks'
 import { RegisterAddress } from '@/application/pages'
+import { CartContext } from '@/application/contexts'
 import { Validator } from '@/application/validation'
 import { UnexpectedError } from '@/domain/errors'
 
@@ -25,10 +26,12 @@ describe('RegisterAddress', () => {
 
   const makeSut = (): void => {
     render(
-      <BrowserRouter>
-        <ToastContainer/>
-        <RegisterAddress validation={validator} searchAddress={searchAddress} addAddress={addAddress} />
-      </BrowserRouter>
+      <CartContext.Provider value={{ addToCart: jest.fn(), cart: [] }}>
+        <BrowserRouter>
+          <ToastContainer/>
+          <RegisterAddress validation={validator} searchAddress={searchAddress} addAddress={addAddress} />
+        </BrowserRouter>
+      </CartContext.Provider>
     )
   }
 

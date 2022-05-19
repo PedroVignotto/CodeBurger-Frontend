@@ -1,5 +1,5 @@
 import { accountParams, addressParams, populateField } from '@/tests/mocks'
-import { AccountContext } from '@/application/contexts'
+import { AccountContext, CartContext } from '@/application/contexts'
 import { Profile } from '@/application/pages'
 import { Validator } from '@/application/validation'
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
@@ -30,10 +30,12 @@ describe('Profile', () => {
   const makeSut = (): void => {
     render(
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
-        <BrowserRouter>
-          <ToastContainer/>
-          <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} validation={validator} updateAddress={updateAddress} />
-        </BrowserRouter>
+        <CartContext.Provider value={{ addToCart: jest.fn(), cart: [] }}>
+          <BrowserRouter>
+            <ToastContainer/>
+            <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} validation={validator} updateAddress={updateAddress} />
+          </BrowserRouter>
+        </CartContext.Provider>
       </AccountContext.Provider>
     )
   }
