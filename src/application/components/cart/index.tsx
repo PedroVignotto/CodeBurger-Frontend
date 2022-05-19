@@ -36,7 +36,7 @@ export const Cart: React.FC<Props> = ({ opened, setOpened }) => {
                       <span>{formatPrice(product.price)}</span>
                     </Info>
                     <Quantity>
-                      <FiMinusCircle />
+                      <FiMinusCircle onClick={() => updateQuantity(product.id, quantity - 1)} data-testid="decrement" />
                       <span>{quantity}</span>
                       <FiPlusCircle onClick={() => updateQuantity(product.id, quantity + 1)} data-testid="increment" />
                     </Quantity>
