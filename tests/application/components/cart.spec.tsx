@@ -58,4 +58,14 @@ describe('Cart', () => {
     expect(updateQuantity).toHaveBeenCalledWith(id, 2)
     expect(updateQuantity).toHaveBeenCalledTimes(1)
   })
+
+  it('Should call updateQuantity when decrement button is clicked', async () => {
+    cart.push({ quantity: 2, product: { id, name, description, price: +price, picture } })
+    makeSut()
+
+    fireEvent.click(screen.getByTestId('decrement'))
+
+    expect(updateQuantity).toHaveBeenCalledWith(id, 1)
+    expect(updateQuantity).toHaveBeenCalledTimes(1)
+  })
 })
