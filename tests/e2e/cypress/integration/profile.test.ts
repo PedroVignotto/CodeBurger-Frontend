@@ -27,7 +27,7 @@ describe('Profile', () => {
       visit()
       cy.contains('Tentar novamente').click()
 
-      cy.get('section').should('have.length', 1)
+      cy.contains('Tentar novamente').should('not.be.exist')
     })
 
     it('Should logout on UnauthorizedError', () => {
@@ -44,7 +44,7 @@ describe('Profile', () => {
       visit()
 
       cy.get('section:empty').should('have.length', 1)
-      cy.get('section').should('have.length', 1)
+      cy.getByTestId('address').should('have.length', 1)
     })
 
     it('Should logout when exit button is clicked', () => {
@@ -89,7 +89,7 @@ describe('Profile', () => {
       cy.get('main').click()
 
       cy.get('@activeAddress.all').should('have.length', 0)
-      cy.get('section').should('have.css', 'border', '1px solid rgb(255, 159, 80)')
+      cy.getByTestId('address').should('have.css', 'border', '1px solid rgb(255, 159, 80)')
     })
   })
 

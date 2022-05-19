@@ -36,7 +36,7 @@ describe('Menu', () => {
     expect(screen.getAllByRole('list')).toHaveLength(2)
     expect(screen.getAllByRole('listitem')).toHaveLength(7)
     expect(screen.queryByRole('button', { name: /Tentar novamente/i })).not.toBeInTheDocument()
-    await waitFor(() => screen.getByRole('heading'))
+    await waitFor(() => screen.getByTestId('menu'))
   })
 
   it('Should call listCategories', async () => {
