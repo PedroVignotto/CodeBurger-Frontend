@@ -10,11 +10,16 @@ describe('Cart', () => {
   const { id, name, description, price, picture } = productParams
 
   const addToCart: jest.Mock = jest.fn()
+  const updateQuantity: jest.Mock = jest.fn()
   const cart: CartType[] = []
+
+  afterEach(() => {
+    cart.pop()
+  })
 
   const makeSut = (): void => {
     render(
-      <CartContext.Provider value={{ addToCart, cart }}>
+      <CartContext.Provider value={{ addToCart, cart, updateQuantity }}>
         <BrowserRouter>
           <Cart opened={true} setOpened={jest.fn()} />
         </BrowserRouter>
@@ -35,5 +40,12 @@ describe('Cart', () => {
     expect(screen.queryByTestId('emptyCart')).not.toBeInTheDocument()
     expect(screen.getByText('1 item')).toBeInTheDocument()
     expect(screen.getByText(productParams.name)).toBeInTheDocument()
+  })
+
+  it('Should not add duplicated product on cart', async () => {
+    cart.push({ quantity: 2, product: { id, name, description, price: +price, picture } })
+    makeSut()
+
+    expect(screen.getByText('1 item')).toBeInTheDocument()
   })
 })
