@@ -2,7 +2,7 @@ import { Product } from '@/domain/models'
 
 import React, { createContext, ReactNode, useState } from 'react'
 
-type Cart = { quantity: number, product: Product }
+export type Cart = { quantity: number, product: Product }
 
 export type ContextProps = {
   cart: Cart[]
