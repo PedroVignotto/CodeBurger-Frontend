@@ -51,4 +51,10 @@ describe('AddOrderUseCase', () => {
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  it('Should create an order if HttpClient returns 201', async () => {
+    const result = await sut({ productsId: [id] })
+
+    expect(result).toBeUndefined()
+  })
 })
