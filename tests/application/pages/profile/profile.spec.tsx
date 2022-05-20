@@ -28,7 +28,7 @@ describe('Profile', () => {
   const makeSut = (): void => {
     render(
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
-        <CartContext.Provider value={{ addToCart: jest.fn(), cart: [], updateQuantity: jest.fn() }}>
+        <CartContext.Provider value={{ addToCart: jest.fn(), cart: [], updateQuantity: jest.fn(), products: [] }}>
           <BrowserRouter>
             <ToastContainer/>
             <Profile listAddresses={listAddresses} deleteAddress={deleteAddress} validation={validator} updateAddress={updateAddress} />

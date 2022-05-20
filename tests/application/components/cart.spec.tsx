@@ -1,5 +1,5 @@
 import { productParams } from '@/tests/mocks'
-import { Cart as CartType, CartContext } from '@/application/contexts'
+import { Cart as CartType, CartContext, OrderContext } from '@/application/contexts'
 import { Cart } from '@/application/components'
 
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -10,8 +10,10 @@ describe('Cart', () => {
   const { id, name, description, price, picture } = productParams
 
   const addToCart: jest.Mock = jest.fn()
+  const addOrder: jest.Mock = jest.fn()
   const updateQuantity: jest.Mock = jest.fn()
   const cart: CartType[] = []
+  const products: string[] = []
 
   afterEach(() => {
     cart.pop()
@@ -19,11 +21,13 @@ describe('Cart', () => {
 
   const makeSut = (): void => {
     render(
-      <CartContext.Provider value={{ addToCart, cart, updateQuantity }}>
-        <BrowserRouter>
-          <Cart opened={true} setOpened={jest.fn()} />
-        </BrowserRouter>
-      </CartContext.Provider>
+      <OrderContext.Provider value={{ addOrder }}>
+        <CartContext.Provider value={{ addToCart, cart, updateQuantity, products }}>
+          <BrowserRouter>
+            <Cart opened={true} setOpened={jest.fn()} />
+          </BrowserRouter>
+        </CartContext.Provider>
+      </OrderContext.Provider>
     )
   }
 
@@ -67,5 +71,16 @@ describe('Cart', () => {
 
     expect(updateQuantity).toHaveBeenCalledWith(id, 1)
     expect(updateQuantity).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should call addOrder with correct values', async () => {
+    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
+    products.push(id)
+    makeSut()
+
+    fireEvent.click(screen.getByRole('button', { name: /Finalizar pedido/i }))
+
+    expect(addOrder).toHaveBeenCalledWith({ productsId: [id] })
+    expect(addOrder).toHaveBeenCalledTimes(1)
   })
 })
