@@ -11,7 +11,7 @@ describe('Profile', () => {
     cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
   })
 
-  describe('List', () => {
+  describe('list', () => {
     it('Should present error on UnexpectedError', () => {
       mockError(mockServerError)
 
