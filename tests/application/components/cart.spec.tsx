@@ -22,6 +22,10 @@ describe('Cart', () => {
     products.pop()
   })
 
+  beforeAll(() => {
+    addOrder.mockResolvedValue('')
+  })
+
   const makeSut = (quantity = 1, addProductOnCart = true): void => {
     if (addProductOnCart) {
       cart.push({ quantity, product: { id, name, description, price: +price, picture } })
@@ -82,6 +86,7 @@ describe('Cart', () => {
     makeSut()
 
     fireEvent.click(screen.getByTestId('addOrder'))
+    await waitFor(() => screen.getByTestId('closeCart'))
 
     expect(addOrder).toHaveBeenCalledWith({ productsId: [id] })
     expect(addOrder).toHaveBeenCalledTimes(1)
@@ -92,6 +97,7 @@ describe('Cart', () => {
     makeSut()
 
     fireEvent.click(screen.getByTestId('addOrder'))
+    await waitFor(() => screen.getByTestId('closeCart'))
 
     expect(screen.getByTestId('addOrder')).not.toHaveTextContent('Finalizar pedido')
     await waitFor(() => screen.getByTestId('closeCart'))
@@ -102,6 +108,7 @@ describe('Cart', () => {
 
     fireEvent.click(screen.getByTestId('addOrder'))
     fireEvent.click(screen.getByTestId('addOrder'))
+    await waitFor(() => screen.getByTestId('closeCart'))
 
     expect(addOrder).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getByTestId('closeCart'))
@@ -115,5 +122,16 @@ describe('Cart', () => {
 
     expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
     expect(screen.getByTestId('addOrder')).toHaveTextContent('Finalizar pedido')
+  })
+
+  it('Should show success message if addOrder succeeds', async () => {
+    makeSut()
+
+    fireEvent.click(screen.getByTestId('addOrder'))
+    await waitFor(() => screen.getByTestId('success'))
+
+    expect(screen.queryByTestId('addOrder')).not.toBeInTheDocument()
+    expect(screen.getByTestId('success')).toBeInTheDocument()
+    await waitFor(() => screen.getByTestId('closeCart'))
   })
 })
