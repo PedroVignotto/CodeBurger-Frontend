@@ -1,15 +1,18 @@
 import { DefaultButton } from '@/application/components/buttons'
 import { useCart, useOrder } from '@/application/hooks'
+import { Spinner } from '@/application/components'
 
 import { MainWrap, Info, Quantity, FooterWrap, Products } from './styles'
 
 import { FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 export const Order: React.FC = () => {
   const { addOrder } = useOrder()
   const { cart, updateQuantity, products } = useCart()
+
+  const [loading, setLoading] = useState(false)
 
   const subtotal = cart.reduce((total, { quantity, product }) => total + product.price * quantity, 0)
   const deliveryFee = 5
@@ -18,7 +21,11 @@ export const Order: React.FC = () => {
   const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
   const handleCreateOrder = async (): Promise<void> => {
+    setLoading(true)
+
     await addOrder({ productsId: products })
+
+    setLoading(false)
   }
 
   return (
@@ -57,7 +64,7 @@ export const Order: React.FC = () => {
           <span>Total:</span>
           <strong>{formatPrice(total)}</strong>
         </div>
-        <DefaultButton onClick={handleCreateOrder}>Finalizar pedido</DefaultButton>
+        <DefaultButton onClick={handleCreateOrder}>{loading ? <Spinner /> : 'Finalizar pedido'}</DefaultButton>
       </FooterWrap>
     </>
   )
