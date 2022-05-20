@@ -1,9 +1,11 @@
 import { productParams } from '@/tests/mocks'
 import { Cart as CartType, CartContext, OrderContext } from '@/application/contexts'
 import { Cart } from '@/application/components'
+import { UnexpectedError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import React from 'react'
 
 describe('Cart', () => {
@@ -24,6 +26,7 @@ describe('Cart', () => {
       <OrderContext.Provider value={{ addOrder }}>
         <CartContext.Provider value={{ addToCart, cart, updateQuantity, products }}>
           <BrowserRouter>
+            <ToastContainer/>
             <Cart opened={true} setOpened={jest.fn()} />
           </BrowserRouter>
         </CartContext.Provider>
@@ -106,5 +109,17 @@ describe('Cart', () => {
 
     expect(addOrder).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getByTestId('closeCart'))
+  })
+
+  it('Should show alert error if addOrder fails', async () => {
+    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
+    products.push(id)
+    makeSut()
+    addOrder.mockRejectedValueOnce(new UnexpectedError())
+
+    fireEvent.click(screen.getByTestId('addOrder'))
+
+    expect(await screen.findByText(new UnexpectedError().message)).toBeInTheDocument()
+    expect(screen.getByTestId('addOrder')).toHaveTextContent('Finalizar pedido')
   })
 })
