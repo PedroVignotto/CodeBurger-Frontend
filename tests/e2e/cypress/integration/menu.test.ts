@@ -8,7 +8,7 @@ describe('Menu', () => {
     cy.fixture('account').then(account => cy.setLocalStorageItem('account', account))
   })
 
-  describe('Menu', () => {
+  describe('list', () => {
     it('Should present error on UnexpectedError', () => {
       mockError(mockServerError)
 
@@ -48,7 +48,7 @@ describe('Menu', () => {
     })
   })
 
-  describe('Cart', () => {
+  describe('cart', () => {
     it('Should close cart', () => {
       mockSuccess()
 
@@ -109,9 +109,22 @@ describe('Menu', () => {
       cy.getByTestId('openCart').click()
       cy.getByTestId('increment').dblclick()
 
-      cy.contains('1 item')
       cy.contains('R$ 150,00')
       cy.contains('R$ 155,00')
+    })
+
+    it('Should decrement product quantity', () => {
+      mockSuccess()
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('increment').dblclick()
+      cy.getByTestId('decrement').click()
+
+      cy.contains('R$ 100,00')
+      cy.contains('R$ 105,00')
     })
   })
 })
