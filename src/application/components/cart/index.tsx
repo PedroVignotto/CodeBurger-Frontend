@@ -20,7 +20,7 @@ export const Cart: React.FC<Props> = ({ opened, setOpened }) => {
     <Container opened={opened}>
       <Content>
         <HeaderWrap>
-          <IconButton onClick={() => setOpened(!opened)}><FiArrowRight /></IconButton>
+          <IconButton onClick={() => setOpened(!opened)} data-testid="closeCart"><FiArrowRight /></IconButton>
           <h3>Você tem <span>{cart.length === 1 ? `${cart.length} item` : `${cart.length} itens`} </span> no seu carrinho</h3>
         </HeaderWrap>
         {cart.length

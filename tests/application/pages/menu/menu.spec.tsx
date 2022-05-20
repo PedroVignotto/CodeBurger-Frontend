@@ -1,6 +1,6 @@
 import { categoryParams, productParams } from '@/tests/mocks'
 import { Menu } from '@/application/pages'
-import { AccountContext, CartContext } from '@/application/contexts'
+import { AccountContext, CartProvider } from '@/application/contexts'
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -11,7 +11,6 @@ describe('Menu', () => {
   const { id, name } = categoryParams
 
   const listCategories: jest.Mock = jest.fn()
-  const addToCart: jest.Mock = jest.fn()
   const setCurrentAccountMock: jest.Mock = jest.fn()
   const getCurrentAccountMock: jest.Mock = jest.fn()
 
@@ -22,11 +21,11 @@ describe('Menu', () => {
   const makeSut = (): void => {
     render(
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
-        <CartContext.Provider value={{ addToCart, cart: [], updateQuantity: jest.fn() }}>
+        <CartProvider>
           <BrowserRouter>
             <Menu listCategories={listCategories} />
           </BrowserRouter>
-        </CartContext.Provider>
+        </CartProvider>
       </AccountContext.Provider>
     )
   }
@@ -93,13 +92,78 @@ describe('Menu', () => {
     await waitFor(() => screen.getByRole('list'))
   })
 
+  it('Should close cart', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('list'))
+    fireEvent.click(screen.getByTestId('openCart'))
+    fireEvent.click(screen.getByTestId('closeCart'))
+  })
+
   it('Should add product on cart', async () => {
+    listCategories.mockResolvedValueOnce([{ id, name, products: [productParams, { ...productParams, id: 'any_id' }] }])
+    makeSut()
+
+    await waitFor(() => screen.getByRole('list'))
+    const addButtons = screen.queryAllByTestId('addToCartButton')
+    fireEvent.click(addButtons[0])
+    fireEvent.click(addButtons[1])
+    fireEvent.click(screen.getByTestId('openCart'))
+
+    expect(screen.queryByTestId('emptyCart')).not.toBeInTheDocument()
+    expect(screen.getByText('2 itens')).toBeInTheDocument()
+  })
+
+  it('Should not add duplicated product on cart', async () => {
     makeSut()
 
     await waitFor(() => screen.getByRole('list'))
     fireEvent.click(screen.getByTestId('addToCartButton'))
+    fireEvent.click(screen.getByTestId('addToCartButton'))
+    fireEvent.click(screen.getByTestId('openCart'))
 
-    expect(addToCart).toHaveBeenCalledWith(productParams)
-    expect(addToCart).toHaveBeenCalledTimes(1)
+    expect(screen.getByText('1 item')).toBeInTheDocument()
+  })
+
+  it('Should remove product on cart when quantity is equal an one', async () => {
+    makeSut()
+
+    await waitFor(() => screen.getByRole('list'))
+    fireEvent.click(screen.getByTestId('addToCartButton'))
+    fireEvent.click(screen.getByTestId('openCart'))
+    fireEvent.click(screen.getByTestId('decrement'))
+
+    expect(screen.queryByText('1 item')).not.toBeInTheDocument()
+    expect(screen.getByTestId('emptyCart')).toBeInTheDocument()
+  })
+
+  it('Should increment product quantity', async () => {
+    listCategories.mockResolvedValue([{ id, name, products: [{ ...productParams, price: 10 }] }])
+
+    makeSut()
+
+    await waitFor(() => screen.getByRole('list'))
+    fireEvent.click(screen.getByTestId('addToCartButton'))
+    fireEvent.click(screen.getByTestId('openCart'))
+    fireEvent.click(screen.getByTestId('increment'))
+
+    expect(screen.getByText('1 item')).toBeInTheDocument()
+    expect(screen.getByText('R$ 20,00')).toBeInTheDocument()
+  })
+
+  it('Should decrement product quantity', async () => {
+    listCategories.mockResolvedValue([{ id, name, products: [{ ...productParams, price: 20 }] }])
+
+    makeSut()
+
+    await waitFor(() => screen.getByRole('list'))
+    fireEvent.click(screen.getByTestId('addToCartButton'))
+    fireEvent.click(screen.getByTestId('addToCartButton'))
+    fireEvent.click(screen.getByTestId('addToCartButton'))
+    fireEvent.click(screen.getByTestId('openCart'))
+    fireEvent.click(screen.getByTestId('decrement'))
+
+    expect(screen.getByText('1 item')).toBeInTheDocument()
+    expect(screen.getByText('R$ 40,00')).toBeInTheDocument()
   })
 })

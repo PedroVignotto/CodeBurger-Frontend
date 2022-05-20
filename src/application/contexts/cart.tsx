@@ -33,8 +33,6 @@ export function CartProvider ({ children }: ProviderProps): any {
 
     const productIndex = products.findIndex(p => p.product.id === id)
 
-    console.log(quantity)
-
     if (quantity <= 0) products.splice(productIndex, 1)
     else if (productIndex >= 0) products[productIndex].quantity = quantity
 

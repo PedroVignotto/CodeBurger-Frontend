@@ -25,7 +25,7 @@ export const Header: React.FC = () => {
           <ActiveLink to="/orders">Pedidos</ActiveLink>
         </nav>
         <div>
-          <Link to="#" onClick={() => setOpened(!opened)}>
+          <Link to="#" onClick={() => setOpened(!opened)} data-testid="openCart">
             <IconButton>
               <>
                 <FiShoppingCart />
