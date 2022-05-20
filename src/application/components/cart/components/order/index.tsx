@@ -5,7 +5,7 @@ import { Spinner } from '@/application/components'
 import { MainWrap, Info, Quantity, FooterWrap, Products } from './styles'
 
 import { FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
-
+import { toast } from 'react-toastify'
 import React, { useState } from 'react'
 
 export const Order: React.FC = () => {
@@ -21,13 +21,17 @@ export const Order: React.FC = () => {
   const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
   const handleCreateOrder = async (): Promise<void> => {
-    if (loading) return
+    try {
+      if (loading) return
 
-    setLoading(true)
+      setLoading(true)
 
-    await addOrder({ productsId: products })
-
-    setLoading(false)
+      await addOrder({ productsId: products })
+    } catch (error: any) {
+      toast.error(error.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
