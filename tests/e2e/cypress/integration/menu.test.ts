@@ -99,5 +99,19 @@ describe('Menu', () => {
       cy.contains('0 itens')
       cy.getByTestId('emptyCart').should('be.exist')
     })
+
+    it('Should increment product quantity', () => {
+      mockSuccess()
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('increment').dblclick()
+
+      cy.contains('1 item')
+      cy.contains('R$ 150,00')
+      cy.contains('R$ 155,00')
+    })
   })
 })
