@@ -19,9 +19,15 @@ describe('Cart', () => {
 
   afterEach(() => {
     cart.pop()
+    products.pop()
   })
 
-  const makeSut = (): void => {
+  const makeSut = (quantity = 1, addProductOnCart = true): void => {
+    if (addProductOnCart) {
+      cart.push({ quantity, product: { id, name, description, price: +price, picture } })
+      products.push(id)
+    }
+
     render(
       <OrderContext.Provider value={{ addOrder }}>
         <CartContext.Provider value={{ addToCart, cart, updateQuantity, products }}>
@@ -35,13 +41,12 @@ describe('Cart', () => {
   }
 
   it('Should show empty cart message if no have products', async () => {
-    makeSut()
+    makeSut(1, false)
 
     expect(screen.getByTestId('emptyCart')).toBeInTheDocument()
   })
 
   it('Should show a list products', async () => {
-    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
     makeSut()
 
     expect(screen.queryByTestId('emptyCart')).not.toBeInTheDocument()
@@ -50,14 +55,12 @@ describe('Cart', () => {
   })
 
   it('Should not add duplicated product on cart', async () => {
-    cart.push({ quantity: 2, product: { id, name, description, price: +price, picture } })
-    makeSut()
+    makeSut(2)
 
     expect(screen.getByText('1 item')).toBeInTheDocument()
   })
 
   it('Should call updateQuantity when increment button is clicked', async () => {
-    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
     makeSut()
 
     fireEvent.click(screen.getByTestId('increment'))
@@ -67,8 +70,7 @@ describe('Cart', () => {
   })
 
   it('Should call updateQuantity when decrement button is clicked', async () => {
-    cart.push({ quantity: 2, product: { id, name, description, price: +price, picture } })
-    makeSut()
+    makeSut(2)
 
     fireEvent.click(screen.getByTestId('decrement'))
 
@@ -77,8 +79,6 @@ describe('Cart', () => {
   })
 
   it('Should call addOrder with correct values', async () => {
-    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
-    products.push(id)
     makeSut()
 
     fireEvent.click(screen.getByTestId('addOrder'))
@@ -89,8 +89,6 @@ describe('Cart', () => {
   })
 
   it('Should show spinner on submit', async () => {
-    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
-    products.push(id)
     makeSut()
 
     fireEvent.click(screen.getByTestId('addOrder'))
@@ -100,8 +98,6 @@ describe('Cart', () => {
   })
 
   it('Should call addOrder only once', async () => {
-    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
-    products.push(id)
     makeSut()
 
     fireEvent.click(screen.getByTestId('addOrder'))
@@ -112,8 +108,6 @@ describe('Cart', () => {
   })
 
   it('Should show alert error if addOrder fails', async () => {
-    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
-    products.push(id)
     makeSut()
     addOrder.mockRejectedValueOnce(new UnexpectedError())
 
