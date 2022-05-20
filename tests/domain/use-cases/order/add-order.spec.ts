@@ -43,4 +43,12 @@ describe('AddOrderUseCase', () => {
 
     await expect(promise).rejects.toThrow(new UnauthorizedError())
   })
+
+  it('Should throw UnexpectedError if HttpClient returns 500', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
+
+    const promise = sut({ productsId: [id] })
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
 })
