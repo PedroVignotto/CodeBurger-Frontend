@@ -1,6 +1,7 @@
 import { Spinner } from '@/application/components'
 import { DefaultButton } from '@/application/components/buttons'
 import { useCart } from '@/application/hooks'
+import { formatPrice } from '@/application/utils'
 
 import { Container } from './styles'
 
@@ -14,8 +15,6 @@ export const Payment: React.FC<Props> = ({ loading, handleCreateOrder }) => {
   const subtotal = cart.reduce((total, { quantity, product }) => total + product.price * quantity, 0)
   const deliveryFee = 5
   const total = subtotal + deliveryFee
-
-  const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
   return (
     <Container>

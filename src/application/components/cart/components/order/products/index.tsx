@@ -1,4 +1,5 @@
 import { useCart } from '@/application/hooks'
+import { formatPrice } from '@/application/utils'
 
 import { Container, Content, Info, Quantity } from './styles'
 
@@ -7,8 +8,6 @@ import React from 'react'
 
 export const Products: React.FC = () => {
   const { cart, updateQuantity } = useCart()
-
-  const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
   return (
     <Container>
