@@ -1,7 +1,8 @@
 import { DefaultButton, IconButton } from '@/application/components/buttons'
+import { emptyCart } from '@/application/assets'
 import { useCart } from '@/application/hooks'
 
-import { Container, Content, MainWrap, Info, Quantity, FooterWrap, HeaderWrap, Products } from './styles'
+import { Container, Content, MainWrap, Info, Quantity, FooterWrap, HeaderWrap, Products, Empty } from './styles'
 
 import { FiArrowRight, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 import React from 'react'
@@ -62,9 +63,11 @@ export const Cart: React.FC<Props> = ({ opened, setOpened }) => {
             <DefaultButton>Finalizar pedido</DefaultButton>
           </FooterWrap>
         </>
-          : <div data-testid="emptyCart">Carrinho vazio</div>
+          : <Empty data-testid="emptyCart">
+              <img src={emptyCart} alt="Carrinho vazio" />
+              <span>Carrinho vazio</span>
+            </Empty>
         }
-
       </Content>
     </Container>
   )
