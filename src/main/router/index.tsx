@@ -19,7 +19,7 @@ type Props = {
 export const Router: React.FC<Props> = ({ Login, SignUp, Menu, Profile, RegisterAddress }) => {
   return (
     <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountAdapter, getCurrentAccount: getCurrentAccountAdapter }}>
-      <OrderContext.Provider value={{ addOrder: makeAddOrder }}>
+      <OrderContext.Provider value={{ addOrder: makeAddOrder() }}>
         <CartProvider>
           <ToastContainer autoClose={3000} theme="colored" />
           <GlobalStyle />

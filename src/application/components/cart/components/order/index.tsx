@@ -1,5 +1,5 @@
 import { DefaultButton } from '@/application/components/buttons'
-import { useCart } from '@/application/hooks'
+import { useCart, useOrder } from '@/application/hooks'
 
 import { MainWrap, Info, Quantity, FooterWrap, Products } from './styles'
 
@@ -8,13 +8,18 @@ import { FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 import React from 'react'
 
 export const Order: React.FC = () => {
-  const { cart, updateQuantity } = useCart()
+  const { addOrder } = useOrder()
+  const { cart, updateQuantity, products } = useCart()
 
   const subtotal = cart.reduce((total, { quantity, product }) => total + product.price * quantity, 0)
   const deliveryFee = 5
   const total = subtotal + deliveryFee
 
   const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+
+  const handleCreateOrder = async (): Promise<void> => {
+    await addOrder({ productsId: products })
+  }
 
   return (
     <>
@@ -52,7 +57,7 @@ export const Order: React.FC = () => {
           <span>Total:</span>
           <strong>{formatPrice(total)}</strong>
         </div>
-        <DefaultButton>Finalizar pedido</DefaultButton>
+        <DefaultButton onClick={handleCreateOrder}>Finalizar pedido</DefaultButton>
       </FooterWrap>
     </>
   )
