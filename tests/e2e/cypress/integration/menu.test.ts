@@ -57,5 +57,20 @@ describe('Menu', () => {
       cy.getByTestId('openCart').click()
       cy.getByTestId('closeCart').click()
     })
+
+    it('Should add product on cart', () => {
+      mockSuccess()
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('addToCartButton').last().click()
+      cy.getByTestId('openCart').click()
+
+      cy.contains('2 itens')
+      cy.contains('R$ 92,00')
+      cy.contains('R$ 97,00')
+      cy.getByTestId('emptyCart').should('not.be.exist')
+    })
   })
 })
