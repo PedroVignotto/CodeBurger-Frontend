@@ -1,5 +1,5 @@
 import { HttpClient } from '@/domain/contracts/http'
-import { UnexpectedError } from '@/domain/errors'
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors'
 
 type Setup = (url: string, httpClient: HttpClient) => AddOrder
 type Input = { productsId: string[] }
@@ -11,6 +11,7 @@ export const addOrderUseCase: Setup = (url, httpClient) => async (input) => {
 
   switch (statusCode) {
     case 201: break
+    case 401: throw new UnauthorizedError()
     default: throw new UnexpectedError()
   }
 }
