@@ -1,4 +1,4 @@
-import { Payment, Products } from '@/application/components/cart/components'
+import { Payment, Products, Success } from '@/application/components/cart/components'
 import { useCart, useOrder } from '@/application/hooks'
 
 import { toast } from 'react-toastify'
@@ -9,6 +9,7 @@ export const Order: React.FC = () => {
   const { products } = useCart()
 
   const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const handleCreateOrder = async (): Promise<void> => {
     try {
@@ -17,6 +18,8 @@ export const Order: React.FC = () => {
       setLoading(true)
 
       await addOrder({ productsId: products })
+
+      setSuccess(true)
     } catch (error: any) {
       toast.error(error.message)
     } finally {
@@ -26,8 +29,13 @@ export const Order: React.FC = () => {
 
   return (
     <>
-      <Products />
-      <Payment loading={loading} handleCreateOrder={handleCreateOrder} />
+      {success
+        ? <Success />
+        : <>
+          <Products />
+          <Payment loading={loading} handleCreateOrder={handleCreateOrder} />
+        </>
+      }
     </>
   )
 }
