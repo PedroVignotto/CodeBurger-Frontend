@@ -2,7 +2,7 @@ import { productParams } from '@/tests/mocks'
 import { Cart as CartType, CartContext, OrderContext } from '@/application/contexts'
 import { Cart } from '@/application/components'
 
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
@@ -82,5 +82,17 @@ describe('Cart', () => {
 
     expect(addOrder).toHaveBeenCalledWith({ productsId: [id] })
     expect(addOrder).toHaveBeenCalledTimes(1)
+    await waitFor(() => screen.getByTestId('closeCart'))
+  })
+
+  it('Should show spinner on submit', async () => {
+    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
+    products.push(id)
+    makeSut()
+
+    fireEvent.click(screen.getByRole('button', { name: /Finalizar pedido/i }))
+
+    expect(screen.queryByRole('button', { name: /Finalizar pedido/i })).not.toBeInTheDocument()
+    await waitFor(() => screen.getByTestId('closeCart'))
   })
 })
