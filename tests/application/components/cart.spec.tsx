@@ -78,7 +78,7 @@ describe('Cart', () => {
     products.push(id)
     makeSut()
 
-    fireEvent.click(screen.getByRole('button', { name: /Finalizar pedido/i }))
+    fireEvent.click(screen.getByTestId('addOrder'))
 
     expect(addOrder).toHaveBeenCalledWith({ productsId: [id] })
     expect(addOrder).toHaveBeenCalledTimes(1)
@@ -90,9 +90,21 @@ describe('Cart', () => {
     products.push(id)
     makeSut()
 
-    fireEvent.click(screen.getByRole('button', { name: /Finalizar pedido/i }))
+    fireEvent.click(screen.getByTestId('addOrder'))
 
-    expect(screen.queryByRole('button', { name: /Finalizar pedido/i })).not.toBeInTheDocument()
+    expect(screen.getByTestId('addOrder')).not.toHaveTextContent('Finalizar pedido')
+    await waitFor(() => screen.getByTestId('closeCart'))
+  })
+
+  it('Should call addOrder only once', async () => {
+    cart.push({ quantity: 1, product: { id, name, description, price: +price, picture } })
+    products.push(id)
+    makeSut()
+
+    fireEvent.click(screen.getByTestId('addOrder'))
+    fireEvent.click(screen.getByTestId('addOrder'))
+
+    expect(addOrder).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getByTestId('closeCart'))
   })
 })
