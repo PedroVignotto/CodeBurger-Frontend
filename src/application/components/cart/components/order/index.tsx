@@ -21,6 +21,8 @@ export const Order: React.FC = () => {
   const formatPrice = (price: number): string => Number(price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
   const handleCreateOrder = async (): Promise<void> => {
+    if (loading) return
+
     setLoading(true)
 
     await addOrder({ productsId: products })
@@ -64,7 +66,7 @@ export const Order: React.FC = () => {
           <span>Total:</span>
           <strong>{formatPrice(total)}</strong>
         </div>
-        <DefaultButton onClick={handleCreateOrder}>{loading ? <Spinner /> : 'Finalizar pedido'}</DefaultButton>
+        <DefaultButton onClick={handleCreateOrder} data-testid="addOrder">{loading ? <Spinner /> : 'Finalizar pedido'}</DefaultButton>
       </FooterWrap>
     </>
   )
