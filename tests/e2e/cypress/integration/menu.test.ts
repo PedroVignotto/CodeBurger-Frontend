@@ -86,5 +86,18 @@ describe('Menu', () => {
       cy.contains('R$ 105,00')
       cy.getByTestId('emptyCart').should('not.be.exist')
     })
+
+    it('Should remove product on cart when quantity is equal an one', () => {
+      mockSuccess()
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('decrement').click()
+
+      cy.contains('0 itens')
+      cy.getByTestId('emptyCart').should('be.exist')
+    })
   })
 })
