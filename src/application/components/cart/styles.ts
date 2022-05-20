@@ -9,7 +9,7 @@ export const Container = styled.section<Props>`
   width: ${props => props.opened ? '375px' : '0'};
   overflow: hidden;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   transition: 0.3s;
