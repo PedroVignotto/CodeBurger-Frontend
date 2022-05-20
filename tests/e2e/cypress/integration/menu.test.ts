@@ -47,4 +47,15 @@ describe('Menu', () => {
       cy.get('li:not(:empty)').should('have.length', 6)
     })
   })
+
+  describe('Cart', () => {
+    it('Should close cart', () => {
+      mockSuccess()
+
+      cy.visit('menu')
+
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('closeCart').click()
+    })
+  })
 })
