@@ -1,5 +1,5 @@
 import { productParams } from '@/tests/mocks'
-import { Cart as CartType, CartContext, OrderContext } from '@/application/contexts'
+import { AccountContext, Cart as CartType, CartContext, OrderContext } from '@/application/contexts'
 import { Cart } from '@/application/components'
 import { UnexpectedError } from '@/domain/errors'
 
@@ -14,6 +14,8 @@ describe('Cart', () => {
   const addToCart: jest.Mock = jest.fn()
   const addOrder: jest.Mock = jest.fn()
   const updateQuantity: jest.Mock = jest.fn()
+  const setCurrentAccountMock: jest.Mock = jest.fn()
+  const getCurrentAccountMock: jest.Mock = jest.fn()
   const cart: CartType[] = []
   const products: string[] = []
 
@@ -33,14 +35,16 @@ describe('Cart', () => {
     }
 
     render(
-      <OrderContext.Provider value={{ addOrder }}>
-        <CartContext.Provider value={{ addToCart, cart, updateQuantity, products }}>
-          <BrowserRouter>
-            <ToastContainer/>
-            <Cart opened={true} setOpened={jest.fn()} />
-          </BrowserRouter>
-        </CartContext.Provider>
-      </OrderContext.Provider>
+      <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
+        <OrderContext.Provider value={{ addOrder }}>
+          <CartContext.Provider value={{ addToCart, cart, updateQuantity, products }}>
+            <BrowserRouter>
+              <ToastContainer/>
+              <Cart opened={true} setOpened={jest.fn()} />
+            </BrowserRouter>
+          </CartContext.Provider>
+        </OrderContext.Provider>
+      </AccountContext.Provider>
     )
   }
 

@@ -1,4 +1,4 @@
-import { mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
+import { mockCreated, mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
 describe('Menu', () => {
   const mockError = (method: Function): void => method('GET', /categories/)
@@ -125,6 +125,59 @@ describe('Menu', () => {
 
       cy.contains('R$ 100,00')
       cy.contains('R$ 105,00')
+    })
+
+    it('Should create a new order', () => {
+      mockSuccess()
+      mockCreated('POST', /order/)
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+
+      cy.getByTestId('success').should('be.exist')
+    })
+
+    it('Should prevent multiple submits', () => {
+      mockSuccess()
+      mockCreated('POST', /order/, '', 'orderRequest')
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+      cy.wait('@orderRequest')
+
+      cy.get('@orderRequest.all').should('have.length', 1)
+    })
+
+    it('Should present UnexpectedError on 500', () => {
+      mockSuccess()
+      mockServerError('POST', /order/)
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+
+      cy.contains('Algo deu errado. Tente novamente!')
+    })
+
+    it('Should logout on UnauthorizedError', () => {
+      mockSuccess()
+      mockUnauthorizedError('POST', /order/)
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+
+      cy.testUrl('/login')
     })
   })
 })
