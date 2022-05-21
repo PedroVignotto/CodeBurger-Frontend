@@ -153,5 +153,18 @@ describe('Menu', () => {
 
       cy.get('@orderRequest.all').should('have.length', 1)
     })
+
+    it('Should present UnexpectedError on 500', () => {
+      mockSuccess()
+      mockServerError('POST', /order/)
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+
+      cy.contains('Algo deu errado. Tente novamente!')
+    })
   })
 })
