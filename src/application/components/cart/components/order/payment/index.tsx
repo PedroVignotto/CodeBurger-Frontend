@@ -18,19 +18,19 @@ export const Payment: React.FC<Props> = ({ loading, handleCreateOrder }) => {
 
   return (
     <Container>
-      <div>
+      <section>
         <span>Subtotal:</span>
         <strong>{formatPrice(subtotal)}</strong>
-      </div>
-      <div>
+      </section>
+      <section>
         <span>Taxa de entrega:</span>
         <strong>{formatPrice(deliveryFee)}</strong>
-      </div>
+      </section>
       <hr />
-      <div>
+      <section>
         <span>Total:</span>
         <strong>{formatPrice(total)}</strong>
-      </div>
+      </section>
       <DefaultButton onClick={handleCreateOrder} data-testid="addOrder">{loading ? <Spinner /> : 'Finalizar pedido'}</DefaultButton>
     </Container>
   )
