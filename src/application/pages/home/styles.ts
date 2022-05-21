@@ -69,7 +69,6 @@ export const Mobile = styled.div`
     width: 50%;
     align-self: center;
     text-align: right;
-    margin-top: 8rem;
 
     h2 {
       font-weight: 500;
