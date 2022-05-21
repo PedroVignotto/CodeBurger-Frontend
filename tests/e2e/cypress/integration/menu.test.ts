@@ -1,4 +1,4 @@
-import { mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
+import { mockCreated, mockOk, mockServerError, mockUnauthorizedError } from '../mocks'
 
 describe('Menu', () => {
   const mockError = (method: Function): void => method('GET', /categories/)
@@ -125,6 +125,19 @@ describe('Menu', () => {
 
       cy.contains('R$ 100,00')
       cy.contains('R$ 105,00')
+    })
+
+    it('Should create a new order', () => {
+      mockSuccess()
+      mockCreated('POST', /order/, '')
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+
+      cy.getByTestId('success').should('be.exist')
     })
   })
 })
