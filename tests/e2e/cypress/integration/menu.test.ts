@@ -166,5 +166,18 @@ describe('Menu', () => {
 
       cy.contains('Algo deu errado. Tente novamente!')
     })
+
+    it('Should logout on UnauthorizedError', () => {
+      mockSuccess()
+      mockUnauthorizedError('POST', /order/)
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+
+      cy.testUrl('/login')
+    })
   })
 })
