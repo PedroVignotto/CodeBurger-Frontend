@@ -1,3 +1,5 @@
+import { colors } from './colors'
+
 import { createGlobalStyle, keyframes } from 'styled-components'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -40,6 +42,16 @@ export const GlobalStyle = createGlobalStyle`
 
   body, input, button, textarea {
     font-family: 'Roboto', sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: ${colors.orange};
   }
 
   a {

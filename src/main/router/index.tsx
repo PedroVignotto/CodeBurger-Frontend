@@ -3,6 +3,7 @@ import { makeAddOrder } from '@/main/factories/domain/use-cases/order'
 import { PrivateRoute } from '@/main/proxies'
 import { GlobalStyle } from '@/application/styles'
 import { AccountContext, CartProvider, OrderContext } from '@/application/contexts'
+import { Home } from '@/application/pages/home'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -25,6 +26,7 @@ export const Router: React.FC<Props> = ({ Login, SignUp, Menu, Profile, Register
           <GlobalStyle />
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/menu" element={<PrivateRoute><Menu /></PrivateRoute>} />
