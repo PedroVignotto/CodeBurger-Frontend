@@ -1,5 +1,5 @@
 import { Payment, Products, Success } from '@/application/components/cart/components'
-import { useCart, useOrder } from '@/application/hooks'
+import { useCart, useError, useOrder } from '@/application/hooks'
 
 import { toast } from 'react-toastify'
 import React, { useState } from 'react'
@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 export const Order: React.FC = () => {
   const { addOrder } = useOrder()
   const { products } = useCart()
+  const handleError = useError(error => toast.error(error.message))
 
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -21,7 +22,7 @@ export const Order: React.FC = () => {
 
       setSuccess(true)
     } catch (error: any) {
-      toast.error(error.message)
+      handleError(error)
     } finally {
       setLoading(false)
     }
