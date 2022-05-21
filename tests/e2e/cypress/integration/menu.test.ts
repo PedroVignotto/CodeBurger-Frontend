@@ -129,7 +129,7 @@ describe('Menu', () => {
 
     it('Should create a new order', () => {
       mockSuccess()
-      mockCreated('POST', /order/, '')
+      mockCreated('POST', /order/)
 
       cy.visit('menu')
 
@@ -138,6 +138,20 @@ describe('Menu', () => {
       cy.getByTestId('addOrder').click()
 
       cy.getByTestId('success').should('be.exist')
+    })
+
+    it('Should prevent multiple submits', () => {
+      mockSuccess()
+      mockCreated('POST', /order/, '', 'orderRequest')
+
+      cy.visit('menu')
+
+      cy.getByTestId('addToCartButton').first().click()
+      cy.getByTestId('openCart').click()
+      cy.getByTestId('addOrder').click()
+      cy.wait('@orderRequest')
+
+      cy.get('@orderRequest.all').should('have.length', 1)
     })
   })
 })
