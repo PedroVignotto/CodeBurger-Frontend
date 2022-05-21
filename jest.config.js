@@ -5,6 +5,7 @@ module.exports = {
     '<rootDir>/src/main/adapters/**',
     '!<rootDir>/src/application/components/header/**',
     '!<rootDir>/src/application/components/footer/**',
+    '!<rootDir>/src/application/pages/home/**',
     '!<rootDir>/src/**/index.ts',
     '!<rootDir>/src/**/styles.ts'
   ],
