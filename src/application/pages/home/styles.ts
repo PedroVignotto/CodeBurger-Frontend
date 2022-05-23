@@ -52,6 +52,7 @@ export const Mobile = styled.div`
   height: 100%;
   max-height: 700px;
   width: 100%;
+  margin-top: 5rem;
   background-image: url(${background});
   background-repeat: no-repeat;
   background-position: fixed;
@@ -60,8 +61,9 @@ export const Mobile = styled.div`
   img {
     height: 100%;
     width: 100%;
-    max-width: 250px;
-    max-height: 600px;
+    max-width: 400px;
+    max-height: 500px;
+    margin-left: 5rem;
     object-fit: cover;
   }
 
