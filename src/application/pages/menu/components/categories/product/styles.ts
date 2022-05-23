@@ -25,7 +25,7 @@ export const Container = styled.li`
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      max-width: 70%;
+      max-width: 60%;
 
       h4 {
         font-weight: 500;
@@ -40,10 +40,11 @@ export const Container = styled.li`
         font-weight: 400;
         font-size: 0.875rem;
         color: ${colors.grayDark};
+        margin-top: 0.25rem;
         text-overflow: ellipsis;
         overflow: hidden;
         display: -webkit-box;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 4;
           -webkit-box-orient: vertical;
       }
     }
@@ -55,6 +56,7 @@ export const Container = styled.li`
       width: auto;
       align-self: flex-end;
       padding: 0.875rem;
+      margin-top: -5rem;
 
       svg {
         height: 1.25rem;
